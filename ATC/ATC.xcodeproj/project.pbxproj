@@ -23,6 +23,7 @@
 		32B12E7F217E04BD00BB1299 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B12E7E217E04BD00BB1299 /* LoginViewController.swift */; };
 		32B12E81217E04D000BB1299 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B12E80217E04D000BB1299 /* SignUpViewController.swift */; };
 		32B12E83217E07AB00BB1299 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B12E82217E07AB00BB1299 /* Extensions.swift */; };
+		32FB204321861FF600AC683E /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 32FB204221861FF600AC683E /* Roboto-Regular.ttf */; };
 		FD2FA0E6B28092B1EDC6E9A7 /* Pods_ATC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0594BE77285563C823A250AF /* Pods_ATC.framework */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +69,7 @@
 		32B12E7E217E04BD00BB1299 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		32B12E80217E04D000BB1299 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		32B12E82217E07AB00BB1299 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		32FB204221861FF600AC683E /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		C922EB9BDB09E54E4AEC3E02 /* Pods-ATC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ATC.release.xcconfig"; path = "Target Support Files/Pods-ATC/Pods-ATC.release.xcconfig"; sourceTree = "<group>"; };
 		EDAD712C5C0E7CAB189AB27B /* Pods-ATC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ATC.debug.xcconfig"; path = "Target Support Files/Pods-ATC/Pods-ATC.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -145,6 +147,7 @@
 		3242F0B8217BA8BA009E1A63 /* ATC */ = {
 			isa = PBXGroup;
 			children = (
+				32FB204121861FE700AC683E /* Resources */,
 				32B12E79217E006400BB1299 /* Network */,
 				32371DAF217CCA3F0020AD13 /* View */,
 				32371DB2217CCABA0020AD13 /* Helper */,
@@ -183,6 +186,14 @@
 				32B12E7A217E008000BB1299 /* Downloader.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		32FB204121861FE700AC683E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				32FB204221861FF600AC683E /* Roboto-Regular.ttf */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		440CAE4AD0B1D3C18EAEA8B0 /* Frameworks */ = {
@@ -311,6 +322,7 @@
 			files = (
 				3242F0C4217BA8BB009E1A63 /* LaunchScreen.storyboard in Resources */,
 				3242F0C1217BA8BB009E1A63 /* Assets.xcassets in Resources */,
+				32FB204321861FF600AC683E /* Roboto-Regular.ttf in Resources */,
 				3242F0BF217BA8BA009E1A63 /* Main.storyboard in Resources */,
 				32371DB6217CCDF50020AD13 /* Credential.storyboard in Resources */,
 			);
@@ -578,7 +590,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XQ53UCH2B2;
 				INFOPLIST_FILE = ATC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -586,6 +600,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ATC;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ATC/ATC-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
@@ -599,7 +614,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XQ53UCH2B2;
 				INFOPLIST_FILE = ATC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -607,6 +624,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ATC;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ATC/ATC-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";

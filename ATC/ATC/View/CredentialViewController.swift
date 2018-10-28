@@ -28,6 +28,10 @@ class CredentialViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      
     }
+    
+    @IBAction func startShoppingAction() {
+        self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
+    }
 
 }
 
@@ -37,7 +41,7 @@ extension CredentialViewController {
         signupButton.makeRoundedCorner()
         loginButton.makeRoundedCorner()
         skipRegistrationButton.makeRoundedCorner()
+        skipRegistrationButton.applyGradient(withColours: [.lightOrange(), .darkOrange()], gradientOrientation: .horizontal)
+        view.applyGradient(withColours: [.lightBlue(), .darkBlue()], gradientOrientation: .vertical)
     }
-    
-    
 }

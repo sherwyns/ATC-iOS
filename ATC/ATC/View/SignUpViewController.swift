@@ -21,6 +21,9 @@ class SignUpViewController: UIViewController {
         super.viewDidLoad()
         customizeViews()
         signupButton.layer.borderColor = UIColor.clear.cgColor
+        
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     // MARK: - Navigation
@@ -37,7 +40,13 @@ extension SignUpViewController {
         facebookButton.makeRoundedCorner()
         googleButton.makeRoundedCorner()
         signupButton.makeRoundedCorner()
+        signupButton.applyGradient(withColours: [.lightOrange(), .darkOrange()], gradientOrientation: .horizontal)
+        view.applyGradient(withColours: [.lightBlue(), .darkBlue()], gradientOrientation: .vertical)
     }
-    
-    
+}
+
+extension SignUpViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
 }

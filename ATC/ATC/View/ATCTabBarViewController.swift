@@ -15,8 +15,7 @@ class ATCTabBarViewController: ESTabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        customizeViews()
     }
     
     
@@ -38,5 +37,16 @@ class ATCTabBarViewController: ESTabBarController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    @IBAction func startShopping(segue: UIStoryboardSegue) {
+        ATCUserDefaults.userOpenedApp()
+    }
 
 }
+
+extension ATCTabBarViewController {
+    func customizeViews() {
+        view.applyGradient(withColours: [.lightBlue(), .darkBlue()], gradientOrientation: .vertical)
+    }
+}
+

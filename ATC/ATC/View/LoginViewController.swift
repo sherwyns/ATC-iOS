@@ -31,8 +31,11 @@ class LoginViewController: UIViewController {
         super.viewDidAppear(animated)
         addHUDToView()
         
-        emailTextField.text = "testx@enqos.com"
-        passwordTextField.text = "enqos@123"
+//        emailTextField.text = "testx@enqos.com"
+//        passwordTextField.text = "enqos@123"
+        
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     // MARK: - Navigation
@@ -132,6 +135,14 @@ extension LoginViewController {
         facebookButton.makeRoundedCorner()
         googleButton.makeRoundedCorner()
         loginButton.makeRoundedCorner()
+        loginButton.applyGradient(withColours: [.lightOrange(), .darkOrange()], gradientOrientation: .horizontal)
+        view.applyGradient(withColours: [.lightBlue(), .darkBlue()], gradientOrientation: .vertical)
+    }
+}
+
+extension LoginViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
 

@@ -28,15 +28,24 @@ public extension UIImage {
 }
 
 public extension UIColor {
-    class func normalBlueColorTranslateApp() -> UIColor {
-        return UIColor(red: 40.0/255.0, green: 124.0/255.0, blue: 183.0/255.0, alpha: 1)
+    class func darkOrange() -> UIColor {
+        return UIColor(red: 237.0/255.0, green: 135.0/255.0, blue: 36.0/255.0, alpha: 1)
     }
     
-    class func highlightedBlueColorTranslateApp() -> UIColor {
-        return UIColor(red: 22.0/255.0, green: 87.0/255.0, blue: 131.0/255.0, alpha: 1)
+    class func lightOrange() -> UIColor {
+        return UIColor(red: 235.0/255.0, green: 91.0/255.0, blue: 35.0/255.0, alpha: 1)
     }
+    
     class func goldColorTranslateApp() -> UIColor {
         return UIColor(red: 240.0/255.0, green: 195.0/255.0, blue: 48.0/255.0, alpha: 1)
+    }
+    
+    class func lightBlue() -> UIColor {
+        return UIColor(red: 75.0/255.0, green: 160.0/255.0, blue: 255.0/255.0, alpha: 1)
+    }
+    
+    class func darkBlue() -> UIColor {
+        return UIColor(red: 28.0/255.0, green: 42.0/255.0, blue: 255.0/255.0, alpha: 1)
     }
     
     class func waterBlueColorTranslateApp() -> UIColor {
@@ -173,4 +182,54 @@ extension RangeReplaceableCollection where Iterator.Element : Equatable {
             self.remove(at: index)
         }
     }
+}
+
+typealias GradientPoints = (startPoint: CGPoint, endPoint: CGPoint)
+
+enum GradientOrientation {
+  case topRightBottomLeft
+  case topLeftBottomRight
+  case horizontal
+  case vertical
+  
+  var startPoint: CGPoint {
+    return points.startPoint
+  }
+  
+  var endPoint: CGPoint {
+    return points.endPoint
+  }
+  
+  var points: GradientPoints {
+    switch self {
+    case .topRightBottomLeft:
+      return (CGPoint.init(x: 0.0, y: 1.0), CGPoint.init(x: 1.0, y: 0.0))
+    case .topLeftBottomRight:
+      return (CGPoint.init(x: 0.0, y: 0.0), CGPoint.init(x: 1, y: 1))
+    case .horizontal:
+      return (CGPoint.init(x: 0.0, y: 0.5), CGPoint.init(x: 1.0, y: 0.5))
+    case .vertical:
+      return (CGPoint.init(x: 0.0, y: 0.0), CGPoint.init(x: 0.0, y: 1.0))
+    }
+  }
+}
+
+extension UIView {
+  
+  func applyGradient(withColours colours: [UIColor], locations: [NSNumber]? = nil) {
+    let gradient: CAGradientLayer = CAGradientLayer()
+    gradient.frame = self.bounds
+    gradient.colors = colours.map { $0.cgColor }
+    gradient.locations = locations
+    self.layer.insertSublayer(gradient, at: 0)
+  }
+  
+  func applyGradient(withColours colours: [UIColor], gradientOrientation orientation: GradientOrientation) {
+    let gradient: CAGradientLayer = CAGradientLayer()
+    gradient.frame = self.bounds
+    gradient.colors = colours.map { $0.cgColor }
+    gradient.startPoint = orientation.startPoint
+    gradient.endPoint = orientation.endPoint
+    self.layer.insertSublayer(gradient, at: 0)
+  }
 }
