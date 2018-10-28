@@ -9,6 +9,7 @@
 import UIKit
 import MBProgressHUD
 import KSToastView
+import GoogleSignIn
 
 class LoginViewController: UIViewController {
     
@@ -16,7 +17,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
     
     @IBOutlet weak var facebookButton: UIButton!
-    @IBOutlet weak var googleButton: UIButton!
+    @IBOutlet weak var googleButton: GIDSignInButton!
     @IBOutlet weak var loginButton: UIButton!
 
     var HUD:MBProgressHUD!
@@ -25,6 +26,11 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         customizeViews()
         loginButton.layer.borderColor = UIColor.clear.cgColor
+        
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        
+        GIDSignIn.sharedInstance().uiDelegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -34,8 +40,7 @@ class LoginViewController: UIViewController {
 //        emailTextField.text = "testx@enqos.com"
 //        passwordTextField.text = "enqos@123"
         
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        
     }
     
     // MARK: - Navigation
@@ -153,4 +158,8 @@ extension UIView {
         self.layer.borderWidth = 0.5
         self.layer.masksToBounds = true
     }
+}
+
+extension LoginViewController: GIDSignInUIDelegate {
+    
 }

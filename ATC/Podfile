@@ -8,6 +8,8 @@ target 'ATC' do
   pod "AFNetworking"
   pod "KSToastView"
   pod "MBProgressHUD"
+  pod 'GoogleSignIn'
+  pod 'FBSDKLoginKit'
 end
 
 post_install do |installer|
