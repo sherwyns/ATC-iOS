@@ -8,6 +8,11 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Roboto-Regular.ttf">
+            <string>Roboto-Regular</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Navigation Controller-->
         <scene sceneID="NeA-1Q-bVY">
@@ -52,11 +57,28 @@
         <!--View Controller-->
         <scene sceneID="npl-N3-uCY">
             <objects>
-                <viewController id="zxg-yb-VC8" sceneMemberID="viewController">
+                <viewController id="zxg-yb-VC8" customClass="ViewController" customModule="ATC" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PcT-8O-FVg">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zST-Af-Sod">
+                                <rect key="frame" x="154.5" y="316" width="66" height="35"/>
+                                <color key="backgroundColor" red="1" green="0.25882352939999997" blue="0.25882352939999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="19"/>
+                                <state key="normal" title="Signout">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="logoutAction" destination="zxg-yb-VC8" eventType="touchUpInside" id="I3f-wq-y6c"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" red="0.10980392160000001" green="0.36867181119999998" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="zST-Af-Sod" firstAttribute="centerY" secondItem="PcT-8O-FVg" secondAttribute="centerY" id="ZWh-IP-YiZ"/>
+                            <constraint firstItem="zST-Af-Sod" firstAttribute="centerX" secondItem="PcT-8O-FVg" secondAttribute="centerX" id="rok-r9-QXQ"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="Hao-fc-1R0"/>
                     </view>
                     <tabBarItem key="tabBarItem" enabled="NO" title="" id="ahk-Fo-TtG"/>

@@ -9,8 +9,9 @@
 import Foundation
 
 enum APIMethod: String {
-    case Login                   = "Users"
-    case SignUp    = "SignUp"
+    case Login                   = "Users/login"
+    case SignUp    = "Users"
+    case socialSignUp = "socialUsers/signin"
 }
 
 class ApiServiceURL {

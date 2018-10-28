@@ -31,4 +31,9 @@ public class ATCUserDefaults {
         UserDefaults.standard.setValue(false, forKey: kIsFirstTime)
         UserDefaults.standard.synchronize()
     }
+    
+    static func logoutApp() {
+        UserDefaults.standard.setValue(false, forKey: kIsUserLoggedIn)
+        UserDefaults.standard.synchronize()
+    }
 }

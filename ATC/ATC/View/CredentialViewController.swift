@@ -2,7 +2,7 @@
 //  CredentialViewController.swift
 //  ATC
 //
-//  Created by Rathinavel, Dhandapani(AWF) on 22/10/18.
+//  Created by Rathinavel, Dhandapani on 22/10/18.
 //  Copyright © 2018 Rathinavel, Dhandapani. All rights reserved.
 //
 

@@ -23,9 +23,13 @@ class ATCTabBarViewController: ESTabBarController {
         super.viewDidAppear(animated)
         
         if ATCUserDefaults.isFirstTime() {
-            self.performSegue(withIdentifier: credentialSegueId, sender: nil)
+            showRegistration()
             //ATCUserDefaults.userOpenedApp()
         }
+    }
+    
+    func showRegistration() {
+        self.performSegue(withIdentifier: credentialSegueId, sender: nil)
     }
 
     /*

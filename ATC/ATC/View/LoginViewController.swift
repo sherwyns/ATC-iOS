@@ -10,6 +10,7 @@ import UIKit
 import MBProgressHUD
 import KSToastView
 import GoogleSignIn
+import FBSDKLoginKit
 
 class LoginViewController: UIViewController {
     
@@ -61,40 +62,27 @@ class LoginViewController: UIViewController {
                 
                 self.showHUD()
                 
-                guard let serviceUrl = URL(string: ApiServiceURL.apiInterface(.Login)) else { return }
-                var request = URLRequest(url: serviceUrl)
-                request.httpMethod = "POST"
-                request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
-                guard let httpBody = try? JSONSerialization.data(withJSONObject: parameterDictionary, options: []) else {
-                    return
-                }
-                request.httpBody = httpBody
+                let urlString = ApiServiceURL.apiInterface(.Login)
                 
-                let session = URLSession.shared
-                session.dataTask(with: request) { (data, response, error) in
-                    if let response = response {
-                        print(response)
+                Downloader.getJSONUsingURLSession(url: urlString, parameters: parameterDictionary) { (result, errorString) in
+                    if let error = errorString {
+                        KSToastView.ks_showToast(error)
                     }
-                    if let data = data {
-                        do {
-                            let json = try JSONSerialization.jsonObject(with: data, options: []) as? Dictionary<String, AnyObject>
-                            print(json!)
-                            if let json = json {
-                                if let error = json["error"] as? Dictionary<String, AnyObject>, let message = error["message"]  as? String {
-                                    KSToastView.ks_showToast(message)
-                                }
-                                else if let id = json["id"] as? String{
-                                    UserDefaults.standard.setValue(true, forKey: ATCUserDefaults.kIsUserLoggedIn)
-                                }
-                                else {
-                                    
-                                }
+                    else {
+                        print(parameterDictionary)
+                        if let error = parameterDictionary["error"] as? Dictionary<String, AnyObject?> {
+                            if let message = error["message"] as? String {
+                                KSToastView.ks_showToast(message)
                             }
-                        }catch {
-                            print(error)
+                        }
+                        else {
+                            DispatchQueue.main.async(execute: { () -> Void in
+                                self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
+                            })
                         }
                     }
-                    }.resume()
+                }
+                
             }
             else {
                 
@@ -107,6 +95,57 @@ class LoginViewController: UIViewController {
         self.hideHUD()
         return
     }
+    
+    @IBAction func googleLoginPressed() {
+        GIDSignIn.sharedInstance()?.delegate = self
+        GIDSignIn.sharedInstance()?.uiDelegate = self
+        GIDSignIn.sharedInstance()?.signIn()
+    }
+    
+    @IBAction func fbLoginPressed() {
+        let loginManager = FBSDKLoginManager()
+        
+        loginManager.logIn(withReadPermissions: ["public_profile", "email"], from: self) { (result, error) in
+            print(error)
+            print(result)
+            if let error = error {
+                KSToastView.ks_showToast(error.localizedDescription)
+            }
+            else {
+                FBSDKGraphRequest.init(graphPath: "me", parameters: ["fields":"email, first_name, last_name"])?.start(completionHandler: { (requestConnection, result, error) in
+                    if let error = error {
+                        KSToastView.ks_showToast(error.localizedDescription)
+                    }
+                    else {
+                        let result = result as! Dictionary<String, String>
+                        if let email = result["email"] as? String, let firstName = result["first_name"] as? String, let lastName = result["last_name"] as? String {
+                            var parameterDictionary = Dictionary<String, String>()
+                            parameterDictionary["email"] = email
+                            parameterDictionary["externalid"]      = "user.userID"
+                            parameterDictionary["provider"]      = "facebook"
+                            self.showHUD()
+                            
+                            let urlString = ApiServiceURL.apiInterface(.socialSignUp)
+                            
+                            Downloader.getJSONUsingURLSession(url: urlString, parameters: parameterDictionary) { (result, errorString) in
+                                if let error = errorString {
+                                    KSToastView.ks_showToast(error)
+                                }
+                                else {
+                                    DispatchQueue.main.async(execute: { () -> Void in
+                                        self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
+                                    })
+                                    
+                                    print(" result \(parameterDictionary)")
+                                }
+                            }
+                        }
+                    }
+                })
+            }
+        }
+    }
+    
 }
 
 extension LoginViewController {
@@ -162,4 +201,35 @@ extension UIView {
 
 extension LoginViewController: GIDSignInUIDelegate {
     
+}
+
+extension LoginViewController: GIDSignInDelegate {
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        if error != nil {
+            
+        }else {
+            print(user.profile.email)
+            
+            var parameterDictionary = Dictionary<String, String>()
+            parameterDictionary["email"] = user.profile.email!
+            parameterDictionary["externalid"]      = user.userID
+            parameterDictionary["provider"]      = "google"
+            self.showHUD()
+            
+            let urlString = ApiServiceURL.apiInterface(.socialSignUp)
+            
+            Downloader.getJSONUsingURLSession(url: urlString, parameters: parameterDictionary) { (result, errorString) in
+                if let error = errorString {
+                    KSToastView.ks_showToast(error)
+                }
+                else {
+                    DispatchQueue.main.async(execute: { () -> Void in
+                        self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
+                    })
+                    
+                    print(" result \(parameterDictionary)")
+                }
+            }
+        }
+    }
 }

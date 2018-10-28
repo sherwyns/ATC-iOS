@@ -93,50 +93,46 @@ class Downloader {
         //        }
     }
     
-    func getDataFromServer1(_ url : String, parameters : Dictionary<String, String>,  completionHandler: @escaping (_ result : Dictionary<String, String>?, _ error: String?) -> Void) {
-        print(url)
-        var urlString = url
+    static func getJSONUsingURLSession(url : String, parameters : Dictionary<String, String>,  completionHandler: @escaping (_ result : Dictionary<String, AnyObject?>?, _ error: String?) -> Void) {
         
-        urlString = urlString.addingPercentEncoding( withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+        guard let serviceUrl = URL(string: url) else { return }
         
-        let manager = AFHTTPSessionManager()
+        var request = URLRequest(url: serviceUrl)
+        request.httpMethod = "POST"
+        request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
         
-        manager.responseSerializer = AFJSONResponseSerializer.init(readingOptions: .allowFragments)
-        
-        manager.requestSerializer.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        //manager.responseSerializer.acceptableContentTypes?.insert("text/html")
-        
-        manager.post(urlString, parameters: parameters, progress: nil, success: { (dataTask, response) in
-            print("Reponse -> \(response)")
-            if let jsonDictionary = response as? Dictionary<String, String> {
-                completionHandler(jsonDictionary, nil)
-            }
-            else {
-                completionHandler(nil, nil)
-            }
-        }) { (dataTask, error) in
-            print("Error \(error)")
-            completionHandler(nil, "Sorry there is some issue!")
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {
+            return
         }
+        request.httpBody = httpBody
         
-        //        manager.post(urlString, parameters: parameters, constructingBodyWith: { (formData) in
-        //
-        //        }, progress: { (progress) in
-        //
-        //        }, success: { (dataTask, response) in
-        //            print("Reponse -> \(response)")
-        //            if let jsonDictionary = response as? Dictionary<String, AnyObject> {
-        //                completionHandler(jsonDictionary, nil)
-        //            }
-        //            else {
-        //                completionHandler(nil, nil)
-        //            }
-        //        }) { (dataTask, error) in
-        //            print("Error \(error)")
-        //            completionHandler(nil, "Sorry there is some issue!")
-        //
-        //        }
+        let session = URLSession.shared
+        session.dataTask(with: request) { (data, response, error) in
+            if let response = response {
+                print(response)
+            }
+            if let data = data {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: []) as? Dictionary<String, AnyObject?>
+                    print(json!)
+                    if let json = json {
+                        if let error = json["error"] as? Dictionary<String, AnyObject>, let message = error["message"]  as? String {
+                            completionHandler(nil, message)
+                        }
+//                        else if let id = json["id"] as? String{
+//                            UserDefaults.standard.setValue(true, forKey: ATCUserDefaults.kIsUserLoggedIn)
+//                            completionHandler(json, nil)
+//                        }
+                        else {
+                            completionHandler(json, nil)
+                        }
+                    }
+                }catch {
+                    print(error)
+                    completionHandler(nil, error.localizedDescription)
+                }
+            }
+        }.resume()
     }
     
     func getDataFromServer(_ url : String, parameters : Dictionary<String, AnyObject>, image : UIImage,  completionHandler: @escaping (_ result : Dictionary<String, AnyObject>?, _ error: String?) -> Void) {

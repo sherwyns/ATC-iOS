@@ -18,10 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     GIDSignIn.sharedInstance().clientID = "274395748043-r3sagataa6qui95vsuirn74eruvtur9i.apps.googleusercontent.com"
-    GIDSignIn.sharedInstance().delegate = self
- 
-//    [[FBSDKApplicationDelegate sharedInstance] application:application
-//        didFinishLaunchingWithOptions:launchOptions];
 
     FBSDKApplicationDelegate.sharedInstance()?.application(application, didFinishLaunchingWithOptions: launchOptions)
     
@@ -58,10 +54,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
 //        ];
         print(" SourceUrl \(url)")
-        return FBSDKApplicationDelegate.sharedInstance()?.application(app, open: url, sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as! String, annotation: options[UIApplication.OpenURLOptionsKey.annotation]) ?? false
-//        return GIDSignIn.sharedInstance().handle(url as URL?,
-//                                                 sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as! String,
-//                                                 annotation: options[UIApplication.OpenURLOptionsKey.annotation])
+//        return FBSDKApplicationDelegate.sharedInstance()?.application(app, open: url, sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as! String, annotation: options[UIApplication.OpenURLOptionsKey.annotation]) ?? false
+        return GIDSignIn.sharedInstance().handle(url as URL?,
+                                                 sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as! String,
+                                                 annotation: options[UIApplication.OpenURLOptionsKey.annotation])
 
     }
 
