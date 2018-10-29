@@ -17,14 +17,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splashBackground" translatesAutoresizingMaskIntoConstraints="NO" id="jNK-97-zWn">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ATC-LOGO" translatesAutoresizingMaskIntoConstraints="NO" id="7Nx-Mx-chZ">
                                 <rect key="frame" x="30" y="1" width="315" height="665"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.10980392156862745" green="0.36867181117238562" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="7Nx-Mx-chZ" secondAttribute="trailing" constant="30" id="F06-fP-F28"/>
+                            <constraint firstItem="jNK-97-zWn" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="F3Q-6x-aRu"/>
                             <constraint firstItem="7Nx-Mx-chZ" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="RM0-bm-Qai"/>
+                            <constraint firstItem="jNK-97-zWn" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Wsg-jO-UjV"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="jNK-97-zWn" secondAttribute="bottom" id="bwZ-jY-x1t"/>
+                            <constraint firstItem="jNK-97-zWn" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="fWu-pF-4FC"/>
                             <constraint firstItem="7Nx-Mx-chZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="myg-Ir-hsG"/>
                             <constraint firstItem="7Nx-Mx-chZ" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="v3h-Av-ejS"/>
                         </constraints>
@@ -38,5 +45,6 @@
     </scenes>
     <resources>
         <image name="ATC-LOGO" width="1782" height="665"/>
+        <image name="splashBackground" width="480" height="800"/>
     </resources>
 </document>
