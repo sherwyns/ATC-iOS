@@ -21,7 +21,7 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var googleButton: UIButton!
     @IBOutlet weak var signupButton: UIButton!
     
-    var HUD:MBProgressHUD!
+    @IBOutlet weak var HUD:MBProgressHUD!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +37,7 @@ class SignUpViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        addHUDToView()
+        //addHUDToView()
     }
     
     // MARK: - Navigation
@@ -76,6 +76,7 @@ class SignUpViewController: UIViewController {
                             else {
                                 DispatchQueue.main.async(execute: { () -> Void in
                                     self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
+                                    KSToastView.ks_showToast("Welcome!")
                                 })
                                 
                                 print(" result \(parameterDictionary)")
@@ -148,7 +149,7 @@ class SignUpViewController: UIViewController {
 
                 self.showHUD()
                 
-                let urlString = ApiServiceURL.apiInterface(.Login)
+                let urlString = ApiServiceURL.apiInterface(.SignUp)
                 
                 Downloader.getJSONUsingURLSession(url: urlString, parameters: parameterDictionary) { (result, errorString) in
                     if let error = errorString {
@@ -159,6 +160,7 @@ class SignUpViewController: UIViewController {
                         ATCUserDefaults.userOpenedApp()
                         DispatchQueue.main.async(execute: { () -> Void in
                             self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
+                            KSToastView.ks_showToast("Welcome!")
                         })
                     }
                 }
@@ -247,7 +249,7 @@ extension SignUpViewController: GIDSignInDelegate {
                     DispatchQueue.main.async(execute: { () -> Void in
                         self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
                     })
-                    
+                    KSToastView.ks_showToast("Welcome!")
                     print(" result \(parameterDictionary)")
                 }
             }

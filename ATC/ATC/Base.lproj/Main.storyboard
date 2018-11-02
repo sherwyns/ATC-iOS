@@ -63,8 +63,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zST-Af-Sod">
-                                <rect key="frame" x="154.5" y="316" width="66" height="35"/>
-                                <color key="backgroundColor" red="1" green="0.25882352939999997" blue="0.25882352939999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <rect key="frame" x="154" y="316" width="67" height="35"/>
+                                <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="19"/>
                                 <state key="normal" title="Signout">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -73,11 +73,23 @@
                                     <action selector="logoutAction" destination="zxg-yb-VC8" eventType="touchUpInside" id="I3f-wq-y6c"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4vA-qM-xla">
+                                <rect key="frame" x="154" y="372" width="67" height="35"/>
+                                <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
+                                <state key="normal" title="Register">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.10980392160000001" green="0.36867181119999998" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="4vA-qM-xla" firstAttribute="height" secondItem="zST-Af-Sod" secondAttribute="height" id="JeC-fz-iVk"/>
                             <constraint firstItem="zST-Af-Sod" firstAttribute="centerY" secondItem="PcT-8O-FVg" secondAttribute="centerY" id="ZWh-IP-YiZ"/>
+                            <constraint firstItem="4vA-qM-xla" firstAttribute="leading" secondItem="zST-Af-Sod" secondAttribute="leading" id="Zv1-wR-8fH"/>
+                            <constraint firstItem="4vA-qM-xla" firstAttribute="trailing" secondItem="zST-Af-Sod" secondAttribute="trailing" id="lzG-pk-QFf"/>
                             <constraint firstItem="zST-Af-Sod" firstAttribute="centerX" secondItem="PcT-8O-FVg" secondAttribute="centerX" id="rok-r9-QXQ"/>
+                            <constraint firstItem="4vA-qM-xla" firstAttribute="top" secondItem="zST-Af-Sod" secondAttribute="bottom" constant="21" id="tYR-UO-fME"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Hao-fc-1R0"/>
                     </view>

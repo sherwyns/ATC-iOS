@@ -21,7 +21,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var googleButton: GIDSignInButton!
     @IBOutlet weak var loginButton: UIButton!
 
-    var HUD:MBProgressHUD!
+    @IBOutlet weak var HUD:MBProgressHUD!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,6 +66,7 @@ class LoginViewController: UIViewController {
                 
                 Downloader.getJSONUsingURLSession(url: urlString, parameters: parameterDictionary) { (result, errorString) in
                     if let error = errorString {
+                        self.hideHUD()
                         KSToastView.ks_showToast(error)
                     }
                     else {
@@ -78,6 +79,7 @@ class LoginViewController: UIViewController {
                         else {
                             DispatchQueue.main.async(execute: { () -> Void in
                                 self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
+                                KSToastView.ks_showToast("Welcome!")
                             })
                         }
                     }
@@ -133,7 +135,9 @@ class LoginViewController: UIViewController {
                                 }
                                 else {
                                     DispatchQueue.main.async(execute: { () -> Void in
+                                        self.hideHUD()
                                         self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
+                                        KSToastView.ks_showToast("Welcome!")
                                     })
                                     
                                     print(" result \(parameterDictionary)")
@@ -151,13 +155,13 @@ class LoginViewController: UIViewController {
 extension LoginViewController {
     // MARK: - HUD
     func addHUDToView() {
-        HUD = MBProgressHUD(view: self.view)
-        self.view.addSubview(HUD)
-        HUD.frame.origin = CGPoint(x: self.view.frame.origin.x/2, y: self.view.frame.origin.y/2)
-        HUD.frame.size  = CGSize(width: 50, height: 50)
-        
-        HUD.mode = MBProgressHUDMode.indeterminate
-        HUD.isUserInteractionEnabled = true
+//        HUD = MBProgressHUD(view: self.view)
+//
+//        HUD.frame.origin = CGPoint(x: self.view.frame.origin.x/2, y: self.view.frame.origin.y/2)
+//        HUD.frame.size  = CGSize(width: 50, height: 50)
+//        self.view.addSubview(HUD)
+//        HUD.mode = MBProgressHUDMode.indeterminate
+//        HUD.isUserInteractionEnabled = true
     }
     func showHUD(){
         DispatchQueue.main.async(execute: { () -> Void in
@@ -224,7 +228,9 @@ extension LoginViewController: GIDSignInDelegate {
                 }
                 else {
                     DispatchQueue.main.async(execute: { () -> Void in
+                      self.hideHUD()
                         self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
+                        KSToastView.ks_showToast("Welcome!")
                     })
                     
                     print(" result \(parameterDictionary)")

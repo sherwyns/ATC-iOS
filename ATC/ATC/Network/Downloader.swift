@@ -113,7 +113,7 @@ class Downloader {
             }
             if let data = data {
                 do {
-                    let json = try JSONSerialization.jsonObject(with: data, options: []) as? Dictionary<String, AnyObject?>
+                    let json = try JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as? Dictionary<String, AnyObject?>
                     print(json!)
                     if let json = json {
                         if let error = json["error"] as? Dictionary<String, AnyObject>, let message = error["message"]  as? String {
