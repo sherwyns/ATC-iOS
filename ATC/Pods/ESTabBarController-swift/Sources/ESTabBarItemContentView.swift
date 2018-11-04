@@ -66,14 +66,14 @@ open class ESTabBarItemContentView: UIView {
     /// icon颜色
     open var iconColor = UIColor(white: 0.57254902, alpha: 1.0) {
         didSet {
-            if !selected { imageView.tintColor = iconColor }
+            //if !selected { imageView.tintColor = iconColor }
         }
     }
     
     /// 高亮时icon颜色
     open var highlightIconColor = UIColor(red: 0.0, green: 0.47843137, blue: 1.0, alpha: 1.0) {
         didSet {
-            if selected { imageView.tintColor = highlightIconColor }
+           // if selected { imageView.tintColor = highlightIconColor }
         }
     }
     
@@ -192,7 +192,7 @@ open class ESTabBarItemContentView: UIView {
         addSubview(titleLabel)
         
         titleLabel.textColor = textColor
-        imageView.tintColor = iconColor
+        //imageView.tintColor = iconColor
         backgroundColor = backdropColor
     }
     
@@ -201,8 +201,8 @@ open class ESTabBarItemContentView: UIView {
     }
 
     open func updateDisplay() {
-        imageView.image = (selected ? (selectedImage ?? image) : image)?.withRenderingMode(renderingMode)
-        imageView.tintColor = selected ? highlightIconColor : iconColor
+        imageView.image = (selected ? (selectedImage ?? image) : image)?.withRenderingMode(.alwaysOriginal)
+        //imageView.tintColor = selected ? highlightIconColor : iconColor
         titleLabel.textColor = selected ? highlightTextColor : textColor
         backgroundColor = selected ? highlightBackdropColor : backdropColor
     }

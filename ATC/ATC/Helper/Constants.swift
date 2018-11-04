@@ -23,3 +23,7 @@ class ApiServiceURL {
         return scheme + domain + apiVersion + apiMethod.rawValue
     }
 }
+
+public class NotificationConstant {
+    static let showRegistration = NSNotification.Name(rawValue: "ShowRegistration")
+}

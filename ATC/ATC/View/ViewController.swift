@@ -19,13 +19,6 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-    @IBAction func logoutAction() {
-        LoginManager.logout()
-        
-        if let parent = self.parent as? ATCTabBarViewController {
-            parent.showRegistration()
-        }
-    }
     
 }
 

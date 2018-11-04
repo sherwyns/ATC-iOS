@@ -8,6 +8,7 @@
 
 import UIKit
 import ESTabBarController_swift
+import SlideMenuControllerSwift
 
 class ATCTabBarViewController: ESTabBarController {
     
@@ -16,6 +17,10 @@ class ATCTabBarViewController: ESTabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         customizeViews()
+    }
+  
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(ATCTabBarViewController.showRegistration), name: NotificationConstant.showRegistration, object: nil)
     }
     
     
@@ -28,7 +33,7 @@ class ATCTabBarViewController: ESTabBarController {
         }
     }
     
-    func showRegistration() {
+    @objc func showRegistration() {
         self.performSegue(withIdentifier: credentialSegueId, sender: nil)
     }
 
@@ -52,5 +57,9 @@ extension ATCTabBarViewController {
     func customizeViews() {
         view.applyGradient(withColours: [.lightBlue(), .darkBlue()], gradientOrientation: .vertical)
     }
+}
+
+extension ATCTabBarViewController : SlideMenuControllerDelegate {
+  
 }
 

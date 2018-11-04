@@ -10,6 +10,8 @@ target 'ATC' do
   pod "MBProgressHUD"
   pod 'GoogleSignIn'
   pod 'FBSDKLoginKit'
+  pod 'SlideMenuControllerSwift'
+  pod 'pop'
 end
 
 post_install do |installer|
