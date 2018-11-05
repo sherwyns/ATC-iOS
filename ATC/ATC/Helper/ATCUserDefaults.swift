@@ -12,6 +12,7 @@ import UIKit
 public class ATCUserDefaults {
     static let kIsFirstTime    = "isFirstTime"
     static let kIsUserLoggedIn = "isUserLoggedIn"
+    static let kUserInfo       = "userInfo"
     
     static func isUserLoggedIn() -> Bool {
         if let isUserLoggedIn = UserDefaults.standard.value(forKey: kIsUserLoggedIn) as? Bool {
@@ -27,13 +28,30 @@ public class ATCUserDefaults {
         return true
     }
     
+    static func userInfo() -> String? {
+        if let userMail = UserDefaults.standard.value(forKey: kUserInfo) as? String {
+            return userMail
+        }
+        return nil
+    }
+    
     static func userOpenedApp() {
         UserDefaults.standard.setValue(false, forKey: kIsFirstTime)
         UserDefaults.standard.synchronize()
     }
     
+    static func userSignedIn() {
+        UserDefaults.standard.setValue(true, forKey: kIsUserLoggedIn)
+        UserDefaults.standard.synchronize()
+    }
+    
     static func logoutApp() {
         UserDefaults.standard.setValue(false, forKey: kIsUserLoggedIn)
+        UserDefaults.standard.synchronize()
+    }
+
+    static func userInfo(mail : String) {
+        UserDefaults.standard.setValue(mail, forKey: kUserInfo)
         UserDefaults.standard.synchronize()
     }
 }

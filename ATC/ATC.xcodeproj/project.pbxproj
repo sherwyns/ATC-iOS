@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		323204CA21908B8600F03500 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323204C921908B8600F03500 /* AccountViewController.swift */; };
 		32371DAE217CC8260020AD13 /* ATCTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32371DAD217CC8260020AD13 /* ATCTabBarViewController.swift */; };
 		32371DB4217CCADF0020AD13 /* ATCUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32371DB3217CCADF0020AD13 /* ATCUserDefaults.swift */; };
 		32371DB6217CCDF50020AD13 /* Credential.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32371DB5217CCDF50020AD13 /* Credential.storyboard */; };
@@ -51,6 +52,7 @@
 
 /* Begin PBXFileReference section */
 		0594BE77285563C823A250AF /* Pods_ATC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ATC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		323204C921908B8600F03500 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		32371DAD217CC8260020AD13 /* ATCTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ATCTabBarViewController.swift; sourceTree = "<group>"; };
 		32371DB3217CCADF0020AD13 /* ATCUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ATCUserDefaults.swift; sourceTree = "<group>"; };
 		32371DB5217CCDF50020AD13 /* Credential.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Credential.storyboard; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				324C834C217E17FF00874A75 /* CredentialViewController.swift */,
 				32824A5C218C91B10016CD3F /* SettingViewController.swift */,
 				32E7A482218F17C100669545 /* SearchViewController.swift */,
+				323204C921908B8600F03500 /* AccountViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -485,6 +488,7 @@
 				32E7A483218F17C100669545 /* SearchViewController.swift in Sources */,
 				32824A5B218C8B060016CD3F /* ATCSlideMenu.swift in Sources */,
 				32FB543421863C5600D437EC /* LoginManager.swift in Sources */,
+				323204CA21908B8600F03500 /* AccountViewController.swift in Sources */,
 				3242F0BA217BA8BA009E1A63 /* AppDelegate.swift in Sources */,
 				32B12E7D217E012D00BB1299 /* Constants.swift in Sources */,
 				324C834D217E17FF00874A75 /* CredentialViewController.swift in Sources */,

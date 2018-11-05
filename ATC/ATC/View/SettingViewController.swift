@@ -13,16 +13,20 @@ class SettingViewController: UIViewController {
     
     @IBAction func myAccountAction() {
         if ATCUserDefaults.isUserLoggedIn() {
-            
+            postShowMyAccount()
         }
         else {
             postShowRegistration()
-            
         }
     }
     
     func postShowRegistration() {
         slideMenuController()?.toggleRight()
         NotificationCenter.default.post(name: NotificationConstant.showRegistration, object: nil)
+    }
+    
+    func postShowMyAccount() {
+        slideMenuController()?.toggleRight()
+        NotificationCenter.default.post(name: NotificationConstant.showMyAccount, object: nil)
     }
 }

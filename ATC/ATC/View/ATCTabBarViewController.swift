@@ -13,14 +13,16 @@ import SlideMenuControllerSwift
 class ATCTabBarViewController: ESTabBarController {
     
     let credentialSegueId = "credentialSegue"
-
+    let showMyAccountScreen = "showMyAccountScreen"
     override func viewDidLoad() {
         super.viewDidLoad()
         customizeViews()
     }
+    //showMyAccountScreen
   
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(ATCTabBarViewController.showRegistration), name: NotificationConstant.showRegistration, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ATCTabBarViewController.showMyAccount), name: NotificationConstant.showMyAccount, object: nil)
     }
     
     
@@ -35,6 +37,10 @@ class ATCTabBarViewController: ESTabBarController {
     
     @objc func showRegistration() {
         self.performSegue(withIdentifier: credentialSegueId, sender: nil)
+    }
+    
+    @objc func showMyAccount() {
+        self.performSegue(withIdentifier: showMyAccountScreen, sender: nil)
     }
 
     /*

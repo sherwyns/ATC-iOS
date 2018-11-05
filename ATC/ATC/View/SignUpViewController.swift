@@ -75,6 +75,7 @@ class SignUpViewController: UIViewController {
                             }
                             else {
                                 DispatchQueue.main.async(execute: { () -> Void in
+                                    ATCUserDefaults.userSignedIn()
                                     self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
                                     KSToastView.ks_showToast("Welcome!")
                                 })
@@ -119,7 +120,9 @@ class SignUpViewController: UIViewController {
                                 }
                                 else {
                                     DispatchQueue.main.async(execute: { () -> Void in
+                                        ATCUserDefaults.userSignedIn()
                                         self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
+                                        KSToastView.ks_showToast("Welcome")
                                     })
                                     
                                     print(" result \(parameterDictionary)")
@@ -158,6 +161,7 @@ class SignUpViewController: UIViewController {
                     else {
                         print(parameterDictionary)
                         ATCUserDefaults.userOpenedApp()
+                        ATCUserDefaults.userSignedIn()
                         DispatchQueue.main.async(execute: { () -> Void in
                             self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
                             KSToastView.ks_showToast("Welcome!")

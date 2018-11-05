@@ -26,4 +26,5 @@ class ApiServiceURL {
 
 public class NotificationConstant {
     static let showRegistration = NSNotification.Name(rawValue: "ShowRegistration")
+    static let showMyAccount = NSNotification.Name(rawValue: "showMyAccount")
 }

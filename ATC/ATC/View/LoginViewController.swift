@@ -78,8 +78,10 @@ class LoginViewController: UIViewController {
                         }
                         else {
                             DispatchQueue.main.async(execute: { () -> Void in
+                                ATCUserDefaults.userSignedIn()
                                 self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
                                 KSToastView.ks_showToast("Welcome!")
+                                
                             })
                         }
                     }
@@ -136,6 +138,7 @@ class LoginViewController: UIViewController {
                                 else {
                                     DispatchQueue.main.async(execute: { () -> Void in
                                         self.hideHUD()
+                                        ATCUserDefaults.userSignedIn()
                                         self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
                                         KSToastView.ks_showToast("Welcome!")
                                     })
@@ -229,6 +232,7 @@ extension LoginViewController: GIDSignInDelegate {
                 else {
                     DispatchQueue.main.async(execute: { () -> Void in
                       self.hideHUD()
+                        ATCUserDefaults.userSignedIn()
                         self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
                         KSToastView.ks_showToast("Welcome!")
                     })
