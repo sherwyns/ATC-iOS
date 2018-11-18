@@ -27,6 +27,7 @@
 		32B12E81217E04D000BB1299 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B12E80217E04D000BB1299 /* SignUpViewController.swift */; };
 		32B12E83217E07AB00BB1299 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B12E82217E07AB00BB1299 /* Extensions.swift */; };
 		32E7A483218F17C100669545 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E7A482218F17C100669545 /* SearchViewController.swift */; };
+		32F707B321A1E23D00A6D592 /* EntityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F707B221A1E23D00A6D592 /* EntityViewController.swift */; };
 		32FB204321861FF600AC683E /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 32FB204221861FF600AC683E /* Roboto-Regular.ttf */; };
 		32FB5432218639E500D437EC /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 32FB5431218639E500D437EC /* credentials.plist */; };
 		32FB543421863C5600D437EC /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FB543321863C5600D437EC /* LoginManager.swift */; };
@@ -80,6 +81,7 @@
 		32B12E82217E07AB00BB1299 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		32DD762B21866EEE00AD5F7A /* ATC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ATC.entitlements; sourceTree = "<group>"; };
 		32E7A482218F17C100669545 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		32F707B221A1E23D00A6D592 /* EntityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityViewController.swift; sourceTree = "<group>"; };
 		32FB204221861FF600AC683E /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		32FB5431218639E500D437EC /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
 		32FB543321863C5600D437EC /* LoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				3242F0C2217BA8BB009E1A63 /* LaunchScreen.storyboard */,
 				3242F0C5217BA8BB009E1A63 /* Info.plist */,
 				32371E33217D7D900020AD13 /* ATC-Bridging-Header.h */,
+				32F707B221A1E23D00A6D592 /* EntityViewController.swift */,
 			);
 			path = ATC;
 			sourceTree = "<group>";
@@ -478,6 +481,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				32B12E7F217E04BD00BB1299 /* LoginViewController.swift in Sources */,
+				32F707B321A1E23D00A6D592 /* EntityViewController.swift in Sources */,
 				32B12E83217E07AB00BB1299 /* Extensions.swift in Sources */,
 				32B12E7B217E008000BB1299 /* Downloader.swift in Sources */,
 				32824A5D218C91B10016CD3F /* SettingViewController.swift in Sources */,

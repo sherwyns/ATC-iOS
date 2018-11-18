@@ -108,6 +108,21 @@
             </objects>
             <point key="canvasLocation" x="1302" y="-390"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="bE3-7O-Ghn">
+            <objects>
+                <viewController id="she-q6-FNb" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="W0M-qV-sKF">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="2og-AS-SEt"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AxO-nH-BGG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2599" y="-296"/>
+        </scene>
         <!--My Account-->
         <scene sceneID="lYZ-4b-LXk">
             <objects>
@@ -304,7 +319,7 @@
                                         <state key="normal" image="ic_settings_2.0"/>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t8z-Ua-yQD">
-                                        <rect key="frame" x="55" y="43" width="63" height="40"/>
+                                        <rect key="frame" x="55" y="43" width="62.5" height="40"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -540,7 +555,6 @@
         <!--Tab Bar View Controller-->
         <scene sceneID="fS5-QZ-31f">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="KC7-ZI-oru" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tabBarController storyboardIdentifier="ATCTabBarViewController" id="Ssy-0m-VCa" customClass="ATCTabBarViewController" customModule="ATC" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="l9b-Hf-gdf"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="QwN-D9-SwD">
@@ -555,6 +569,7 @@
                         <segue destination="S0Q-yS-tEq" kind="presentation" identifier="showMyAccountScreen" id="ubB-A9-IoI"/>
                     </connections>
                 </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KC7-ZI-oru" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="350" y="-723"/>
         </scene>
