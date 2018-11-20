@@ -49,15 +49,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     let searchViewController = storyboard.instantiateViewController(withIdentifier: "SearchViewController")
     let favoriteViewController = storyboard.instantiateViewController(withIdentifier: "FavoriteViewController")
-    let homeViewController = storyboard.instantiateViewController(withIdentifier: "FavoriteViewController")
+    let homeViewController = storyboard.instantiateViewController(withIdentifier: "HomeViewController")
     
     searchViewController.tabBarItem = ESTabBarItem.init(ESTabBarItemContentView(), title: nil, image: UIImage(named: "icSearch32"), selectedImage: UIImage(named: "icSearch32"))
-    favoriteViewController.tabBarItem = ESTabBarItem.init(IrregularityContentView(), title: nil, image: UIImage(named: "home"), selectedImage: UIImage(named: "home"))
+    homeViewController.tabBarItem = ESTabBarItem.init(IrregularityContentView(), title: nil, image: UIImage(named: "home"), selectedImage: UIImage(named: "home"))
     
-    homeViewController.tabBarItem = ESTabBarItem.init(ESTabBarItemContentView(), title: nil, image: UIImage(named: "favor"), selectedImage: UIImage(named: "favor"))
+    favoriteViewController.tabBarItem = ESTabBarItem.init(ESTabBarItemContentView(), title: nil, image: UIImage(named: "favor"), selectedImage: UIImage(named: "favor"))
     
     
-    tabBarController.viewControllers = [searchViewController, favoriteViewController, homeViewController]
+    tabBarController.viewControllers = [searchViewController, homeViewController, favoriteViewController]
     
     return tabBarController
   }

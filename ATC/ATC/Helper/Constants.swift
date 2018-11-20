@@ -12,6 +12,7 @@ enum APIMethod: String {
     case Login                   = "Users/login"
     case SignUp    = "Users"
     case socialSignUp = "socialUsers/signin"
+    case getStores = "Store/getstores/"
 }
 
 class ApiServiceURL {

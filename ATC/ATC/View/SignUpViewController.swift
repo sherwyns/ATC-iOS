@@ -160,6 +160,9 @@ class SignUpViewController: UIViewController {
                     }
                     else {
                         print(parameterDictionary)
+                        if let result = result, let id = result["id"] as? Int{
+                            ATCUserDefaults.userIdentity(id: String(id))
+                        }
                         ATCUserDefaults.userOpenedApp()
                         ATCUserDefaults.userSignedIn()
                         DispatchQueue.main.async(execute: { () -> Void in

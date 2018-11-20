@@ -36,16 +36,7 @@ class AccountViewController: UIViewController {
             self.userLabel.text = "Dhandapani Rathinavel"
         }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+    
     func customizeViews() {
         newPasswordTextField.makeRoundedCorner()
         oldPasswordTextField.makeRoundedCorner()
@@ -66,6 +57,16 @@ class AccountViewController: UIViewController {
     
     @IBAction func signoutAction() {
         ATCUserDefaults.logoutApp()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        if let tabbar = appDelegate.tabbarController {
+            for controller in tabbar.viewControllers! {
+                if let vc = controller as? EntityProtocol {
+                    vc.entityViewController?.stores = [Store]()
+                    vc.entityViewController?.collectionView.reloadData()
+                }
+            }
+        }
         self.dismiss(animated: true) {}
     }
 

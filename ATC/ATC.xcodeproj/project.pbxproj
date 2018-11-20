@@ -18,6 +18,10 @@
 		3242F0C4217BA8BB009E1A63 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3242F0C2217BA8BB009E1A63 /* LaunchScreen.storyboard */; };
 		3242F0CF217BA8BB009E1A63 /* ATCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3242F0CE217BA8BB009E1A63 /* ATCTests.swift */; };
 		3242F0DA217BA8BB009E1A63 /* ATCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3242F0D9217BA8BB009E1A63 /* ATCUITests.swift */; };
+		3246CB3F21A2CF5400841C61 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3246CB3E21A2CF5400841C61 /* HomeViewController.swift */; };
+		3246CB4221A2D4D000841C61 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3246CB4121A2D4D000841C61 /* Store.swift */; };
+		3246CB4621A3063800841C61 /* EntityProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3246CB4521A3063800841C61 /* EntityProtocol.swift */; };
+		3246CB4821A38D5600841C61 /* SharedObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3246CB4721A38D5600841C61 /* SharedObjects.swift */; };
 		324C834D217E17FF00874A75 /* CredentialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C834C217E17FF00874A75 /* CredentialViewController.swift */; };
 		32824A5B218C8B060016CD3F /* ATCSlideMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32824A5A218C8B060016CD3F /* ATCSlideMenu.swift */; };
 		32824A5D218C91B10016CD3F /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32824A5C218C91B10016CD3F /* SettingViewController.swift */; };
@@ -28,6 +32,10 @@
 		32B12E83217E07AB00BB1299 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B12E82217E07AB00BB1299 /* Extensions.swift */; };
 		32E7A483218F17C100669545 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E7A482218F17C100669545 /* SearchViewController.swift */; };
 		32F707B321A1E23D00A6D592 /* EntityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F707B221A1E23D00A6D592 /* EntityViewController.swift */; };
+		32F707B621A1F13700A6D592 /* EntityViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F707B421A1F13700A6D592 /* EntityViewCell.swift */; };
+		32F707B721A1F13700A6D592 /* EntityViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32F707B521A1F13700A6D592 /* EntityViewCell.xib */; };
+		32F707BB21A21ED400A6D592 /* SegButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F707BA21A21ED400A6D592 /* SegButton.swift */; };
+		32F707BD21A2227100A6D592 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F707BC21A2227100A6D592 /* FavoriteViewController.swift */; };
 		32FB204321861FF600AC683E /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 32FB204221861FF600AC683E /* Roboto-Regular.ttf */; };
 		32FB5432218639E500D437EC /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 32FB5431218639E500D437EC /* credentials.plist */; };
 		32FB543421863C5600D437EC /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FB543321863C5600D437EC /* LoginManager.swift */; };
@@ -71,6 +79,10 @@
 		3242F0D5217BA8BB009E1A63 /* ATCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ATCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3242F0D9217BA8BB009E1A63 /* ATCUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ATCUITests.swift; sourceTree = "<group>"; };
 		3242F0DB217BA8BB009E1A63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3246CB3E21A2CF5400841C61 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		3246CB4121A2D4D000841C61 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		3246CB4521A3063800841C61 /* EntityProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityProtocol.swift; sourceTree = "<group>"; };
+		3246CB4721A38D5600841C61 /* SharedObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedObjects.swift; sourceTree = "<group>"; };
 		324C834C217E17FF00874A75 /* CredentialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialViewController.swift; sourceTree = "<group>"; };
 		32824A5A218C8B060016CD3F /* ATCSlideMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ATCSlideMenu.swift; sourceTree = "<group>"; };
 		32824A5C218C91B10016CD3F /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
@@ -82,6 +94,10 @@
 		32DD762B21866EEE00AD5F7A /* ATC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ATC.entitlements; sourceTree = "<group>"; };
 		32E7A482218F17C100669545 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		32F707B221A1E23D00A6D592 /* EntityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityViewController.swift; sourceTree = "<group>"; };
+		32F707B421A1F13700A6D592 /* EntityViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityViewCell.swift; sourceTree = "<group>"; };
+		32F707B521A1F13700A6D592 /* EntityViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EntityViewCell.xib; sourceTree = "<group>"; };
+		32F707BA21A21ED400A6D592 /* SegButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegButton.swift; sourceTree = "<group>"; };
+		32F707BC21A2227100A6D592 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
 		32FB204221861FF600AC683E /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		32FB5431218639E500D437EC /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
 		32FB543321863C5600D437EC /* LoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
@@ -126,6 +142,10 @@
 				32824A5C218C91B10016CD3F /* SettingViewController.swift */,
 				32E7A482218F17C100669545 /* SearchViewController.swift */,
 				323204C921908B8600F03500 /* AccountViewController.swift */,
+				32F707B221A1E23D00A6D592 /* EntityViewController.swift */,
+				3246CB3E21A2CF5400841C61 /* HomeViewController.swift */,
+				32F707BC21A2227100A6D592 /* FavoriteViewController.swift */,
+				32F707B821A1F13B00A6D592 /* EntityView */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -133,6 +153,7 @@
 		32371DB2217CCABA0020AD13 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				32F707B921A21E8C00A6D592 /* Controls */,
 				32824A59218C8AE80016CD3F /* Slider */,
 				32371DB3217CCADF0020AD13 /* ATCUserDefaults.swift */,
 				32B12E7C217E012D00BB1299 /* Constants.swift */,
@@ -167,6 +188,8 @@
 		3242F0B8217BA8BA009E1A63 /* ATC */ = {
 			isa = PBXGroup;
 			children = (
+				3246CB4321A305E400841C61 /* Protocol */,
+				3246CB4021A2D4BE00841C61 /* Models */,
 				32DD762B21866EEE00AD5F7A /* ATC.entitlements */,
 				32FB204121861FE700AC683E /* Resources */,
 				32B12E79217E006400BB1299 /* Network */,
@@ -179,7 +202,6 @@
 				3242F0C2217BA8BB009E1A63 /* LaunchScreen.storyboard */,
 				3242F0C5217BA8BB009E1A63 /* Info.plist */,
 				32371E33217D7D900020AD13 /* ATC-Bridging-Header.h */,
-				32F707B221A1E23D00A6D592 /* EntityViewController.swift */,
 			);
 			path = ATC;
 			sourceTree = "<group>";
@@ -202,6 +224,23 @@
 			path = ATCUITests;
 			sourceTree = "<group>";
 		};
+		3246CB4021A2D4BE00841C61 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3246CB4121A2D4D000841C61 /* Store.swift */,
+				3246CB4721A38D5600841C61 /* SharedObjects.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		3246CB4321A305E400841C61 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				3246CB4521A3063800841C61 /* EntityProtocol.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		32824A59218C8AE80016CD3F /* Slider */ = {
 			isa = PBXGroup;
 			children = (
@@ -216,6 +255,23 @@
 				32B12E7A217E008000BB1299 /* Downloader.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		32F707B821A1F13B00A6D592 /* EntityView */ = {
+			isa = PBXGroup;
+			children = (
+				32F707B521A1F13700A6D592 /* EntityViewCell.xib */,
+				32F707B421A1F13700A6D592 /* EntityViewCell.swift */,
+			);
+			path = EntityView;
+			sourceTree = "<group>";
+		};
+		32F707B921A21E8C00A6D592 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				32F707BA21A21ED400A6D592 /* SegButton.swift */,
+			);
+			path = Controls;
 			sourceTree = "<group>";
 		};
 		32FB204121861FE700AC683E /* Resources */ = {
@@ -361,6 +417,7 @@
 				32FB5432218639E500D437EC /* credentials.plist in Resources */,
 				3242F0C1217BA8BB009E1A63 /* Assets.xcassets in Resources */,
 				32FB204321861FF600AC683E /* Roboto-Regular.ttf in Resources */,
+				32F707B721A1F13700A6D592 /* EntityViewCell.xib in Resources */,
 				3242F0BF217BA8BA009E1A63 /* Main.storyboard in Resources */,
 				32371DB6217CCDF50020AD13 /* Credential.storyboard in Resources */,
 			);
@@ -480,6 +537,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3246CB4621A3063800841C61 /* EntityProtocol.swift in Sources */,
+				3246CB4821A38D5600841C61 /* SharedObjects.swift in Sources */,
+				3246CB4221A2D4D000841C61 /* Store.swift in Sources */,
 				32B12E7F217E04BD00BB1299 /* LoginViewController.swift in Sources */,
 				32F707B321A1E23D00A6D592 /* EntityViewController.swift in Sources */,
 				32B12E83217E07AB00BB1299 /* Extensions.swift in Sources */,
@@ -491,10 +551,14 @@
 				32371DAE217CC8260020AD13 /* ATCTabBarViewController.swift in Sources */,
 				32E7A483218F17C100669545 /* SearchViewController.swift in Sources */,
 				32824A5B218C8B060016CD3F /* ATCSlideMenu.swift in Sources */,
+				32F707BB21A21ED400A6D592 /* SegButton.swift in Sources */,
 				32FB543421863C5600D437EC /* LoginManager.swift in Sources */,
 				323204CA21908B8600F03500 /* AccountViewController.swift in Sources */,
+				32F707BD21A2227100A6D592 /* FavoriteViewController.swift in Sources */,
+				3246CB3F21A2CF5400841C61 /* HomeViewController.swift in Sources */,
 				3242F0BA217BA8BA009E1A63 /* AppDelegate.swift in Sources */,
 				32B12E7D217E012D00BB1299 /* Constants.swift in Sources */,
+				32F707B621A1F13700A6D592 /* EntityViewCell.swift in Sources */,
 				324C834D217E17FF00874A75 /* CredentialViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

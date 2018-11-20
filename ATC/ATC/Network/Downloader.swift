@@ -135,6 +135,88 @@ class Downloader {
         }.resume()
     }
     
+    static func getStoreJSONUsingURLSession(url : String, completionHandler: @escaping (_ result : Dictionary<String, AnyObject?>?, _ error: String?) -> Void) {
+        
+        
+        
+        guard let serviceUrl = URL(string: url) else { return }
+        
+        var request = URLRequest(url: serviceUrl)
+        request.httpMethod = "GET"
+        
+        let session = URLSession.shared
+        session.dataTask(with: request) { (data, response, error) in
+            if let response = response {
+                print(response)
+            }
+            if let data = data {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as? Dictionary<String, AnyObject?>
+                    print(json!)
+                    if let json = json {
+                        if let error = json["error"] as? Dictionary<String, AnyObject>, let message = error["message"]  as? String {
+                            completionHandler(nil, message)
+                        }
+                            //                        else if let id = json["id"] as? String{
+                            //                            UserDefaults.standard.setValue(true, forKey: ATCUserDefaults.kIsUserLoggedIn)
+                            //                            completionHandler(json, nil)
+                            //                        }
+                        else {
+                            completionHandler(json, nil)
+                        }
+                    }
+                }catch {
+                    print(error)
+                    completionHandler(nil, error.localizedDescription)
+                }
+            }
+            else {
+                completionHandler(nil, "unknown")
+            }
+            }.resume()
+    }
+    
+    static func getStoreJSONUsingURLSession(serviceUrl : URL, completionHandler: @escaping (_ result : Dictionary<String, AnyObject?>?, _ error: String?) -> Void) {
+        
+        
+        
+        //guard let serviceUrl = URL(string: url) else { return }
+        
+        var request = URLRequest(url: serviceUrl)
+        request.httpMethod = "GET"
+        
+        let session = URLSession.shared
+        session.dataTask(with: request) { (data, response, error) in
+            if let response = response {
+                print(response)
+            }
+            if let data = data {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as? Dictionary<String, AnyObject?>
+                    //print(json!)
+                    if let json = json {
+                        if let error = json["error"] as? Dictionary<String, AnyObject>, let message = error["message"]  as? String {
+                            completionHandler(nil, message)
+                        }
+                            //                        else if let id = json["id"] as? String{
+                            //                            UserDefaults.standard.setValue(true, forKey: ATCUserDefaults.kIsUserLoggedIn)
+                            //                            completionHandler(json, nil)
+                            //                        }
+                        else {
+                            completionHandler(json, nil)
+                        }
+                    }
+                }catch {
+                    print(error)
+                    completionHandler(nil, error.localizedDescription)
+                }
+            }
+            else {
+                completionHandler(nil, "unknown")
+            }
+            }.resume()
+    }
+    
     func getDataFromServer(_ url : String, parameters : Dictionary<String, AnyObject>, image : UIImage,  completionHandler: @escaping (_ result : Dictionary<String, AnyObject>?, _ error: String?) -> Void) {
         print(url)
         var urlString = url

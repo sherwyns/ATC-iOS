@@ -13,6 +13,7 @@ public class ATCUserDefaults {
     static let kIsFirstTime    = "isFirstTime"
     static let kIsUserLoggedIn = "isUserLoggedIn"
     static let kUserInfo       = "userInfo"
+    static let kUserId       = "userId"
     
     static func isUserLoggedIn() -> Bool {
         if let isUserLoggedIn = UserDefaults.standard.value(forKey: kIsUserLoggedIn) as? Bool {
@@ -35,6 +36,13 @@ public class ATCUserDefaults {
         return nil
     }
     
+    static func userId() -> String? {
+        if let userId = UserDefaults.standard.value(forKey: kUserId) as? String {
+            return userId
+        }
+        return nil
+    }
+    
     static func userOpenedApp() {
         UserDefaults.standard.setValue(false, forKey: kIsFirstTime)
         UserDefaults.standard.synchronize()
@@ -52,6 +60,11 @@ public class ATCUserDefaults {
 
     static func userInfo(mail : String) {
         UserDefaults.standard.setValue(mail, forKey: kUserInfo)
+        UserDefaults.standard.synchronize()
+    }
+    
+    static func userIdentity(id : String) {
+        UserDefaults.standard.setValue(id, forKey: kUserId)
         UserDefaults.standard.synchronize()
     }
 }
