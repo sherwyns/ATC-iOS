@@ -18,6 +18,7 @@ class EntityViewController: UIViewController {
     let kLEFT_INSET = 8.0
     let kRIGHT_INSET = 8.0
     
+    var isFiltered = false
     var kWIDTH_CELL: CGFloat {
         let insettedWidth = Int((self.view.frame.size.width - 24))
         if (insettedWidth%2) == 0 {
@@ -56,6 +57,18 @@ class EntityViewController: UIViewController {
         self.collectionView.register(UINib.init(nibName: kENTITY_VIEW, bundle: nil), forCellWithReuseIdentifier: kENTITY_VIEW)
         // Do any additional setup after loading the view.
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if isFiltered {
+            self.stores = SharedObjects.shared.storesForFavorite
+        }
+        else {
+            self.stores = SharedObjects.shared.stores
+        }
+        self.collectionView.reloadData()
+    }
 }
 
 extension EntityViewController: UICollectionViewDataSource {
@@ -82,9 +95,13 @@ extension EntityViewController: UICollectionViewDataSource {
         if let store = storeForIndexPath(indexPath.row) {
             cell?.name.text = store.shopName.capitalizeFirst
             cell?.subName.text = store.neighbourhood
+            if let imageUrl = URL.init(string: store.imageUrl) {
+                cell?.bannerImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "pep-pizza"))
+            }
+            
             cell?.favoritebutton.tag = indexPath.row
             cell?.favoritebutton.addTarget(self, action: #selector(EntityViewController.updateFavorite(sender:)), for: .touchUpInside)
-            if !store.isFavorite {
+            if store.isFavorite {
                 cell?.favoritebutton.setImage(UIImage.init(named: "favorite"), for: .normal)
             }
             else {
@@ -103,6 +120,24 @@ extension EntityViewController: UICollectionViewDataSource {
     
     @objc @IBAction func updateFavorite(sender: UIButton) {
         
+        if !ATCUserDefaults.isUserLoggedIn() {
+            //entityContainer.isHidden = true
+            showLogInAlert()
+            return
+        }
+        
+        if let stores = self.stores {
+            let selectedStore = stores[sender.tag]
+            SharedObjects.shared.updateWithNewOrExistingStoreId(selectedStore: selectedStore)
+        }
+        if isFiltered {
+            self.stores = SharedObjects.shared.storesForFavorite
+        }
+        else {
+            self.stores = SharedObjects.shared.stores
+        }
+        
+        self.collectionView.reloadData()
     }
   
     func storeForIndexPath(_ row: Int) -> Store? {

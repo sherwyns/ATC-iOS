@@ -14,25 +14,28 @@ class HomeViewController: UIViewController, EntityProtocol {
     
     @IBOutlet weak var HUD:MBProgressHUD!
     @IBOutlet weak var entityContainer: UIView!
+    @IBOutlet weak var filterButton: UIButton!
     
     var entityViewController: EntityViewController?
     var stores: [Store]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        filterButton.imageEdgeInsets = UIEdgeInsets(top: 11, left:11, bottom: 11, right: 11)
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        //getStores()
+        getStores()
 //
-        SharedObjects.shared.getStoresWithFavorite { (completionStores) in
-            self.stores = completionStores
-            self.entityViewController?.stores = self.stores
-            DispatchQueue.main.async {
-                self.entityViewController?.collectionView.reloadData()
-            }
-        }
+//        SharedObjects.shared.getStoresWithFavorite { (completionStores) in
+//            self.stores = completionStores
+//            self.entityViewController?.stores = self.stores
+//            DispatchQueue.main.async {
+//                self.entityViewController?.collectionView.reloadData()
+//            }
+//        }
     }
     
     // MARK: - Navigation
@@ -40,6 +43,7 @@ class HomeViewController: UIViewController, EntityProtocol {
         if segue.identifier == "HomeEntityViewController" {
             if let entityViewController = segue.destination as? EntityViewController {
                 self.entityViewController = entityViewController
+                self.entityViewController?.isFiltered = false
             }
         }
     }
@@ -105,7 +109,14 @@ extension HomeViewController {
                         let store = Store.init(dictionary: storeDictionary)
                         storeArray.append(store)
                     }
-                    self.entityViewController?.stores = storeArray
+                    print("B4 \(SharedObjects.shared.favStores?.count)")
+                    
+                    SharedObjects.shared.stores = storeArray
+                    
+                    print("After \(SharedObjects.shared.favStores?.count)")
+                    
+                    SharedObjects.shared.stores = SharedObjects.shared.updateStoresWithFavorite()
+                    self.entityViewController?.stores = SharedObjects.shared.stores
                     DispatchQueue.main.async {
                         self.entityViewController?.collectionView.reloadData()
                     }

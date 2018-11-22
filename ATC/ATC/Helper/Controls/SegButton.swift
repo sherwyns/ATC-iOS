@@ -21,21 +21,19 @@ class SegButton: UIButton {
     func highlightedStateColor() {
         self.layer.cornerRadius = 13.5
         self.layer.masksToBounds = true
-        //self.applyGradient(withColours: [ .darkBlue(), .lightBlue()], gradientOrientation: .horizontal)
+        self.applyGradient(withColours: [ .darkBlue(), .lightBlue()], gradientOrientation: .horizontal)
         self.setTitleColor(.white, for: .normal)
-        self.backgroundColor = UIColor.lightBlue()
         let color = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.21)
         self.layer.applySketchShadow(color: color, alpha: 1, x: 0.0, y: 9.0, blur: 14.9, spread: 1.1)
     }
     
     func normalStateColor() {
         let color = UIColor.init(red: 120.0/255.0, green: 120.0/255.0, blue: 120.0/255.0, alpha: 1)
+        self.applyGradient(withColours: [ .white, .white], gradientOrientation: .horizontal)
         self.setTitleColor(color, for: .normal)
-        self.backgroundColor = .white
-//        if let sublayers = self.layer.sublayers, sublayers.count > 1 {
+//        if let sublayers = self.layer.sublayers, sublayers.count >= 1 {
 //            sublayers[0].removeFromSuperlayer()
 //        }
-//        self.applyGradient(withColours: [ .white, .white], gradientOrientation: .horizontal)
         self.layer.applySketchShadow(color: .clear, alpha: 1, x: 0.0, y: 9.0, blur: 14.9, spread: 1.1)
     }
 

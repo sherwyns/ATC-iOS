@@ -15,27 +15,28 @@ class FavoriteViewController: UIViewController, EntityProtocol {
     @IBOutlet weak var HUD:MBProgressHUD!
     @IBOutlet weak var productButton: SegButton!
     @IBOutlet weak var storeButton: SegButton!
+    @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var entityContainer: UIView!
     var entityViewController : EntityViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        productButton.highlightedStateColor()
-        storeButton.normalStateColor()
+        storeButton.highlightedStateColor()
+        productButton.normalStateColor()
         entityContainer.isHidden = false
-        getStores()
-        productButtonAction()
+        storeButtonAction()
+        filterButton.imageEdgeInsets = UIEdgeInsets(top: 11, left:11, bottom: 11, right: 11)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        if !ATCUserDefaults.isUserLoggedIn() {
-//            entityContainer.isHidden = true
-//            showLogInAlert()
-//        }
-//        else {
-//            entityContainer.isHidden = false
-//        }
+        if !ATCUserDefaults.isUserLoggedIn() {
+            entityContainer.isHidden = true
+            showLogInAlert()
+        }
+        else {
+            entityContainer.isHidden = false
+        }
     }
     
     // MARK: - Navigation
@@ -43,22 +44,13 @@ class FavoriteViewController: UIViewController, EntityProtocol {
         if segue.identifier == "FavoriteEntityViewController" {
             if let entityViewController = segue.destination as? EntityViewController {
                 self.entityViewController = entityViewController
+                self.entityViewController?.isFiltered = true
             }
         }
     }
     
-    //MARK: - Custom Actions
-    func showLogInAlert() {
-        let alertController = UIAlertController.init(title: "Alert", message: "Kindly log in to proceed furter", preferredStyle: .alert)
-        
-        let okayAction = UIAlertAction.init(title: "Okay", style: .default) { (action) in
-            
-        }
-        
-        alertController.addAction(okayAction)
-        
-        self.present(alertController, animated: true, completion: nil)
-    }
+    
+    
     
     @IBAction func storeButtonAction() {
         self.entityViewController?.entityType = .Store
@@ -133,5 +125,23 @@ extension FavoriteViewController {
                 self.hideHUD()
             }
         }
+    }
+}
+
+
+extension UIViewController {
+    //MARK: - Custom Actions
+    func showLogInAlert() {
+        let alertController = UIAlertController.init(title: "Alert", message: "Kindly log in to proceed furter", preferredStyle: .alert)
+        
+        let okayAction = UIAlertAction.init(title: "Okay", style: .default) { (action) in
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.tabbarController.selectedViewController = appDelegate.tabbarController.viewControllers?[1]
+            NotificationCenter.default.post(name: NotificationConstant.showRegistration, object: nil)
+        }
+        
+        alertController.addAction(okayAction)
+        
+        self.present(alertController, animated: true, completion: nil)
     }
 }

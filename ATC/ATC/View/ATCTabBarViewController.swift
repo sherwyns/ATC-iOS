@@ -17,8 +17,12 @@ class ATCTabBarViewController: ESTabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         customizeViews()
-        self.selectedViewController = self.viewControllers?[1]
+        
 //        self.tabBar(self.tabBar, didSelect: self.tabBar.items[1])
+//        if let tabbar = self.tabBar as? ESTabBar {
+//            tabBar.select(itemAtIndex: 1, animated: false)
+//        }
+        
     }
     //showMyAccountScreen
   
@@ -30,7 +34,7 @@ class ATCTabBarViewController: ESTabBarController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+        self.selectedViewController = self.viewControllers?[1]
         if ATCUserDefaults.isFirstTime() {
             showRegistration()
             //ATCUserDefaults.userOpenedApp()

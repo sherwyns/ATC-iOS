@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     GIDSignIn.sharedInstance().clientID = "274395748043-r3sagataa6qui95vsuirn74eruvtur9i.apps.googleusercontent.com"
     FBSDKApplicationDelegate.sharedInstance()?.application(application, didFinishLaunchingWithOptions: launchOptions)
     self.window?.rootViewController = entryRootViewController()
+    
     self.window?.makeKeyAndVisible()
     return true
   }

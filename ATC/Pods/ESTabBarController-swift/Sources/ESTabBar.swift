@@ -324,7 +324,7 @@ internal extension ESTabBar /* Actions */ {
         select(itemAtIndex: container.tag - 1000, animated: true)
     }
     
-    @objc internal func select(itemAtIndex idx: Int, animated: Bool) {
+    @objc public func select(itemAtIndex idx: Int, animated: Bool) {
         let newIndex = max(0, idx)
         let currentIndex = (selectedItem != nil) ? (items?.index(of: selectedItem!) ?? -1) : -1
         guard newIndex < items?.count ?? 0, let item = self.items?[newIndex], item.isEnabled == true else {

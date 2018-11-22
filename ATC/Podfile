@@ -12,6 +12,7 @@ target 'ATC' do
   pod 'FBSDKLoginKit'
   pod 'SlideMenuControllerSwift'
   pod 'pop'
+  pod 'SDWebImage', '~> 4.0'
 end
 
 post_install do |installer|

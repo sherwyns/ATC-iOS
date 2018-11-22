@@ -9,9 +9,9 @@
 import Foundation
 import UIKit
 
-struct StoreFavorite {
+class StoreFavorite {
     let storeId: Int
-    let isFavorite: Bool
+    var isFavorite: Bool
     
     init(dictionary: Dictionary<String, Any>) {
         self.storeId    = dictionary["storeid"] as? Int ?? 0

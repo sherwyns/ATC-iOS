@@ -47,12 +47,13 @@
                                             <constraint firstAttribute="width" constant="40" id="TBn-8s-okr"/>
                                             <constraint firstAttribute="height" constant="40" id="Zm6-Ae-JRZ"/>
                                         </constraints>
+                                        <state key="normal" image="filter"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GC3-rb-vlk" userLabel="Header">
                                         <rect key="frame" x="50" y="43" width="275" height="40"/>
-                                        <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
                                         <state key="normal" title="Favorites">
-                                            <color key="titleColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hyn-RX-PLQ" userLabel="Settings">
@@ -96,10 +97,12 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p15-Tp-PE4" userLabel="left" customClass="SegButton" customModule="ATC" customModuleProvider="target">
                                         <rect key="frame" x="98.5" y="19" width="85" height="27"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="85" id="4wn-8O-0Rd"/>
                                             <constraint firstAttribute="height" constant="27" id="rG6-uS-3nY"/>
                                         </constraints>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Product"/>
                                         <connections>
                                             <action selector="productButtonAction" destination="2b6-0s-rhj" eventType="touchUpInside" id="j6d-mG-DMy"/>
@@ -107,7 +110,7 @@
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gcR-c8-Iud" userLabel="dummyView">
                                         <rect key="frame" x="183.5" y="30.5" width="8" height="8"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="8" id="CjB-Cn-g0m"/>
                                             <constraint firstAttribute="width" constant="8" id="hJy-sw-g4b"/>
@@ -115,9 +118,12 @@
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ch9-A2-Bqj" userLabel="right" customClass="SegButton" customModule="ATC" customModuleProvider="target">
                                         <rect key="frame" x="191.5" y="19" width="85" height="27"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="27" id="c2x-hl-039"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Store"/>
                                         <connections>
                                             <action selector="storeButtonAction" destination="2b6-0s-rhj" eventType="touchUpInside" id="hfp-3T-hAw"/>
@@ -138,6 +144,7 @@
                             </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Svm-bs-Bxs">
                                 <rect key="frame" x="0.0" y="157" width="375" height="461"/>
+                                <color key="backgroundColor" red="0.79607843140000001" green="0.79607843140000001" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <connections>
                                     <segue destination="she-q6-FNb" kind="embed" identifier="FavoriteEntityViewController" id="aV9-9n-AMA"/>
                                 </connections>
@@ -174,6 +181,7 @@
                     <connections>
                         <outlet property="HUD" destination="Bg0-07-KKQ" id="uKM-9q-KkN"/>
                         <outlet property="entityContainer" destination="Svm-bs-Bxs" id="Bmb-zv-8gO"/>
+                        <outlet property="filterButton" destination="JBo-1f-Idh" id="D3H-hg-z1g"/>
                         <outlet property="productButton" destination="p15-Tp-PE4" id="h5K-gD-kP2"/>
                         <outlet property="storeButton" destination="ch9-A2-Bqj" id="CPp-m6-qPA"/>
                     </connections>
@@ -192,7 +200,7 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="jOe-h0-GV9">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="461"/>
-                                <color key="backgroundColor" red="0.95686274509803915" green="0.95686274509803915" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.79607843137254897" green="0.79607843137254897" blue="0.79607843137254897" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="qdj-8L-1j3">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -424,7 +432,7 @@
                                         <state key="normal" image="ic_settings_2.0"/>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t8z-Ua-yQD">
-                                        <rect key="frame" x="55" y="43" width="63" height="40"/>
+                                        <rect key="frame" x="55" y="43" width="62.5" height="40"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -681,12 +689,13 @@
                                             <constraint firstAttribute="height" constant="40" id="ReF-Nv-xtc"/>
                                             <constraint firstAttribute="width" constant="40" id="qbP-OX-DON"/>
                                         </constraints>
+                                        <state key="normal" image="filter"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qI3-Yr-Ybn" userLabel="Header">
                                         <rect key="frame" x="50" y="43" width="275" height="40"/>
-                                        <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
-                                        <state key="normal" title="Dashboard">
-                                            <color key="titleColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                                        <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
+                                        <state key="normal" title="Store">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p1M-f8-9DL" userLabel="Settings">
@@ -726,6 +735,7 @@
                             </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RFz-C0-pCf">
                                 <rect key="frame" x="0.0" y="95" width="375" height="572"/>
+                                <color key="backgroundColor" red="0.79607843137254897" green="0.79607843137254897" blue="0.79607843137254897" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <connections>
                                     <segue destination="she-q6-FNb" kind="embed" identifier="HomeEntityViewController" id="HSK-OZ-sLT"/>
                                 </connections>
@@ -739,7 +749,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.97647058819999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.79607843140000001" green="0.79607843140000001" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="ciM-dA-2pY" firstAttribute="centerX" secondItem="9R4-Q4-SVZ" secondAttribute="centerX" id="JLU-cW-G4O"/>
                             <constraint firstItem="RFz-C0-pCf" firstAttribute="bottom" secondItem="NeX-GY-sAc" secondAttribute="bottom" id="QAU-dm-2he"/>
@@ -756,6 +766,7 @@
                     <tabBarItem key="tabBarItem" enabled="NO" title="" id="eOc-7B-PHj"/>
                     <connections>
                         <outlet property="HUD" destination="ciM-dA-2pY" id="3pq-xz-COU"/>
+                        <outlet property="filterButton" destination="L5A-3r-LLQ" id="7pt-1L-DbE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pQV-KO-jSp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -831,6 +842,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="filter" width="512" height="512"/>
         <image name="ic_settings_2.0" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>

@@ -54,6 +54,7 @@ public class ATCUserDefaults {
     }
     
     static func logoutApp() {
+        SharedObjects.shared.clearData()
         UserDefaults.standard.setValue(false, forKey: kIsUserLoggedIn)
         UserDefaults.standard.synchronize()
     }
