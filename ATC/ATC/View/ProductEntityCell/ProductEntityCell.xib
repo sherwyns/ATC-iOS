@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Roboto-Medium.ttf">
+            <string>Roboto-Medium</string>
+        </array>
+        <array key="Roboto-Regular.ttf">
+            <string>Roboto-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProductEntityCell" id="gTV-IL-0wX" customClass="ProductEntityCell" customModule="ATC" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pep-pizza" translatesAutoresizingMaskIntoConstraints="NO" id="DS0-BU-UKg">
+                        <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+                    </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aRt-fc-gsL">
+                        <rect key="frame" x="0.0" y="97.5" width="150" height="52.5"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="$123" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jDf-Fn-geA">
+                                <rect key="frame" x="98.5" y="4" width="40.5" height="44.5"/>
+                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Product Name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="13" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z8w-1Y-fUP">
+                                <rect key="frame" x="11" y="4" width="82.5" height="44.5"/>
+                                <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="jDf-Fn-geA" firstAttribute="leading" secondItem="Z8w-1Y-fUP" secondAttribute="trailing" constant="5" id="27U-qW-XoN"/>
+                            <constraint firstAttribute="bottom" secondItem="jDf-Fn-geA" secondAttribute="bottom" constant="4" id="2UL-vV-EeK"/>
+                            <constraint firstItem="Z8w-1Y-fUP" firstAttribute="top" secondItem="aRt-fc-gsL" secondAttribute="top" constant="4" id="B9Y-kz-xJa"/>
+                            <constraint firstItem="jDf-Fn-geA" firstAttribute="top" secondItem="aRt-fc-gsL" secondAttribute="top" constant="4" id="Hgf-N1-cTp"/>
+                            <constraint firstAttribute="bottom" secondItem="Z8w-1Y-fUP" secondAttribute="bottom" constant="4" id="Nyp-NT-hPP"/>
+                            <constraint firstItem="Z8w-1Y-fUP" firstAttribute="leading" secondItem="aRt-fc-gsL" secondAttribute="leading" constant="11" id="bHM-m4-ZY2"/>
+                            <constraint firstAttribute="trailing" secondItem="jDf-Fn-geA" secondAttribute="trailing" constant="11" id="rkg-2z-QJ6"/>
+                        </constraints>
+                    </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pfT-6a-toI">
+                        <rect key="frame" x="107" y="8" width="35" height="35"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="35" id="2Wg-1e-DCo"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="35" id="4x4-K6-Gbd"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="35" id="Es0-4a-QRW"/>
+                            <constraint firstAttribute="width" constant="35" id="Ird-nD-8XV"/>
+                        </constraints>
+                        <state key="normal" image="unfavorite"/>
+                    </button>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="DS0-BU-UKg" secondAttribute="bottom" id="5zq-VP-rHr"/>
+                <constraint firstItem="aRt-fc-gsL" firstAttribute="height" secondItem="DS0-BU-UKg" secondAttribute="height" multiplier="0.35" id="DWQ-wW-lZz"/>
+                <constraint firstItem="DS0-BU-UKg" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Mtf-uy-YKR"/>
+                <constraint firstItem="pfT-6a-toI" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="m0U-dz-bEV"/>
+                <constraint firstItem="DS0-BU-UKg" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="noA-qi-5wU"/>
+                <constraint firstAttribute="trailing" secondItem="pfT-6a-toI" secondAttribute="trailing" constant="8" id="o9D-Me-5bn"/>
+                <constraint firstAttribute="trailing" secondItem="aRt-fc-gsL" secondAttribute="trailing" id="rgE-aF-Fkk"/>
+                <constraint firstItem="aRt-fc-gsL" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="sA5-sI-pbM"/>
+                <constraint firstAttribute="trailing" secondItem="DS0-BU-UKg" secondAttribute="trailing" id="thR-dU-ojw"/>
+                <constraint firstAttribute="bottom" secondItem="aRt-fc-gsL" secondAttribute="bottom" id="zeC-oY-FZh"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <connections>
+                <outlet property="bannerImageView" destination="DS0-BU-UKg" id="ckf-0z-m8t"/>
+                <outlet property="favoritebutton" destination="pfT-6a-toI" id="QUE-PQ-mBW"/>
+                <outlet property="nameLabel" destination="Z8w-1Y-fUP" id="MRa-X0-eX1"/>
+                <outlet property="priceLabel" destination="jDf-Fn-geA" id="7sK-eZ-Wp3"/>
+            </connections>
+            <point key="canvasLocation" x="137.59999999999999" y="153.82308845577214"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="pep-pizza" width="1000" height="750"/>
+        <image name="unfavorite" width="50" height="50"/>
+    </resources>
+</document>

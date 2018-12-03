@@ -54,11 +54,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     searchViewController.tabBarItem = ESTabBarItem.init(ESTabBarItemContentView(), title: nil, image: UIImage(named: "icSearch32"), selectedImage: UIImage(named: "icSearch32"))
     homeViewController.tabBarItem = ESTabBarItem.init(IrregularityContentView(), title: nil, image: UIImage(named: "home"), selectedImage: UIImage(named: "home"))
-    
     favoriteViewController.tabBarItem = ESTabBarItem.init(ESTabBarItemContentView(), title: nil, image: UIImage(named: "favor"), selectedImage: UIImage(named: "favor"))
     
+    let homeNavigationController = UINavigationController.init(rootViewController: homeViewController)
+    homeNavigationController.isNavigationBarHidden = true
     
-    tabBarController.viewControllers = [searchViewController, homeViewController, favoriteViewController]
+    let favNavigationController = UINavigationController.init(rootViewController: favoriteViewController)
+    favNavigationController.isNavigationBarHidden = true
+    
+    let searchNavigationController = UINavigationController.init(rootViewController: searchViewController)
+    searchNavigationController.isNavigationBarHidden = true
+    
+    tabBarController.viewControllers = [searchNavigationController, homeNavigationController, favNavigationController]
     
     return tabBarController
   }

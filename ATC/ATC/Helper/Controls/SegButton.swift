@@ -18,6 +18,10 @@ class SegButton: UIButton {
     }
     */
     
+    override public class var layerClass: Swift.AnyClass {
+        return CAGradientLayer.self
+    }
+    
     func highlightedStateColor() {
         self.layer.cornerRadius = 13.5
         self.layer.masksToBounds = true

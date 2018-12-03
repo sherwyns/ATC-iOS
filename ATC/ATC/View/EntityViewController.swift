@@ -55,7 +55,7 @@ class EntityViewController: UIViewController {
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
         self.collectionView.register(UINib.init(nibName: kENTITY_VIEW, bundle: nil), forCellWithReuseIdentifier: kENTITY_VIEW)
-        // Do any additional setup after loading the view.
+        self.collectionView.register(UINib.init(nibName: ProductEntityCell.kPRODUCT_ENTITY_CELL, bundle: nil), forCellWithReuseIdentifier: ProductEntityCell.kPRODUCT_ENTITY_CELL)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -75,23 +75,23 @@ extension EntityViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     switch entityType {
     case .Product:
-        return products?.count ?? 0
+        return products?.count ?? 20
     case .Store:
         return stores?.count ?? 0
     }
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: kENTITY_VIEW, for: indexPath) as? EntityViewCell
+    
     
     switch entityType {
     case .Product:
-        //if let store = storeForIndexPath(indexPath) {
-            cell?.name.text = "Product"
-            cell?.subName.text = "neighbourhood"
-        //}
-        break
+        let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: ProductEntityCell.kPRODUCT_ENTITY_CELL, for: indexPath) as? ProductEntityCell
+            cell?.nameLabel.text = "Product"
+            cell?.priceLabel.text = "$12"
+        return cell ?? UICollectionViewCell()
     case .Store:
+        let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: kENTITY_VIEW, for: indexPath) as? EntityViewCell
         if let store = storeForIndexPath(indexPath.row) {
             cell?.name.text = store.shopName.capitalizeFirst
             cell?.subName.text = store.neighbourhood
@@ -112,10 +112,8 @@ extension EntityViewController: UICollectionViewDataSource {
             cell?.name.text = "Product"
             cell?.subName.text = "neighbourhood"
         }
+        return cell ?? UICollectionViewCell()
     }
-    
-    
-    return cell ?? UICollectionViewCell()
   }
     
     @objc @IBAction func updateFavorite(sender: UIButton) {
@@ -167,6 +165,15 @@ extension EntityViewController: UICollectionViewDelegate {
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
         return sectionInsets
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch entityType {
+        case .Store:
+            self.parent?.performSegue(withIdentifier: "showStore", sender: nil)
+        case .Product:
+            self.parent?.performSegue(withIdentifier: "showProductDetail", sender: nil)
+        }
     }
 }
 
