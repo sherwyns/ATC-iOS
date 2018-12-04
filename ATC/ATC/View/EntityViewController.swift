@@ -44,9 +44,9 @@ class EntityViewController: UIViewController {
         }
     }
     
-    var products: [Store]? {
+    var products: [Product]? {
         didSet {
-            //self.collectionView.reloadData()
+            DispatchQueue.main.async { self.collectionView.reloadData()}
         }
     }
     
@@ -75,7 +75,7 @@ extension EntityViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     switch entityType {
     case .Product:
-        return products?.count ?? 20
+        return products?.count ?? 0
     case .Store:
         return stores?.count ?? 0
     }
@@ -86,20 +86,24 @@ extension EntityViewController: UICollectionViewDataSource {
     
     switch entityType {
     case .Product:
+        
         let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: ProductEntityCell.kPRODUCT_ENTITY_CELL, for: indexPath) as? ProductEntityCell
-            cell?.nameLabel.text = "Product"
-            cell?.priceLabel.text = "$12"
+        cell?.nameLabel.text = products?[indexPath.item].name
+        if let product = products?[indexPath.item] {
+            cell?.priceLabel.text = "$\(String(product.price))"
+        }
+        
         return cell ?? UICollectionViewCell()
     case .Store:
         let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: kENTITY_VIEW, for: indexPath) as? EntityViewCell
-        if let store = storeForIndexPath(indexPath.row) {
-            cell?.name.text = store.shopName.capitalizeFirst
+        if let store = storeForIndexPath(indexPath.item) {
+            cell?.name.text = store.name.capitalizeFirst
             cell?.subName.text = store.neighbourhood
             if let imageUrl = URL.init(string: store.imageUrl) {
                 cell?.bannerImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "pep-pizza"))
             }
             
-            cell?.favoritebutton.tag = indexPath.row
+            cell?.favoritebutton.tag = indexPath.item
             cell?.favoritebutton.addTarget(self, action: #selector(EntityViewController.updateFavorite(sender:)), for: .touchUpInside)
             if store.isFavorite {
                 cell?.favoritebutton.setImage(UIImage.init(named: "favorite"), for: .normal)
@@ -147,7 +151,7 @@ extension EntityViewController: UICollectionViewDataSource {
     
     func productForIndexPath(_ indexPath: IndexPath) -> Store? {
         if let stores = self.stores {
-            return stores[indexPath.row]
+            return stores[indexPath.item]
         }
         return nil
     }
@@ -170,9 +174,22 @@ extension EntityViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch entityType {
         case .Store:
-            self.parent?.performSegue(withIdentifier: "showStore", sender: nil)
+            if let store = storeForIndexPath(indexPath.item) {
+                self.parent?.performSegue(withIdentifier: "showStore", sender: store)
+            }
+            
         case .Product:
-            self.parent?.performSegue(withIdentifier: "showProductDetail", sender: nil)
+            var newProduct = products
+            if let  selectedProduct = newProduct?.remove(at: indexPath.item) {
+                if (newProduct?.count)! > 0  {
+                    newProduct?.insert(selectedProduct, at: 0)
+                }
+                else {
+                    newProduct = [Product]()
+                    newProduct?.append(selectedProduct)
+                }
+            }
+            self.parent?.performSegue(withIdentifier: "showProductDetail", sender: newProduct)
         }
     }
 }

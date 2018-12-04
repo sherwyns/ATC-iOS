@@ -46,6 +46,10 @@ class HomeViewController: UIViewController, EntityProtocol {
                 self.entityViewController?.isFiltered = false
             }
         }
+        
+        if segue.identifier == "showStore", let store = sender as? Store, let storeViewController = segue.destination as? StoreViewController  {
+            storeViewController.store = store
+        }
     }
     
     @IBAction func logoutAction() {

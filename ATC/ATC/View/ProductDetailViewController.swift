@@ -17,7 +17,7 @@ enum ProductDetailCell {
 class ProductDetailViewController: UIViewController {
   
     @IBOutlet weak var tableView: UITableView!
-
+    var similarProductsCollectionView: UICollectionView?
     let kPRODUCT_DETAIL_HEADER_CELL = "ProductDetailHeaderCell"
     let kPRODUCT_DETAIL_ABOUT_CELL = "ProductDetailAboutCell"
     let kPRODUCT_DETAIL_SIMILAR_CELL = "ProductDetailSimilarCell"
@@ -48,9 +48,12 @@ class ProductDetailViewController: UIViewController {
     
     //fileprivate let sectionInsets = UIEdgeInsets(top: 0.0, left: 8.0, bottom: 50.0, right: 8.0)
     
-    var products: [Store]? {
+    var product: Product!
+    
+    var similarProducts: [Product]? {
         didSet {
-            //self.collectionView.reloadData()
+            
+            
         }
     }
     
@@ -62,6 +65,24 @@ class ProductDetailViewController: UIViewController {
         self.view.backgroundColor = grayColor
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        DispatchQueue.main.async {self.tableView.reloadData()}
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showProductDetail" {
+            if let productDetailViewController = segue.destination as? ProductDetailViewController {
+                if let products = sender as? [Product] {
+                    productDetailViewController.product = products.first
+                    var tempProduct = products
+                    tempProduct.removeFirst()
+                    productDetailViewController.similarProducts = tempProduct
+                }
+                
+            }
+        }
+    }
 
     func registerCellForTableView() {
         self.tableView.register(UINib.init(nibName: kPRODUCT_DETAIL_HEADER_CELL, bundle: nil), forCellReuseIdentifier: kPRODUCT_DETAIL_HEADER_CELL)
@@ -89,11 +110,16 @@ extension ProductDetailViewController: UITableViewDataSource {
             return headerCell
         case .About:
             let aboutCell = self.tableView.dequeueReusableCell(withIdentifier: kPRODUCT_DETAIL_ABOUT_CELL) as! ProductDetailAboutCell
+            aboutCell.nameLabel.text = product.name
+            aboutCell.priceLabel.text = "$\(String(product.price))"
             return aboutCell
         case .Similar:
             let similarCell = self.tableView.dequeueReusableCell(withIdentifier: kPRODUCT_DETAIL_SIMILAR_CELL) as! ProductDetailSimilarCell
-             similarCell.productCollectionView.dataSource = self
+            similarCell.productCollectionView.dataSource = self
             similarCell.productCollectionView.delegate = self
+            self.similarProductsCollectionView = similarCell.productCollectionView
+            DispatchQueue.main.async{ self.similarProductsCollectionView?.reloadData() }
+            
             return similarCell
         }
     }
@@ -122,11 +148,15 @@ extension ProductDetailViewController: UITableViewDelegate {
 
 extension ProductDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return similarProducts?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductEntityCell.kPRODUCT_ENTITY_CELL, for: indexPath) as? ProductEntityCell
+        cell?.nameLabel.text = similarProducts?[indexPath.item].name
+        if let product = similarProducts?[indexPath.item] {
+            cell?.priceLabel.text = "$\(String(product.price))"
+        }
         return cell ?? UICollectionViewCell()
     }
 }
@@ -141,7 +171,19 @@ extension ProductDetailViewController: UICollectionViewDelegate {
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.performSegue(withIdentifier: "showProductDetail", sender: nil)
+        var newProduct = similarProducts
+        if let  selectedProduct = newProduct?.remove(at: indexPath.item) {
+            if (newProduct?.count)! > 0  {
+                newProduct?.insert(selectedProduct, at: 0)
+                newProduct?.append(self.product)
+            }
+            else {
+                newProduct = [Product]()
+                newProduct?.append(selectedProduct)
+                newProduct?.append(self.product)
+            }
+        }
+        self.performSegue(withIdentifier: "showProductDetail", sender: newProduct)
     }
 }
 

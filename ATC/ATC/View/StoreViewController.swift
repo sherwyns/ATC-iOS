@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import MBProgressHUD
+import KSToastView
 
 class StoreViewController: UIViewController, EntityProtocol {
     
@@ -15,8 +17,14 @@ class StoreViewController: UIViewController, EntityProtocol {
     @IBOutlet weak var categoryContainer: UIView!
     @IBOutlet weak var categoryListContainer: UIView!
     @IBOutlet weak var categoryCollectionView: UICollectionView!
+    @IBOutlet weak var storeName: UILabel!
+    @IBOutlet weak var storeNeighbourhood: UILabel!
+    
+    @IBOutlet weak var HUD:MBProgressHUD!
     
     var entityViewController: EntityViewController?
+    var store:Store!
+    var selectedIndex = 0
     
     let kCATEGORY_CELL = "CategoryCell"
     let kCATEGORY_HIGHLIGHT_CELL = "CategoryHighlightCell"
@@ -31,6 +39,11 @@ class StoreViewController: UIViewController, EntityProtocol {
         registerCollectionViewCells()
         self.categoryCollectionView.dataSource = self
         self.categoryCollectionView.delegate = self
+        
+        self.storeName.text = store.name
+        self.storeNeighbourhood.text = store.neighbourhood
+        
+        self.getProductByStore()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -41,6 +54,24 @@ class StoreViewController: UIViewController, EntityProtocol {
                 self.entityViewController?.entityType = .Product
                 if let _ = self.entityViewController?.view {
                     self.entityViewController?.collectionView.backgroundColor = grayColor
+                }
+                
+            }
+        }
+        
+        if segue.identifier == "showStoreDetail" {
+            if let storeDetailViewController = segue.destination as? StoreDetailViewController {
+                storeDetailViewController.store = self.store
+            }
+        }
+        
+        if segue.identifier == "showProductDetail" {
+            if let productDetailViewController = segue.destination as? ProductDetailViewController {
+                if let products = sender as? [Product] {
+                    productDetailViewController.product = products.first
+                    var tempProduct = products
+                    tempProduct.removeFirst()
+                    productDetailViewController.similarProducts = tempProduct
                 }
                 
             }
@@ -80,12 +111,14 @@ class StoreViewController: UIViewController, EntityProtocol {
 
 extension StoreViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return self.store.categories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = self.categoryCollectionView.dequeueReusableCell(withReuseIdentifier: kCATEGORY_HIGHLIGHT_CELL, for: indexPath) as? CategoryHighlightCell
-        if indexPath.item == 0 {
+        let name = self.store.categories[indexPath.item].name
+        cell?.typeLabel.text = name
+        if indexPath.item == selectedIndex {
             cell?.applySelection()
         }
         else {
@@ -110,10 +143,111 @@ extension StoreViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.parent?.performSegue(withIdentifier: "showProductDetail", sender: nil)
+        self.entityViewController?.products = self.store.categories[indexPath.item].products
+        selectedIndex = indexPath.item
+        reloadCategory()
+    }
+    
+    func reloadCategory() {
+        DispatchQueue.main.async { self.categoryCollectionView.reloadData() }
     }
 }
 
 extension StoreViewController: UICollectionViewDelegateFlowLayout {
     
+}
+
+extension StoreViewController {
+    // MARK: - HUD
+    func addHUDToView() {
+        HUD = MBProgressHUD(view: self.view)
+        self.view.addSubview(HUD)
+        HUD.frame.origin = CGPoint(x: self.view.frame.origin.x/2, y: self.view.frame.origin.y/2)
+        HUD.frame.size  = CGSize(width: 50, height: 50)
+        
+        HUD.mode = MBProgressHUDMode.indeterminate
+        HUD.isUserInteractionEnabled = true
+    }
+    func showHUD(){
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.HUD.show(animated: true)
+        })
+    }
+    
+    func hideHUD(){
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.HUD.hide(animated: true)
+        })
+    }
+}
+
+extension StoreViewController {
+    func getProductByStore() {
+        let urlString = "\(ApiServiceURL.apiInterface(.getProductByStore))\(store.storeId)"
+        
+        DispatchQueue.main.async {
+            self.showHUD()
+        }
+        Downloader.getStoreJSONUsingURLSession(url: urlString) { (result, errorString) in
+            if let error = errorString {
+                KSToastView.ks_showToast(error)
+            }
+            else {
+                if let result = result, let productDictionaryArray = result["data"] as? Array<Dictionary<String, Any>> {
+                    print("Parsing passed")
+                    var uncategorisedProduct = [Product]()
+                    
+                    // get categoryId only
+                    var categoryIdSet:Set = Set<Int>()
+                    for productDictionary in productDictionaryArray {
+                        let product = Product.init(dictionary: productDictionary)
+                        categoryIdSet.insert(product.categoryId)
+                        uncategorisedProduct.append(product)
+                    }
+                    
+                    print(categoryIdSet)
+                    
+                    var categoryArray = [Category]()
+                    
+                    for categoryId in categoryIdSet {
+                        
+                        let products = uncategorisedProduct.filter{$0.categoryId == categoryId}
+                        var dictionary = Dictionary<String, Any>()
+                        
+                        if let product = products.first {
+                            dictionary["name"] = product.categoryName
+                        }
+                        else {
+                            dictionary["name"] = "Category"
+                        }
+                        
+                        dictionary["id"] = categoryId
+                        dictionary["products"] = products
+                        
+                        let category = Category.init(dictionary: dictionary)
+                        categoryArray.append(category)
+                    }
+                    
+                    for category in categoryArray {
+                        print(category.name)
+                    }
+                    
+                    self.store.categories = categoryArray
+                    
+                    if let category = self.store.categories.first, category.products.count > 0 {
+                        self.entityViewController?.products = category.products
+                    }
+                    self.reloadCategory()
+                    
+                }
+                else {
+                    print("Parsing failed")
+                }
+            }
+            
+            DispatchQueue.main.async {
+                self.hideHUD()
+            }
+        }
+    }
 }

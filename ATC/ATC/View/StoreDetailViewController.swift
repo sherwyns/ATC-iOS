@@ -25,9 +25,9 @@ class StoreDetailViewController: UIViewController {
     
     let grayColor = UIColor.init(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1)
     
-    var storeDescription = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et doloreincididunt ut labore et dolore Lorem ipsum dolor sit amet, consectetur "
-    
     @IBOutlet weak var tableView: UITableView!
+    
+    var store:Store!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,9 +67,14 @@ extension StoreDetailViewController: UITableViewDataSource {
         switch cellType {
         case .Header:
             let headerCell = self.tableView.dequeueReusableCell(withIdentifier: kStoreDetailHeaderCell) as! StoreDetailHeaderCell
+            if let imageUrl = URL.init(string: store.imageUrl) {
+                headerCell.shopImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "pep-pizza"))
+            }
+            headerCell.shopLabel.text = store.name
             return headerCell
         case .Detail:
             let aboutCell = self.tableView.dequeueReusableCell(withIdentifier: kStoreDetailAboutCell) as! StoreDetailAboutCell
+            aboutCell.descriptionLabel.text = store.description
             return aboutCell
         case .Map:
             let mapCell = self.tableView.dequeueReusableCell(withIdentifier: kStoreDetailMapCell) as! StoreDetailMapCell
@@ -88,7 +93,7 @@ extension StoreDetailViewController: UITableViewDelegate {
         case .Detail:
             let maxLabelWidth: CGFloat = self.view.frame.size.width - 16
             let aboutCell = self.tableView.dequeueReusableCell(withIdentifier: kStoreDetailAboutCell) as! StoreDetailAboutCell
-            aboutCell.descriptionLabel.text = storeDescription
+            aboutCell.descriptionLabel.text = store.description
             let neededSize = aboutCell.descriptionLabel.sizeThatFits(CGSize(width: maxLabelWidth, height: CGFloat.greatestFiniteMagnitude))
             return 115 + neededSize.height
         case .Map:
