@@ -55,7 +55,7 @@
                             <constraint firstAttribute="height" constant="49" id="3rT-aq-Tf0"/>
                             <constraint firstAttribute="width" constant="49" id="miB-zH-le5"/>
                         </constraints>
-                        <state key="normal" image="language_white"/>
+                        <state key="normal" image="outline_language_white_18dp"/>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ly1-G6-Xfk" userLabel="Call Button" customClass="SegButton" customModule="ATC" customModuleProvider="target">
                         <rect key="frame" x="202" y="128.5" width="49" height="49"/>
@@ -73,7 +73,7 @@
                             <constraint firstAttribute="width" constant="49" id="IGF-CD-qGA"/>
                             <constraint firstAttribute="height" constant="49" id="fDG-fI-mxJ"/>
                         </constraints>
-                        <state key="normal" image="phone_in_talk"/>
+                        <state key="normal" image="outline_phone_in_talk_white_18dp"/>
                     </button>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -114,8 +114,8 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="language_white" width="48" height="48"/>
         <image name="mail_outline_white" width="72" height="72"/>
-        <image name="phone_in_talk" width="24" height="24"/>
+        <image name="outline_language_white_18dp" width="36" height="36"/>
+        <image name="outline_phone_in_talk_white_18dp" width="36" height="36"/>
     </resources>
 </document>

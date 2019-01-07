@@ -30,6 +30,7 @@
 		32371DAE217CC8260020AD13 /* ATCTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32371DAD217CC8260020AD13 /* ATCTabBarViewController.swift */; };
 		32371DB4217CCADF0020AD13 /* ATCUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32371DB3217CCADF0020AD13 /* ATCUserDefaults.swift */; };
 		32371DB6217CCDF50020AD13 /* Credential.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32371DB5217CCDF50020AD13 /* Credential.storyboard */; };
+		323864E221C89F72001C50DF /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323864E121C89F72001C50DF /* FilterViewController.swift */; };
 		3242F0BA217BA8BA009E1A63 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3242F0B9217BA8BA009E1A63 /* AppDelegate.swift */; };
 		3242F0BC217BA8BA009E1A63 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3242F0BB217BA8BA009E1A63 /* ViewController.swift */; };
 		3242F0BF217BA8BA009E1A63 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3242F0BD217BA8BA009E1A63 /* Main.storyboard */; };
@@ -54,6 +55,7 @@
 		325FEFC621A5C798005EB101 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 325FEFBA21A5C798005EB101 /* Roboto-Regular.ttf */; };
 		325FEFC721A5C798005EB101 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 325FEFBB21A5C798005EB101 /* Roboto-Light.ttf */; };
 		325FEFC821A5C798005EB101 /* Roboto-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 325FEFBC21A5C798005EB101 /* Roboto-ThinItalic.ttf */; };
+		326C323921E398DF0045F34C /* ListAllEntityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326C323821E398DF0045F34C /* ListAllEntityViewController.swift */; };
 		32824A5B218C8B060016CD3F /* ATCSlideMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32824A5A218C8B060016CD3F /* ATCSlideMenu.swift */; };
 		32824A5D218C91B10016CD3F /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32824A5C218C91B10016CD3F /* SettingViewController.swift */; };
 		32B12E7B217E008000BB1299 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B12E7A217E008000BB1299 /* Downloader.swift */; };
@@ -63,6 +65,12 @@
 		32B12E83217E07AB00BB1299 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B12E82217E07AB00BB1299 /* Extensions.swift */; };
 		32D27EC221B4392500A0D6FB /* ProductEntityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D27EC021B4392500A0D6FB /* ProductEntityCell.swift */; };
 		32D27EC321B4392500A0D6FB /* ProductEntityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32D27EC121B4392500A0D6FB /* ProductEntityCell.xib */; };
+		32DCA38521E267C300276D27 /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DCA38321E267C300276D27 /* FilterCell.swift */; };
+		32DCA38621E267C300276D27 /* FilterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32DCA38421E267C300276D27 /* FilterCell.xib */; };
+		32E682EB21C6701900609E93 /* TableHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E682EA21C6701900609E93 /* TableHeader.swift */; };
+		32E682EF21C6706200609E93 /* TableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32E682EE21C6706200609E93 /* TableHeader.xib */; };
+		32E682F221C6770300609E93 /* SearchEntityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E682F021C6770300609E93 /* SearchEntityCell.swift */; };
+		32E682F321C6770300609E93 /* SearchEntityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32E682F121C6770300609E93 /* SearchEntityCell.xib */; };
 		32E7A483218F17C100669545 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E7A482218F17C100669545 /* SearchViewController.swift */; };
 		32F707B321A1E23D00A6D592 /* EntityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F707B221A1E23D00A6D592 /* EntityViewController.swift */; };
 		32F707B621A1F13700A6D592 /* EntityViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F707B421A1F13700A6D592 /* EntityViewCell.swift */; };
@@ -102,7 +110,7 @@
 		3212FC3221B316EB000E8F45 /* ATC.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = ATC.entitlements; sourceTree = "<group>"; };
 		32133C5F21B108A200E1635B /* StoreDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreDetailViewController.swift; sourceTree = "<group>"; };
 		32133C6121B108B400E1635B /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
-		32133C6321B108D600E1635B /* StoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StoreViewController.swift; path = "/Users/drathinavel/Desktop/New Folder With Items/ATC-iOS/ATC/ATC/View/StoreViewController.swift"; sourceTree = "<absolute>"; };
+		32133C6321B108D600E1635B /* StoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StoreViewController.swift; path = "/Users/drathinavel/Desktop/New Folder With Items/ATC-iOS/ATC/ATC/View/StoreViewController.swift"; sourceTree = "<absolute>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		32133C6721B11D0A00E1635B /* CategoryHighlightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryHighlightCell.swift; sourceTree = "<group>"; };
 		32133C6821B11D0A00E1635B /* CategoryHighlightCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryHighlightCell.xib; sourceTree = "<group>"; };
 		32133C6B21B11D2D00E1635B /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
@@ -118,6 +126,7 @@
 		32371DB3217CCADF0020AD13 /* ATCUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ATCUserDefaults.swift; sourceTree = "<group>"; };
 		32371DB5217CCDF50020AD13 /* Credential.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Credential.storyboard; sourceTree = "<group>"; };
 		32371E33217D7D900020AD13 /* ATC-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ATC-Bridging-Header.h"; sourceTree = "<group>"; };
+		323864E121C89F72001C50DF /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		3242F0B6217BA8BA009E1A63 /* ATC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ATC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3242F0B9217BA8BA009E1A63 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3242F0BB217BA8BA009E1A63 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -148,6 +157,7 @@
 		325FEFBA21A5C798005EB101 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Regular.ttf"; path = "../../../../../../Downloads/fonts/Roboto/Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		325FEFBB21A5C798005EB101 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
 		325FEFBC21A5C798005EB101 /* Roboto-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-ThinItalic.ttf"; sourceTree = "<group>"; };
+		326C323821E398DF0045F34C /* ListAllEntityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListAllEntityViewController.swift; sourceTree = "<group>"; };
 		32824A5A218C8B060016CD3F /* ATCSlideMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ATCSlideMenu.swift; sourceTree = "<group>"; };
 		32824A5C218C91B10016CD3F /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		32B12E7A217E008000BB1299 /* Downloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
@@ -157,6 +167,12 @@
 		32B12E82217E07AB00BB1299 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		32D27EC021B4392500A0D6FB /* ProductEntityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductEntityCell.swift; sourceTree = "<group>"; };
 		32D27EC121B4392500A0D6FB /* ProductEntityCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProductEntityCell.xib; sourceTree = "<group>"; };
+		32DCA38321E267C300276D27 /* FilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
+		32DCA38421E267C300276D27 /* FilterCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterCell.xib; sourceTree = "<group>"; };
+		32E682EA21C6701900609E93 /* TableHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableHeader.swift; sourceTree = "<group>"; };
+		32E682EE21C6706200609E93 /* TableHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableHeader.xib; sourceTree = "<group>"; };
+		32E682F021C6770300609E93 /* SearchEntityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEntityCell.swift; sourceTree = "<group>"; };
+		32E682F121C6770300609E93 /* SearchEntityCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchEntityCell.xib; sourceTree = "<group>"; };
 		32E7A482218F17C100669545 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		32F707B221A1E23D00A6D592 /* EntityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityViewController.swift; sourceTree = "<group>"; };
 		32F707B421A1F13700A6D592 /* EntityViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityViewCell.swift; sourceTree = "<group>"; };
@@ -270,6 +286,8 @@
 		32371DAF217CCA3F0020AD13 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				323864DC21C89DA7001C50DF /* FilterCell */,
+				32E682E921C66FD200609E93 /* TableHeader */,
 				3218ABCE21B55C030098F761 /* ProductDetailSimilarCell */,
 				3218ABC921B55AD30098F761 /* ProductDetailAboutCell */,
 				32058AB921B55935007C50BE /* ProductDetailHeaderCell */,
@@ -280,6 +298,7 @@
 				32346EF321B28FCB00CB0452 /* StoreDetailHeaderCell */,
 				32133C6621B11CCC00E1635B /* CategoryHighlightCell */,
 				32133C6521B11CA000E1635B /* CategoryCell */,
+				32E682F421C6770800609E93 /* SearchEntityCell */,
 				3242F0BB217BA8BA009E1A63 /* ViewController.swift */,
 				32371DAD217CC8260020AD13 /* ATCTabBarViewController.swift */,
 				32B12E7E217E04BD00BB1299 /* LoginViewController.swift */,
@@ -294,6 +313,8 @@
 				32133C5F21B108A200E1635B /* StoreDetailViewController.swift */,
 				32133C6321B108D600E1635B /* StoreViewController.swift */,
 				32133C6121B108B400E1635B /* ProductDetailViewController.swift */,
+				323864E121C89F72001C50DF /* FilterViewController.swift */,
+				326C323821E398DF0045F34C /* ListAllEntityViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -309,6 +330,15 @@
 				32FB543321863C5600D437EC /* LoginManager.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		323864DC21C89DA7001C50DF /* FilterCell */ = {
+			isa = PBXGroup;
+			children = (
+				32DCA38321E267C300276D27 /* FilterCell.swift */,
+				32DCA38421E267C300276D27 /* FilterCell.xib */,
+			);
+			path = FilterCell;
 			sourceTree = "<group>";
 		};
 		3242F0AD217BA8BA009E1A63 = {
@@ -412,6 +442,24 @@
 				32D27EC121B4392500A0D6FB /* ProductEntityCell.xib */,
 			);
 			path = ProductEntityCell;
+			sourceTree = "<group>";
+		};
+		32E682E921C66FD200609E93 /* TableHeader */ = {
+			isa = PBXGroup;
+			children = (
+				32E682EA21C6701900609E93 /* TableHeader.swift */,
+				32E682EE21C6706200609E93 /* TableHeader.xib */,
+			);
+			path = TableHeader;
+			sourceTree = "<group>";
+		};
+		32E682F421C6770800609E93 /* SearchEntityCell */ = {
+			isa = PBXGroup;
+			children = (
+				32E682F021C6770300609E93 /* SearchEntityCell.swift */,
+				32E682F121C6770300609E93 /* SearchEntityCell.xib */,
+			);
+			path = SearchEntityCell;
 			sourceTree = "<group>";
 		};
 		32F707B821A1F13B00A6D592 /* EntityView */ = {
@@ -584,12 +632,15 @@
 				325FEFC521A5C798005EB101 /* Roboto-Medium.ttf in Resources */,
 				3242F0C4217BA8BB009E1A63 /* LaunchScreen.storyboard in Resources */,
 				3218ABD221B55C570098F761 /* ProductDetailSimilarCell.xib in Resources */,
+				32E682F321C6770300609E93 /* SearchEntityCell.xib in Resources */,
 				3218ABCD21B55AF10098F761 /* ProductDetailAboutCell.xib in Resources */,
 				32FB5432218639E500D437EC /* credentials.plist in Resources */,
 				325FEFC421A5C798005EB101 /* Roboto-LightItalic.ttf in Resources */,
 				3242F0C1217BA8BB009E1A63 /* Assets.xcassets in Resources */,
 				32F707B721A1F13700A6D592 /* EntityViewCell.xib in Resources */,
+				32DCA38621E267C300276D27 /* FilterCell.xib in Resources */,
 				3212FC2C21B297AB000E8F45 /* StoreDetailAboutCell.xib in Resources */,
+				32E682EF21C6706200609E93 /* TableHeader.xib in Resources */,
 				32058ABD21B55968007C50BE /* ProductDetailHeaderCell.xib in Resources */,
 				3242F0BF217BA8BA009E1A63 /* Main.storyboard in Resources */,
 				3212FC3121B297E6000E8F45 /* StoreDetailMapCell.xib in Resources */,
@@ -732,7 +783,9 @@
 				3246CB4821A38D5600841C61 /* SharedObjects.swift in Sources */,
 				3246CB4221A2D4D000841C61 /* Store.swift in Sources */,
 				32133C6D21B11D2D00E1635B /* CategoryCell.swift in Sources */,
+				32E682EB21C6701900609E93 /* TableHeader.swift in Sources */,
 				32346EF621B2900300CB0452 /* StoreDetailHeaderCell.swift in Sources */,
+				326C323921E398DF0045F34C /* ListAllEntityViewController.swift in Sources */,
 				32B12E7F217E04BD00BB1299 /* LoginViewController.swift in Sources */,
 				32F707B321A1E23D00A6D592 /* EntityViewController.swift in Sources */,
 				32B12E83217E07AB00BB1299 /* Extensions.swift in Sources */,
@@ -748,6 +801,7 @@
 				32D27EC221B4392500A0D6FB /* ProductEntityCell.swift in Sources */,
 				32371DAE217CC8260020AD13 /* ATCTabBarViewController.swift in Sources */,
 				32E7A483218F17C100669545 /* SearchViewController.swift in Sources */,
+				32E682F221C6770300609E93 /* SearchEntityCell.swift in Sources */,
 				32824A5B218C8B060016CD3F /* ATCSlideMenu.swift in Sources */,
 				32F707BB21A21ED400A6D592 /* SegButton.swift in Sources */,
 				32FB543421863C5600D437EC /* LoginManager.swift in Sources */,
@@ -756,7 +810,9 @@
 				3218ABD121B55C570098F761 /* ProductDetailSimilarCell.swift in Sources */,
 				32133C6921B11D0A00E1635B /* CategoryHighlightCell.swift in Sources */,
 				32F707BD21A2227100A6D592 /* FavoriteViewController.swift in Sources */,
+				32DCA38521E267C300276D27 /* FilterCell.swift in Sources */,
 				3246CB3F21A2CF5400841C61 /* HomeViewController.swift in Sources */,
+				323864E221C89F72001C50DF /* FilterViewController.swift in Sources */,
 				3242F0BA217BA8BA009E1A63 /* AppDelegate.swift in Sources */,
 				32B12E7D217E012D00BB1299 /* Constants.swift in Sources */,
 				32F707B621A1F13700A6D592 /* EntityViewCell.swift in Sources */,
@@ -941,7 +997,7 @@
 				CODE_SIGN_ENTITLEMENTS = ATC/ATC.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = V7N7G3R6AN;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ATC",
@@ -951,9 +1007,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.enqos.atcc;
+				PRODUCT_BUNDLE_IDENTIFIER = com.enqos.atc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "ATC Development";
 				SWIFT_OBJC_BRIDGING_HEADER = "ATC/ATC-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
@@ -970,7 +1026,7 @@
 				CODE_SIGN_ENTITLEMENTS = ATC/ATC.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = V7N7G3R6AN;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ATC",
@@ -980,9 +1036,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.enqos.atcc;
+				PRODUCT_BUNDLE_IDENTIFIER = com.enqos.atc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "ATC Development";
 				SWIFT_OBJC_BRIDGING_HEADER = "ATC/ATC-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";

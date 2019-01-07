@@ -19,6 +19,7 @@ class EntityViewController: UIViewController {
     let kRIGHT_INSET = 8.0
     
     var isFiltered = false
+    var isFromSearch = false
     var kWIDTH_CELL: CGFloat {
         let insettedWidth = Int((self.view.frame.size.width - 24))
         if (insettedWidth%2) == 0 {
@@ -35,8 +36,9 @@ class EntityViewController: UIViewController {
     @IBOutlet var collectionView: UICollectionView!
     
     let kENTITY_VIEW = "EntityViewCell"
+    let grayColor = UIColor.init(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1)
     
-    fileprivate let sectionInsets = UIEdgeInsets(top: 0.0, left: 8.0, bottom: 50.0, right: 8.0)
+    fileprivate let sectionInsets = UIEdgeInsets(top: 10.0, left: 8.0, bottom: 50.0, right: 8.0)
     
     var stores: [Store]? {
         didSet {
@@ -56,16 +58,20 @@ class EntityViewController: UIViewController {
         self.collectionView.delegate = self
         self.collectionView.register(UINib.init(nibName: kENTITY_VIEW, bundle: nil), forCellWithReuseIdentifier: kENTITY_VIEW)
         self.collectionView.register(UINib.init(nibName: ProductEntityCell.kPRODUCT_ENTITY_CELL, bundle: nil), forCellWithReuseIdentifier: ProductEntityCell.kPRODUCT_ENTITY_CELL)
+        self.collectionView.register(UINib.init(nibName: "FilterCell", bundle: nil), forCellWithReuseIdentifier: "FilterCell")
+        self.view.backgroundColor = grayColor
+        self.collectionView.backgroundColor = grayColor
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        if isFiltered {
-            self.stores = SharedObjects.shared.storesForFavorite
-        }
-        else {
-            self.stores = SharedObjects.shared.stores
+        if !isFromSearch {
+            if isFiltered {
+                self.stores = SharedObjects.shared.storesForFavorite
+            }
+            else {
+                self.stores = SharedObjects.shared.stores
+            }
         }
         self.collectionView.reloadData()
     }
@@ -91,8 +97,10 @@ extension EntityViewController: UICollectionViewDataSource {
         cell?.nameLabel.text = products?[indexPath.item].name
         if let product = products?[indexPath.item] {
             cell?.priceLabel.text = "$\(String(product.price))"
+            if let url = URL.init(string: product.imageUrl) {
+                cell?.bannerImageView.setImageWith(url, placeholderImage: UIImage.init(named: "placeholder"))
+            }
         }
-        
         return cell ?? UICollectionViewCell()
     case .Store:
         let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: kENTITY_VIEW, for: indexPath) as? EntityViewCell
@@ -100,7 +108,7 @@ extension EntityViewController: UICollectionViewDataSource {
             cell?.name.text = store.name.capitalizeFirst
             cell?.subName.text = store.neighbourhood
             if let imageUrl = URL.init(string: store.imageUrl) {
-                cell?.bannerImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "pep-pizza"))
+                cell?.bannerImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "placeholder"))
             }
             
             cell?.favoritebutton.tag = indexPath.item

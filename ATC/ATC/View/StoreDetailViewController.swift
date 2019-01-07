@@ -68,7 +68,13 @@ extension StoreDetailViewController: UITableViewDataSource {
         case .Header:
             let headerCell = self.tableView.dequeueReusableCell(withIdentifier: kStoreDetailHeaderCell) as! StoreDetailHeaderCell
             if let imageUrl = URL.init(string: store.imageUrl) {
-                headerCell.shopImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "pep-pizza"))
+                headerCell.shopImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "placeholder"))
+            }
+            
+            if self.store.isFavorite {
+                headerCell.favoriteButton.setImage(UIImage.init(named: "favorite"), for: .normal)
+            }else {
+                headerCell.favoriteButton.setImage(UIImage.init(named: "unfavorite"), for: .normal)
             }
             headerCell.shopLabel.text = store.name
             return headerCell

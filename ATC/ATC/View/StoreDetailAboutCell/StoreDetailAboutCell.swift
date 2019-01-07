@@ -2,7 +2,7 @@
 //  StoreDetailAboutCell.swift
 //  ATC
 //
-//  Created by Rathinavel, Dhandapani(AWF) on 01/12/18.
+//  Created by Rathinavel, Dhandapani on 01/12/18.
 //  Copyright © 2018 Rathinavel, Dhandapani. All rights reserved.
 //
 
@@ -23,7 +23,7 @@ class StoreDetailAboutCell: UITableViewCell {
         mailButton.layer.cornerRadius = 24.5
         globeButton.layer.cornerRadius = 24.5
         
-        callButton.applyGradient(withColours: [UIColor.lightBlue(), UIColor.darkBlue()], gradientOrientation: .vertical)
+       callButton.applyGradient(withColours: [UIColor.lightBlue(), UIColor.darkBlue()], gradientOrientation: .vertical)
         mailButton.applyGradient(withColours: [UIColor.lightBlue(), UIColor.darkBlue()], gradientOrientation: .vertical)
         globeButton.applyGradient(withColours: [UIColor.lightBlue(), UIColor.darkBlue()], gradientOrientation: .vertical)
         

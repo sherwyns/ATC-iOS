@@ -47,6 +47,10 @@ class FavoriteViewController: UIViewController, EntityProtocol {
                 self.entityViewController?.isFiltered = true
             }
         }
+        
+        if segue.identifier == "showStore", let store = sender as? Store, let storeViewController = segue.destination as? StoreViewController  {
+            storeViewController.store = store
+        }
     }
     
     
@@ -132,16 +136,16 @@ extension FavoriteViewController {
 extension UIViewController {
     //MARK: - Custom Actions
     func showLogInAlert() {
-        let alertController = UIAlertController.init(title: "Alert", message: "Kindly log in to proceed furter", preferredStyle: .alert)
+//        let alertController = UIAlertController.init(title: "Alert", message: "Kindly log in to proceed furter", preferredStyle: .alert)
         
-        let okayAction = UIAlertAction.init(title: "Okay", style: .default) { (action) in
+//        ?let okayAction = UIAlertAction.init(title: "Okay", style: .default) { (action) in
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             appDelegate.tabbarController.selectedViewController = appDelegate.tabbarController.viewControllers?[1]
             NotificationCenter.default.post(name: NotificationConstant.showRegistration, object: nil)
-        }
+//        }
         
-        alertController.addAction(okayAction)
-        
-        self.present(alertController, animated: true, completion: nil)
+//        alertController.addAction(okayAction)
+//
+//        self.present(alertController, animated: true, completion: nil)
     }
 }

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Roboto-Regular.ttf">
+            <string>Roboto-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="TableHeader" customModule="ATC" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="445" height="49"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Products" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7hb-Hh-lxo">
+                    <rect key="frame" x="14" y="0.0" width="200" height="49"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="200" id="sZi-R8-mLh"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1IB-wV-Bfg">
+                    <rect key="frame" x="400" y="5" width="50" height="39"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="50" id="fnV-Qu-esU"/>
+                    </constraints>
+                    <state key="normal" image="forwardBlack"/>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="1IB-wV-Bfg" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="5" id="3Oq-aX-oGo"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="7hb-Hh-lxo" secondAttribute="bottom" id="6Q2-ro-fSV"/>
+                <constraint firstItem="7hb-Hh-lxo" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="14" id="VId-H9-kof"/>
+                <constraint firstItem="7hb-Hh-lxo" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="WKe-MG-usP"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="1IB-wV-Bfg" secondAttribute="bottom" constant="5" id="aUs-pk-rr2"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="1IB-wV-Bfg" secondAttribute="trailing" constant="-5" id="wfh-0h-UNp"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="button" destination="1IB-wV-Bfg" id="utT-Ap-voO"/>
+                <outlet property="label" destination="7hb-Hh-lxo" id="dwc-OA-6OE"/>
+            </connections>
+            <point key="canvasLocation" x="-63.200000000000003" y="-241.52923538230885"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="forwardBlack" width="48" height="50"/>
+    </resources>
+</document>

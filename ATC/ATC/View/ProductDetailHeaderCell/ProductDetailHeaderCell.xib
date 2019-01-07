@@ -18,7 +18,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="332" height="119.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pep-pizza" translatesAutoresizingMaskIntoConstraints="NO" id="dZv-86-9IP">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="dZv-86-9IP">
                         <rect key="frame" x="8" y="8" width="316" height="103.5"/>
                     </imageView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GsT-2A-VE9">
@@ -51,7 +51,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="pep-pizza" width="1000" height="750"/>
+        <image name="placeholder" width="493" height="391"/>
         <image name="unfavorite" width="50" height="50"/>
     </resources>
 </document>

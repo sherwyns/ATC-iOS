@@ -19,10 +19,12 @@ class HomeViewController: UIViewController, EntityProtocol {
     var entityViewController: EntityViewController?
     var stores: [Store]?
     
+    let grayColor = UIColor.init(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         filterButton.imageEdgeInsets = UIEdgeInsets(top: 11, left:11, bottom: 11, right: 11)
-        
+        self.view.backgroundColor = grayColor
     }
     
     override func viewDidAppear(_ animated: Bool) {

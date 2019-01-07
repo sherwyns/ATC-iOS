@@ -29,7 +29,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VeI-L7-dVk">
                         <rect key="frame" x="8" y="0.0" width="304" height="199.5"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pep-pizza" translatesAutoresizingMaskIntoConstraints="NO" id="Y7L-2F-Qty">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="Y7L-2F-Qty">
                                 <rect key="frame" x="0.0" y="0.0" width="304" height="199.5"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lhm-Pg-Iep">
@@ -116,7 +116,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="pep-pizza" width="1000" height="750"/>
+        <image name="placeholder" width="493" height="391"/>
         <image name="shopThumb" width="152" height="152"/>
         <image name="unfavorite" width="50" height="50"/>
     </resources>

@@ -244,3 +244,11 @@ extension UIView {
     }
   }
 }
+
+class SocialButton : UIButton {
+    override func imageRect(forContentRect contentRect: CGRect) -> CGRect {
+        var rect = super.imageRect(forContentRect: contentRect)
+        rect.origin.x = rect.origin.x - 10
+        return rect
+    }
+}

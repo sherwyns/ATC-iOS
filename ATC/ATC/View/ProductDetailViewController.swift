@@ -107,6 +107,9 @@ extension ProductDetailViewController: UITableViewDataSource {
         switch cellType {
         case .Header:
             let headerCell = self.tableView.dequeueReusableCell(withIdentifier: kPRODUCT_DETAIL_HEADER_CELL) as! ProductDetailHeaderCell
+            if let url = URL.init(string: product.imageUrl) {
+                headerCell.productImageView.setImageWith(url, placeholderImage: UIImage.init(named: "placeholder"))
+            }
             return headerCell
         case .About:
             let aboutCell = self.tableView.dequeueReusableCell(withIdentifier: kPRODUCT_DETAIL_ABOUT_CELL) as! ProductDetailAboutCell
@@ -156,6 +159,9 @@ extension ProductDetailViewController: UICollectionViewDataSource {
         cell?.nameLabel.text = similarProducts?[indexPath.item].name
         if let product = similarProducts?[indexPath.item] {
             cell?.priceLabel.text = "$\(String(product.price))"
+            if let url = URL.init(string: product.imageUrl) {
+                cell?.bannerImageView.setImageWith(url, placeholderImage: UIImage.init(named: "placeholder"))
+            }
         }
         return cell ?? UICollectionViewCell()
     }

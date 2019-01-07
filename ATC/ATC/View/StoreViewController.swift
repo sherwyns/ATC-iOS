@@ -19,6 +19,7 @@ class StoreViewController: UIViewController, EntityProtocol {
     @IBOutlet weak var categoryCollectionView: UICollectionView!
     @IBOutlet weak var storeName: UILabel!
     @IBOutlet weak var storeNeighbourhood: UILabel!
+    @IBOutlet weak var headerStoreLabel: UIButton!
     
     @IBOutlet weak var HUD:MBProgressHUD!
     
@@ -36,11 +37,13 @@ class StoreViewController: UIViewController, EntityProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         customizeViews()
+        self.store.categories = [Category]()
         registerCollectionViewCells()
         self.categoryCollectionView.dataSource = self
         self.categoryCollectionView.delegate = self
         
         self.storeName.text = store.name
+        self.headerStoreLabel.setTitle(store.name, for: .normal)
         self.storeNeighbourhood.text = store.neighbourhood
         
         self.getProductByStore()
@@ -55,7 +58,6 @@ class StoreViewController: UIViewController, EntityProtocol {
                 if let _ = self.entityViewController?.view {
                     self.entityViewController?.collectionView.backgroundColor = grayColor
                 }
-                
             }
         }
         
@@ -95,6 +97,12 @@ class StoreViewController: UIViewController, EntityProtocol {
         favoriteButton.imageEdgeInsets = UIEdgeInsets(top: 8, left:8, bottom: 8, right: 8)
         favoriteButton.layer.borderColor = UIColor.lightGray.cgColor
         favoriteButton.layer.applySketchShadow(color: color, alpha: 1, x: 0.0, y: 3.0, blur: 14.9, spread: 1.1)
+        
+        if self.store.isFavorite {
+            favoriteButton.setImage(UIImage.init(named: "favorite"), for: .normal)
+        }else {
+            favoriteButton.setImage(UIImage.init(named: "unfavorite"), for: .normal)
+        }
         
         self.categoryContainer.backgroundColor = grayColor
         self.categoryCollectionView.backgroundColor = grayColor
@@ -231,6 +239,8 @@ extension StoreViewController {
                     for category in categoryArray {
                         print(category.name)
                     }
+                    
+                    categoryArray = categoryArray.sorted{$0.name < $1.name}
                     
                     self.store.categories = categoryArray
                     

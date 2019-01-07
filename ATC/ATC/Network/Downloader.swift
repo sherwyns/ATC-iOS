@@ -143,8 +143,9 @@ class Downloader {
         
         var request = URLRequest(url: serviceUrl)
         request.httpMethod = "GET"
+        let taskDelegate = TaskDelegate()
         
-        let session = URLSession.shared
+        let session = URLSession.init(configuration: URLSessionConfiguration.default, delegate: taskDelegate, delegateQueue: nil)
         session.dataTask(with: request) { (data, response, error) in
             if let response = response {
                 print(response)
@@ -250,5 +251,14 @@ class Downloader {
 //            completionHandler(nil, "Sorry there is some issue!")
 //
 //        }
+    }
+}
+
+
+class TaskDelegate: NSObject, URLSessionTaskDelegate {
+    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        //completionHandler(NSURLSessionAuthChallengeUseCredential, [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust]);
+        
+        completionHandler(.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
     }
 }

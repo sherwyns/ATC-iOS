@@ -33,5 +33,10 @@ class CategoryHighlightCell: UICollectionViewCell {
         self.applyGradient(withColours: [.white, .white], gradientOrientation: .horizontal)
         self.typeLabel.textColor = .black
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        typeLabel.text = ""
+    }
 
 }

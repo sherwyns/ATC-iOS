@@ -2,7 +2,7 @@
 //  ProductDetailAboutCell.swift
 //  ATC
 //
-//  Created by Rathinavel, Dhandapani(AWF) on 03/12/18.
+//  Created by Rathinavel, Dhandapani on 03/12/18.
 //  Copyright © 2018 Rathinavel, Dhandapani. All rights reserved.
 //
 

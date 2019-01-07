@@ -26,7 +26,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pep-pizza" translatesAutoresizingMaskIntoConstraints="NO" id="DS0-BU-UKg">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="DS0-BU-UKg">
                         <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aRt-fc-gsL">
@@ -92,7 +92,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="pep-pizza" width="1000" height="750"/>
+        <image name="placeholder" width="493" height="391"/>
         <image name="unfavorite" width="50" height="50"/>
     </resources>
 </document>
