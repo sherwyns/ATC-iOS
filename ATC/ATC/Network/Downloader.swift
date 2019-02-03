@@ -129,7 +129,7 @@ class Downloader {
                     }
                 }catch {
                     print(error)
-                    completionHandler(nil, error.localizedDescription)
+                    completionHandler(nil, "Please try again")
                 }
             }
         }.resume()
@@ -168,11 +168,52 @@ class Downloader {
                     }
                 }catch {
                     print(error)
-                    completionHandler(nil, error.localizedDescription)
+                    completionHandler(nil, "Please try again")
                 }
             }
             else {
-                completionHandler(nil, "unknown")
+                completionHandler(nil, "Please try again")
+            }
+            }.resume()
+    }
+    
+    static func getProductJSONUsingURLSession(url : String, completionHandler: @escaping (_ result :Any?, _ error: String?) -> Void) {
+    
+        guard let serviceUrl = URL(string: url) else { return }
+        
+        var request = URLRequest(url: serviceUrl)
+        request.httpMethod = "GET"
+        let taskDelegate = TaskDelegate()
+        
+        let session = URLSession.init(configuration: URLSessionConfiguration.default, delegate: taskDelegate, delegateQueue: nil)
+        session.dataTask(with: request) { (data, response, error) in
+            if let response = response {
+                print(response)
+            }
+            if let data = data {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as? Array<Dictionary<String, AnyObject?>>
+                    print(json!)
+                    if let json = json {
+                         completionHandler(json, nil)
+//                        if let error = json["error"] as? Dictionary<String, AnyObject>, let message = error["message"]  as? String {
+//                            completionHandler(nil, message)
+//                        }
+//                            //                        else if let id = json["id"] as? String{
+//                            //                            UserDefaults.standard.setValue(true, forKey: ATCUserDefaults.kIsUserLoggedIn)
+//                            //                            completionHandler(json, nil)
+//                            //                        }
+//                        else {
+//                            completionHandler(json, nil)
+//                        }
+                    }
+                }catch {
+                    print(error)
+                    completionHandler(nil, "Please try again")
+                }
+            }
+            else {
+                completionHandler(nil, "Please try again")
             }
             }.resume()
     }
@@ -209,11 +250,11 @@ class Downloader {
                     }
                 }catch {
                     print(error)
-                    completionHandler(nil, error.localizedDescription)
+                    completionHandler(nil, "Please try again")
                 }
             }
             else {
-                completionHandler(nil, "unknown")
+                completionHandler(nil, "Please try again")
             }
             }.resume()
     }
@@ -251,6 +292,33 @@ class Downloader {
 //            completionHandler(nil, "Sorry there is some issue!")
 //
 //        }
+    }
+    
+    static func retrieveCategories() {
+        let urlString = ApiServiceURL.apiInterface(APIMethod.getCategoriesList)
+        
+        Downloader.getStoreJSONUsingURLSession(url: urlString) { (result, errorString) in
+            if let error = errorString {
+                
+            }
+            else {
+                if let result = result, let categoryDictionaryArray = result["data"] as? Array<Dictionary<String, Any>> {
+                    var categories = [Category]()
+                    for categoryDictionary in categoryDictionaryArray {
+                        let category = Category.init(dictionary: categoryDictionary)
+                        categories.append(category)
+                    }
+                    
+                    var allDictionary = Dictionary<String, Any>()
+                    allDictionary["id"] = "-1"
+                    allDictionary["name"] = "All"
+                    
+                    var allCategory = Category.init(dictionary: allDictionary)
+                    categories.insert(allCategory, at: 0)
+                    SharedObjects.shared.categories = categories
+                }
+            }
+        }
     }
 }
 

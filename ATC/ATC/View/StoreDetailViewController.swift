@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SafariServices
+import MapKit
 
 enum StoreDetailCell {
     case Header
@@ -35,9 +37,10 @@ class StoreDetailViewController: UIViewController {
         
         self.tableView.backgroundColor = grayColor
         self.view.backgroundColor = grayColor
-        
+        store.isFavorite = SharedObjects.shared.isStoreFavorited(store: self.store)
         productButton.makeRoundedCorner()
         productButton.backgroundColor = UIColor.orange
+        getStoreDetails()
     }
     
     func registerCellForTableView() {
@@ -53,6 +56,31 @@ class StoreDetailViewController: UIViewController {
     
     @IBAction func showProducts()  {
         self.backAction()
+    }
+    
+    @objc func updateFavorite(sender : UIButton) {
+        if !ATCUserDefaults.isUserLoggedIn() {
+            let operationPayload = OperationPayload.init(payloadType: .Favorite, payloadData: self.store)
+            performLogIn(favoriteOperation: operationPayload)
+            return
+        }
+        SharedObjects.shared.updateWithNewOrExistingStoreId(selectedStore: self.store)
+        updateFavoriteButton(sender: sender)
+        store.isFavorite = SharedObjects.shared.isStoreFavorited(store: self.store)
+    }
+    
+    func updateFavoriteButton(sender: UIButton) {
+        if SharedObjects.shared.isStoreFavorited(store: self.store) {
+            sender.setImage(UIImage.init(named: "favorite"), for: .normal)
+        }
+        else {
+            sender.setImage(UIImage.init(named: "unfavorite"), for: .normal)
+        }
+    }
+    
+    @objc func openStoreUrl() {
+        let storeUrl = self.store.storeUrl
+        openLinkInSafariViewController(urlString: storeUrl)
     }
 }
 
@@ -76,14 +104,23 @@ extension StoreDetailViewController: UITableViewDataSource {
             }else {
                 headerCell.favoriteButton.setImage(UIImage.init(named: "unfavorite"), for: .normal)
             }
+            headerCell.favoriteButton.addTarget(self, action: #selector(StoreDetailViewController.updateFavorite(sender:)), for: .touchUpInside)
             headerCell.shopLabel.text = store.name
             return headerCell
         case .Detail:
             let aboutCell = self.tableView.dequeueReusableCell(withIdentifier: kStoreDetailAboutCell) as! StoreDetailAboutCell
+            aboutCell.globeButton.addTarget(self, action: #selector(StoreDetailViewController.openStoreUrl), for: .touchUpInside)
             aboutCell.descriptionLabel.text = store.description
             return aboutCell
         case .Map:
             let mapCell = self.tableView.dequeueReusableCell(withIdentifier: kStoreDetailMapCell) as! StoreDetailMapCell
+            
+//            13.0827° N, 80.2707° E
+            self.store.latitude = 13.0827
+            self.store.longitude = 80.2707
+            let coordinate = CLLocationCoordinate2D.init(latitude: CLLocationDegrees(self.store.latitude), longitude: CLLocationDegrees(self.store.longitude))
+            mapCell.mapView.setCenter(coordinate, animated: true)
+            mapCell.mapButton.addTarget(self, action: #selector(StoreDetailViewController.openMaps), for: .touchUpInside)
             return mapCell
         }
     }
@@ -105,6 +142,94 @@ extension StoreDetailViewController: UITableViewDelegate {
         case .Map:
             return 173
         }
+    }
+}
+
+extension StoreDetailViewController {
+    func getStoreDetails() {
+        let urlString = "\(ApiServiceURL.apiInterface(.storeDetail))\(self.store.storeId)"
+        
+        DispatchQueue.main.async {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        }
+        Downloader.getStoreJSONUsingURLSession(url: urlString) { (result, errorString) in
+            if let error = errorString {
+                
+            }
+            else {
+                if let result = result {
+                    if let storeDescription = result["description"] as? String {
+                        self.store.description = storeDescription
+                    }
+                    
+                    if let latitude = result["latitude"] as? Float {
+                        self.store.latitude = latitude
+                    } else if let latitude = result["latitude"] as? Double {
+                        self.store.latitude = Float(latitude)
+                    } else if let latitude = result["latitude"] as? Int {
+                        self.store.latitude = Float(latitude)
+                    }
+                    
+                    if let longitude = result["longitude"] as? Float {
+                        self.store.longitude = longitude
+                    } else if let longitude = result["longitude"] as? Double {
+                        self.store.longitude = Float(longitude)
+                    } else if let longitude = result["longitude"] as? Int {
+                        self.store.longitude = Float(longitude)
+                    }
+                }
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+            
+            DispatchQueue.main.async {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }
+        }
+    }
+    func openLinkInSafariViewController(urlString: String) {
+        
+        let urlString = urlString.contains("http") ? urlString : "https://\(urlString)"
+        
+        if let url = URL.init(string: urlString) {
+            let safariVC = SFSafariViewController(url: url)
+            self.present(safariVC, animated: true, completion: nil)
+            safariVC.delegate = self
+        } else {
+            
+        }
+        
+    }
+}
+
+
+extension StoreDetailViewController: SFSafariViewControllerDelegate {
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        controller.dismiss(animated: true, completion: {})
+    }
+}
+
+extension StoreDetailViewController {
+    @objc func openMaps() {
+        // Open and show coordinate
+//        let url = "http://maps.apple.com/maps?saddr=\(self.store.latitude),\(self.store.longitude)"
+//        UIApplication.shared.openURL(URL(string:url)!)
+        
+        let latitude: CLLocationDegrees = CLLocationDegrees(self.store.latitude)
+        let longitude: CLLocationDegrees = CLLocationDegrees(self.store.longitude)
+        
+        let regionDistance:CLLocationDistance = 10000
+        let coordinates = CLLocationCoordinate2DMake(latitude, longitude)
+        let regionSpan = MKCoordinateRegion(center: coordinates, latitudinalMeters: regionDistance, longitudinalMeters: regionDistance)
+        let options = [
+            MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center),
+            MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)
+        ]
+        let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
+        let mapItem = MKMapItem(placemark: placemark)
+        mapItem.name = self.store.name
+        mapItem.openInMaps(launchOptions: options)
     }
 }
 

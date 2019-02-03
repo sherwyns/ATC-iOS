@@ -57,7 +57,7 @@
                         </constraints>
                         <state key="normal" image="outline_language_white_18dp"/>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ly1-G6-Xfk" userLabel="Call Button" customClass="SegButton" customModule="ATC" customModuleProvider="target">
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ly1-G6-Xfk" userLabel="Call Button" customClass="SegButton" customModule="ATC" customModuleProvider="target">
                         <rect key="frame" x="202" y="128.5" width="49" height="49"/>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -66,7 +66,7 @@
                         </constraints>
                         <state key="normal" image="mail_outline_white"/>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RzF-cC-sjQ" userLabel="Mail Button" customClass="SegButton" customModule="ATC" customModuleProvider="target">
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RzF-cC-sjQ" userLabel="Mail Button" customClass="SegButton" customModule="ATC" customModuleProvider="target">
                         <rect key="frame" x="141" y="128.5" width="49" height="49"/>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>

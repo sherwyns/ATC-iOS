@@ -24,12 +24,13 @@ class FavoriteViewController: UIViewController, EntityProtocol {
         storeButton.highlightedStateColor()
         productButton.normalStateColor()
         entityContainer.isHidden = false
-        storeButtonAction()
+        productButtonAction()
         filterButton.imageEdgeInsets = UIEdgeInsets(top: 11, left:11, bottom: 11, right: 11)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        getProducts() 
         if !ATCUserDefaults.isUserLoggedIn() {
             entityContainer.isHidden = true
             showLogInAlert()
@@ -51,6 +52,20 @@ class FavoriteViewController: UIViewController, EntityProtocol {
         if segue.identifier == "showStore", let store = sender as? Store, let storeViewController = segue.destination as? StoreViewController  {
             storeViewController.store = store
         }
+        
+        
+        if segue.identifier == "showProductDetail" {
+            if let productDetailViewController = segue.destination as? ProductDetailViewController {
+                if let products = sender as? [Product] {
+                    productDetailViewController.product = products.first
+                    var tempProduct = products
+                    tempProduct.removeFirst()
+                    productDetailViewController.similarProducts = tempProduct
+                }
+                
+            }
+        }
+       
     }
     
     
@@ -136,16 +151,52 @@ extension FavoriteViewController {
 extension UIViewController {
     //MARK: - Custom Actions
     func showLogInAlert() {
-//        let alertController = UIAlertController.init(title: "Alert", message: "Kindly log in to proceed furter", preferredStyle: .alert)
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.tabbarController.selectedViewController = appDelegate.tabbarController.viewControllers?[1]
+        NotificationCenter.default.post(name: NotificationConstant.showRegistration, object: nil)
+    }
+    
+    func performLogIn(favoriteOperation: ATCOperationPayLoad) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.tabbarController.selectedViewController = appDelegate.tabbarController.viewControllers?[1]
+        NotificationCenter.default.post(name: NotificationConstant.showRegistration, object: favoriteOperation)
+    }
+}
+
+extension FavoriteViewController {
+    func getProducts() {
+        let urlString = ApiServiceURL.apiInterface(.products)
         
-//        ?let okayAction = UIAlertAction.init(title: "Okay", style: .default) { (action) in
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            appDelegate.tabbarController.selectedViewController = appDelegate.tabbarController.viewControllers?[1]
-            NotificationCenter.default.post(name: NotificationConstant.showRegistration, object: nil)
-//        }
-        
-//        alertController.addAction(okayAction)
-//
-//        self.present(alertController, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        }
+        Downloader.getProductJSONUsingURLSession(url: urlString) { (result, errorString) in
+            if let error = errorString {
+                KSToastView.ks_showToast(error)
+            }
+            else {
+                if let result = result, let productDictionaryArray = result as? Array<Dictionary<String, Any>> {
+                    var productArray = [Product]()
+                    for productDictionary in productDictionaryArray {
+                        let product = Product.init(dictionary: productDictionary)
+                        productArray.append(product)
+                    }
+                    
+                    //SharedObjects.shared.stores = productArray
+                    var products = SharedObjects.shared.updateProductWithFavorite(productsWithoutFavorite: productArray)
+                    
+                    products = products?.filter{$0.isFavorite == true}
+                    
+                    self.entityViewController?.products = products
+                    DispatchQueue.main.async {
+                        self.entityViewController?.collectionView.reloadData()
+                    }
+                }
+            }
+            
+            DispatchQueue.main.async {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }
+        }
     }
 }

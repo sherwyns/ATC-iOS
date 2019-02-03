@@ -20,6 +20,7 @@ class StoreViewController: UIViewController, EntityProtocol {
     @IBOutlet weak var storeName: UILabel!
     @IBOutlet weak var storeNeighbourhood: UILabel!
     @IBOutlet weak var headerStoreLabel: UIButton!
+    @IBOutlet weak var productCategoryLabel: UILabel!
     
     @IBOutlet weak var HUD:MBProgressHUD!
     
@@ -45,12 +46,26 @@ class StoreViewController: UIViewController, EntityProtocol {
         self.storeName.text = store.name
         self.headerStoreLabel.setTitle(store.name, for: .normal)
         self.storeNeighbourhood.text = store.neighbourhood
-        self.getProductByStore()
+        
+        self.hideOrShowCategory()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        updateStoreFavorite()
         self.updateFavoriteButton()
+        self.getProductByStore()
+    }
+    
+    func updateStoreFavorite() {
+        if let favStores = SharedObjects.shared.favStores {
+            for storeFavorite in favStores {
+                if storeFavorite.storeId == self.store.storeId {
+                    self.store.isFavorite = storeFavorite.isFavorite
+                    break
+                }
+            }
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -79,7 +94,6 @@ class StoreViewController: UIViewController, EntityProtocol {
                     tempProduct.removeFirst()
                     productDetailViewController.similarProducts = tempProduct
                 }
-                
             }
         }
     }
@@ -118,9 +132,17 @@ class StoreViewController: UIViewController, EntityProtocol {
         self.performSegue(withIdentifier: "showStoreDetail", sender: nil)
     }
     
-    @IBAction func updateFavorite() {
-        SharedObjects.shared.updateWithNewOrExistingStoreId(selectedStore: self.store)
-        updateFavoriteButton()
+    @IBAction func updateFavoriteAction() {
+        if !ATCUserDefaults.isUserLoggedIn() {
+            let operationPayload = OperationPayload.init(payloadType: .Favorite, payloadData: self.store)
+            performLogIn(favoriteOperation: operationPayload)
+            return
+        }
+        else {
+            SharedObjects.shared.updateWithNewOrExistingStoreId(selectedStore: self.store)
+            updateFavoriteButton()
+        }
+        
     }
     
     func updateFavoriteButton() {
@@ -168,10 +190,20 @@ extension StoreViewController: UICollectionViewDelegate {
         return sectionInsets
     }
     
+    fileprivate func didSelectCategory(_ item: Int) {
+        if self.store.categories.count > item {
+            let category = self.store.categories[item]
+            if category != nil {
+                var tempProducts = category.products
+                self.entityViewController?.products = SharedObjects.shared.updateIncomingProductWithFavorite(products: &tempProducts)
+                selectedIndex = item
+                reloadCategory()
+            }
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.entityViewController?.products = self.store.categories[indexPath.item].products
-        selectedIndex = indexPath.item
-        reloadCategory()
+        didSelectCategory(indexPath.item)
     }
     
     func reloadCategory() {
@@ -204,6 +236,17 @@ extension StoreViewController {
         DispatchQueue.main.async(execute: { () -> Void in
             self.HUD.hide(animated: true)
         })
+    }
+    
+    func hideOrShowCategory() {
+        DispatchQueue.main.async {
+            if self.store.categories.count == 0 {
+                self.productCategoryLabel.isHidden = true
+            }
+            else {
+                self.productCategoryLabel.isHidden = false
+            }
+        }
     }
 }
 
@@ -262,10 +305,9 @@ extension StoreViewController {
                     
                     self.store.categories = categoryArray
                     
-                    if let category = self.store.categories.first, category.products.count > 0 {
-                        self.entityViewController?.products = category.products
-                    }
-                    self.reloadCategory()
+                    self.hideOrShowCategory()
+                    
+                    self.didSelectCategory(self.selectedIndex)
                     
                 }
                 else {

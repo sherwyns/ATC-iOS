@@ -14,6 +14,8 @@ class ATCTabBarViewController: ESTabBarController {
     
     let credentialSegueId = "credentialSegue"
     let showMyAccountScreen = "showMyAccountScreen"
+    
+    var isFirst:Bool = true
     override func viewDidLoad() {
         super.viewDidLoad()
         customizeViews()
@@ -27,22 +29,30 @@ class ATCTabBarViewController: ESTabBarController {
     //showMyAccountScreen
   
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(ATCTabBarViewController.showRegistration), name: NotificationConstant.showRegistration, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ATCTabBarViewController.showRegistration(sender:)), name: NotificationConstant.showRegistration, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ATCTabBarViewController.showMyAccount), name: NotificationConstant.showMyAccount, object: nil)
     }
     
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.selectedViewController = self.viewControllers?[1]
+        
+        if isFirst {
+            self.selectedViewController = self.viewControllers?[1]
+            isFirst = !isFirst
+        }
         if ATCUserDefaults.isFirstTime() {
-            showRegistration()
+            showRegistration(sender: nil)
             //ATCUserDefaults.userOpenedApp()
         }
     }
     
-    @objc func showRegistration() {
-        self.performSegue(withIdentifier: credentialSegueId, sender: nil)
+    @objc func showRegistration(sender: Any?) {
+        if let notificationObject = sender as? NSNotification,  let operationPayload = notificationObject.object as? OperationPayload {
+            self.performSegue(withIdentifier: credentialSegueId, sender: operationPayload)
+        }
+        else {
+            self.performSegue(withIdentifier: credentialSegueId, sender: nil)
+        }
     }
     
     @objc func showMyAccount() {
@@ -53,6 +63,15 @@ class ATCTabBarViewController: ESTabBarController {
         ATCUserDefaults.userOpenedApp()
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let segueIdentifier = segue.identifier {
+            if segueIdentifier == credentialSegueId, let favorite = sender as? OperationPayload {
+                if let navController = segue.destination as? UINavigationController, let credentialVC = navController.viewControllers.first as? CredentialViewController {
+                    credentialVC.operationPayload = favorite
+                }
+            }
+        }
+    }
 }
 
 extension ATCTabBarViewController {

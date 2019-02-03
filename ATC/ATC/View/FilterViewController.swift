@@ -25,6 +25,13 @@ class FilterViewController: UIViewController {
         
         self.tableView.register(UINib.init(nibName: "FilterCell", bundle: nil), forCellReuseIdentifier: "FilterCell")
         self.tableView.dataSource = self
+        self.tableView.delegate = self
+        if SharedObjects.shared.categories.count == 0 {
+            Downloader.retrieveCategories()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                self.tableView.reloadData()
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -55,11 +62,29 @@ class FilterViewController: UIViewController {
 
 extension FilterViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return SharedObjects.shared.categories.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let category = SharedObjects.shared.categories[indexPath.row]
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "FilterCell") as! FilterCell
+        cell.categoryLabel.text = category.name
+        if let imageUrl = URL.init(string: category.imageUrl) {
+            cell.filterImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "filterFood"))
+        }
         return cell
+    }
+}
+
+extension FilterViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let categoryId = SharedObjects.shared.categories[indexPath.row].categoryId
+        SharedObjects.shared.categoryId = categoryId
+        
+        self.dismiss(animated: true, completion: {})
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
     }
 }

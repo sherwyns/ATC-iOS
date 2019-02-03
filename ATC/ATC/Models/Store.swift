@@ -17,6 +17,32 @@ class StoreFavorite {
         self.storeId    = dictionary["storeid"] as? Int ?? 0
         self.isFavorite   = dictionary["isfavorite"] as? Bool ?? false
     }
+    
+    func dictionaryFromStoreFavorite() -> Dictionary<String,String> {
+        var dictionary = Dictionary<String,String>()
+        dictionary["storeid"] = String(self.storeId)
+        dictionary["isfavorite"] = String(self.isFavorite)
+        
+        return dictionary
+    }
+}
+
+class ProductFavorite {
+    let productId: Int
+    var isFavorite: Bool
+    
+    init(dictionary: Dictionary<String, Any>) {
+        self.productId    = dictionary["productid"] as? Int ?? 0
+        self.isFavorite   = dictionary["isfavorite"] as? Bool ?? false
+    }
+    
+    func dictionaryFromProductFavorite() -> Dictionary<String,String> {
+        var dictionary = Dictionary<String,String>()
+        dictionary["productid"] = String(self.productId)
+        dictionary["isfavorite"] = String(self.isFavorite)
+        
+        return dictionary
+    }
 }
 
 class Store {
@@ -24,21 +50,41 @@ class Store {
     let name: String
     let storeUrl: String
     let imageUrl: String
-    let latitude: CGFloat
-    let longitutde : CGFloat
+    var latitude: Float
+    var longitude : Float
     var categories: [Category]
     var isFavorite = false
     let neighbourhood: String
-    let description: String
+    var description: String
+
     init(dictionary: Dictionary<String, Any>) {
         self.storeId    = dictionary["id"] as? Int ?? 0
         self.name   = dictionary["shop_name"] as? String ?? ""
         self.storeUrl   = dictionary["store_url"] as? String ?? ""
         self.imageUrl   = dictionary["image"] as? String ?? ""
-        self.latitude   = dictionary["latitude"] as? CGFloat ?? 0.0
-        self.longitutde = dictionary["longitude"] as? CGFloat ?? 0.0
+        
+        if let latitude = dictionary["latitude"] as? Float {
+            self.latitude = latitude
+        } else if let latitude = dictionary["latitude"] as? Double {
+            self.latitude = Float(latitude)
+        } else if let latitude = dictionary["latitude"] as? Int {
+            self.latitude = Float(latitude)
+        } else {
+            self.latitude = 0.0
+        }
+        
+        if let longitude = dictionary["longitude"] as? Float {
+            self.longitude = longitude
+        } else if let longitude = dictionary["longitude"] as? Double {
+            self.longitude = Float(longitude)
+        } else if let longitude = dictionary["longitude"] as? Int {
+            self.longitude = Float(longitude)
+        } else {
+            self.longitude = 0.0
+        }
+        
         self.neighbourhood = dictionary["neighbourhood"] as? String ?? ""
-        self.description = dictionary["description"] as? String ?? "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et doloreincididunt ut labore et dolore Lorem ipsum dolor sit amet, consectetur "
+        self.description = dictionary["description"] as? String ?? ""
         var categoryArray = [Category]()
         if let categoryDictArray = dictionary["category"] as? Array<Dictionary<String,Any>> {
             for categoryDict in categoryDictArray {
@@ -62,9 +108,18 @@ class Category {
     let categoryId: String
     let name: String
     let imageUrl: String
-    let products:[Product]
+    var products:[Product]
     init(dictionary: Dictionary<String,Any>) {
-        self.categoryId = dictionary["id"] as? String ?? ""
+        if let id = dictionary["id"] as? String {
+            self.categoryId = id
+        }
+        else if let id = dictionary["id"] as? Int {
+            self.categoryId = String(id)
+        }
+        else {
+            self.categoryId = ""
+        }
+        
         self.name = dictionary["name"] as? String ?? ""
         self.imageUrl = dictionary["image_url"] as? String ?? ""
         self.products = dictionary["products"] as? Array<Product> ?? [Product]()
@@ -79,6 +134,8 @@ class Product {
     var name: String
     var price: Float
     var imageUrl: String
+    var isFavorite: Bool = false
+    var description:String
     
     init(dictionary: Dictionary<String, Any>) {
         
@@ -87,8 +144,29 @@ class Product {
         self.categoryId = dictionary["category_id"] as? Int ?? 0
         self.name = dictionary["title"] as? String ?? ""
         self.categoryName = dictionary["category_name"] as? String ?? ""
-        self.price = dictionary["price"] as? Float ?? 0.0
-        self.imageUrl = dictionary["product_image"] as? String ?? ""
+        //self.price = dictionary["price"] as? Float ?? 0.0
+        
+        if let price = dictionary["price"] as? Float {
+            self.price = price
+        }
+        else if let price = dictionary["price"] as? String {
+            self.price = 0.0
+        }
+        else if let price = dictionary["price"] as? Double {
+            self.price = Float(price)
+        }
+        else {
+            self.price = 0.0
+        }
+        
+        if let imageUrl = dictionary["product_image"] as? String {
+            self.imageUrl = imageUrl
+        } else if let imageUrl = dictionary["image"] as? String {
+            self.imageUrl = imageUrl
+        } else {
+            self.imageUrl = ""
+        }
+        self.description = dictionary["description"] as? String ?? ""
     }
 //
 //    id: 23,

@@ -14,8 +14,12 @@ class CredentialViewController: UIViewController {
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var skipRegistrationButton: UIButton!
     
+    var operationPayload: OperationPayload?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print(operationPayload?.payloadType)
     }
     
     override func viewDidLayoutSubviews() {
@@ -26,7 +30,14 @@ class CredentialViewController: UIViewController {
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     
+        if let segueIdentifier = segue.identifier {
+            if segueIdentifier == "showLogin", let loginVC = segue.destination as? LoginViewController {
+                loginVC.operationPayload = self.operationPayload
+            }
+            else if segueIdentifier == "showSignup", let signupVC = segue.destination as? SignUpViewController {
+                signupVC.operationPayload = self.operationPayload
+            }
+        }
     }
     
     @IBAction func startShoppingAction() {

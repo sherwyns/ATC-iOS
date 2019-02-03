@@ -67,7 +67,7 @@ class EntityViewController: UIViewController {
         super.viewDidAppear(animated)
         if !isFromSearch {
             if isFiltered {
-                self.stores = SharedObjects.shared.storesForFavorite
+                self.stores = SharedObjects.shared.storesWithFavorite
             }
             else {
                 self.stores = SharedObjects.shared.stores
@@ -100,6 +100,15 @@ extension EntityViewController: UICollectionViewDataSource {
             if let url = URL.init(string: product.imageUrl) {
                 cell?.bannerImageView.setImageWith(url, placeholderImage: UIImage.init(named: "placeholder"))
             }
+            
+            cell?.favoritebutton.tag = indexPath.item
+            cell?.favoritebutton.addTarget(self, action: #selector(EntityViewController.updateFavorite(sender:)), for: .touchUpInside)
+            if product.isFavorite {
+                cell?.favoritebutton.setImage(UIImage.init(named: "favorite"), for: .normal)
+            }
+            else {
+                cell?.favoritebutton.setImage(UIImage.init(named: "unfavorite"), for: .normal)
+            }
         }
         return cell ?? UICollectionViewCell()
     case .Store:
@@ -129,22 +138,45 @@ extension EntityViewController: UICollectionViewDataSource {
   }
     
     @objc @IBAction func updateFavorite(sender: UIButton) {
-        
-        if !ATCUserDefaults.isUserLoggedIn() {
-            //entityContainer.isHidden = true
-            showLogInAlert()
-            return
-        }
-        
-        if let stores = self.stores {
-            let selectedStore = stores[sender.tag]
-            SharedObjects.shared.updateWithNewOrExistingStoreId(selectedStore: selectedStore)
-        }
-        if isFiltered {
-            self.stores = SharedObjects.shared.storesForFavorite
-        }
-        else {
-            self.stores = SharedObjects.shared.stores
+        switch entityType {
+        case .Store:
+            if let stores = self.stores {
+                let selectedStore = stores[sender.tag]
+                if !ATCUserDefaults.isUserLoggedIn() {
+                    let operationPayload = OperationPayload.init(payloadType: .Favorite, payloadData: selectedStore)
+                    performLogIn(favoriteOperation: operationPayload)
+                    return
+                }
+                else {
+                    SharedObjects.shared.updateWithNewOrExistingStoreId(selectedStore: selectedStore)
+                }
+            }
+            if isFiltered {
+                self.stores = SharedObjects.shared.storesWithFavorite
+            }
+            else {
+                self.stores = SharedObjects.shared.stores
+            }
+        case .Product:
+            print("Hello Product")
+            if let products = self.products {
+                let selectedProduct = products[sender.tag]
+                if !ATCUserDefaults.isUserLoggedIn() {
+                    let operationPayload = OperationPayload.init(payloadType: .Favorite, payloadData: selectedProduct)
+                    performLogIn(favoriteOperation: operationPayload)
+                    return
+                }
+                else {
+                    SharedObjects.shared.updateWithNewOrExistingProductId(selectedProduct: selectedProduct)
+                    self.products = SharedObjects.shared.updateIncomingProductWithFavorite(products: &self.products!)
+                }
+            }
+//            if isFiltered {
+//                self.stores = SharedObjects.shared.storesWithFavorite
+//            }
+//            else {
+//                self.stores = SharedObjects.shared.stores
+//            }
         }
         
         self.collectionView.reloadData()
@@ -185,7 +217,6 @@ extension EntityViewController: UICollectionViewDelegate {
             if let store = storeForIndexPath(indexPath.item) {
                 self.parent?.performSegue(withIdentifier: "showStore", sender: store)
             }
-            
         case .Product:
             var newProduct = products
             if let  selectedProduct = newProduct?.remove(at: indexPath.item) {

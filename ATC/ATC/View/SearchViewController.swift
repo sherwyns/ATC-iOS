@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import KSToastView
 enum SearchType {
     case Store
     case Product
@@ -60,6 +60,31 @@ class SearchViewController: UIViewController {
         self.tableView.isHidden = true
         
         searchTextField.delegate = self
+        
+
+    }
+    
+    func addTempProducts() {
+        let productDictionary:Dictionary<String,Any> =    [
+            "category_id": 241,
+            "category_name": "Clothing Accessories",
+            "description": "a fabric formed by weaving, felting, etc., from wool, hair, silk, flax, cotton, or other fiber, used for garments, upholstery, and many other items. a piece of such a fabric for a particular purpose",
+            "id": 5,
+            "price": "2.99",
+            "product_image": "https://api.aroundthecorner.store/images/product_1547475588634.jpg",
+            "store_id": 4,
+            "title": "CC Custom cloths"
+        ]
+        
+        let product = Product.init(dictionary: productDictionary)
+        
+        products.append(product)
+
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.stores = SharedObjects.shared.updateIncomingStoresWithFavorite(stores: &stores)
     }
 
      // MARK: - Navigation
@@ -95,17 +120,15 @@ class SearchViewController: UIViewController {
         LoginManager.logout()
         
         if let parent = self.parent as? ATCTabBarViewController {
-            parent.showRegistration()
+            parent.showRegistration(sender: nil)
         }
     }
     
     func customizeViews() {
         searchShadowContainer.layer.cornerRadius = 37/2
         searchContainer.layer.cornerRadius = 37/2
-        
         searchContainer.layer.backgroundColor = UIColor.white.cgColor
         searchShadowContainer.layer.backgroundColor = UIColor.clear.cgColor
-        
         searchContainer.layer.masksToBounds = true
         
         let color = UIColor.init(red: 144.0/255.0, green: 144.0/255.0, blue: 144.0/255.0, alpha: 0.21)
@@ -141,14 +164,16 @@ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerCell = self.tableView.dequeueReusableHeaderFooterView(withIdentifier: "TableHeader") as! TableHeader
         headerCell.button.imageEdgeInsets = UIEdgeInsets.init(top: 10, left: 10, bottom: 10, right: 10)
-        if section == 0 {
-            headerCell.label.text = "Products"
-        }
-        else {
-            headerCell.label.text = "Stores"
-        }
         headerCell.button.tag = entityTypes[section] == EntityType.Store ? 1 : 0
         headerCell.button.addTarget(self, action: #selector(SearchViewController.showAllEntity(sender:)), for: .touchUpInside)
+        
+        let entityType = self.entityTypes[section]
+        switch entityType {
+        case .Product:
+            headerCell.label.text = "Products"
+        case .Store:
+            headerCell.label.text = "Stores"
+        }
         return headerCell
     }
     
@@ -157,7 +182,26 @@ extension SearchViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return (kWIDTH_CELL * 2) + 16
+        let entityType = self.entityTypes[indexPath.row]
+        switch entityType {
+        case .Product:
+            let count = self.products.count
+            if count > 2 {
+                return (kWIDTH_CELL * 2)// + 16
+            }
+            else {
+                return (kWIDTH_CELL) //+ 16
+            }
+        case .Store:
+            let count = self.stores.count
+            if count > 2 {
+                 return (kWIDTH_CELL * 2) //+ 16
+            }
+            else {
+                return (kWIDTH_CELL) //+ 16
+            }
+        }
+        //return (kWIDTH_CELL * 2) + 16
     }
     
     @objc func showAllEntity(sender: UIButton) {
@@ -171,6 +215,35 @@ extension SearchViewController: UITableViewDelegate {
         self.performSegue(withIdentifier: "showListAllEntity", sender: entityType)
     }
     
+    @objc func updateStoreFavorite(sender : UIButton) {
+        if !ATCUserDefaults.isUserLoggedIn() {
+            //entityContainer.isHidden = true
+            showLogInAlert()
+            return
+        }
+        SharedObjects.shared.updateWithNewOrExistingStoreId(selectedStore: self.stores[sender.tag])
+        updateFavoriteButton(sender: sender)
+    }
+    
+    @objc func updateProductFavorite(sender: UIButton) {
+        let isFavorite = SharedObjects.shared.isProductFavorited(product: self.products[sender.tag])
+        if isFavorite {
+            sender.setImage(UIImage.init(named: "favorite"), for: .normal)
+        }
+        else {
+            sender.setImage(UIImage.init(named: "unfavorite"), for: .normal)
+        }
+    }
+    
+    func updateFavoriteButton(sender: UIButton) {
+        if SharedObjects.shared.isStoreFavorited(store: self.stores[sender.tag]) {
+            sender.setImage(UIImage.init(named: "favorite"), for: .normal)
+        }
+        else {
+            sender.setImage(UIImage.init(named: "unfavorite"), for: .normal)
+        }
+    }
+   
 }
 
 extension SearchViewController: UICollectionViewDataSource {
@@ -184,23 +257,24 @@ extension SearchViewController: UICollectionViewDataSource {
         }
         switch entityType {
         case .Store:
-            let entityCell = collectionView.dequeueReusableCell(withReuseIdentifier: "EntityViewCell", for: indexPath) as! EntityViewCell
-            
             let store = stores[indexPath.item]
+            let entityCell = collectionView.dequeueReusableCell(withReuseIdentifier: "EntityViewCell", for: indexPath) as! EntityViewCell
             entityCell.name.text = store.name.capitalizeFirst
             entityCell.subName.text = store.neighbourhood
+            entityCell.favoritebutton.tag = indexPath.item
+            entityCell.favoritebutton.addTarget(self, action: #selector(SearchViewController.updateStoreFavorite(sender:)), for: .touchUpInside)
+            
             if let imageUrl = URL.init(string: store.imageUrl) {
                 entityCell.bannerImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "placeholder"))
             }
             
-            entityCell.favoritebutton.tag = indexPath.item
-            entityCell.favoritebutton.addTarget(self, action: #selector(EntityViewController.updateFavorite(sender:)), for: .touchUpInside)
             if store.isFavorite {
                 entityCell.favoritebutton.setImage(UIImage.init(named: "favorite"), for: .normal)
             }
             else {
                 entityCell.favoritebutton.setImage(UIImage.init(named: "unfavorite"), for: .normal)
             }
+            
             return entityCell
         case .Product:
             let productCell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductEntityCell.kPRODUCT_ENTITY_CELL, for: indexPath) as! ProductEntityCell
@@ -210,6 +284,9 @@ extension SearchViewController: UICollectionViewDataSource {
             if let url = URL.init(string: product.imageUrl) {
                 productCell.bannerImageView.setImageWith(url, placeholderImage: UIImage.init(named: "placeholder"))
             }
+            productCell.favoritebutton.tag = indexPath.item
+            productCell.favoritebutton.addTarget(self, action: #selector(SearchViewController.updateProductFavorite(sender:)), for: .touchUpInside)
+            
             
             return productCell
         }
@@ -300,26 +377,35 @@ extension UIViewController {
 extension SearchViewController {
     func searchStoreAndProduct(text: String) {
         
-        let urlString = "http://34.209.125.112/api/search/by/\(text)"
+        let urlString = "\(ApiServiceURL.apiInterface(.search))\(text)"
         
         let url = URL.init(string: urlString)!
         
         let taskDelegate = TaskDelegate()
+        
+        DispatchQueue.main.async {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        }
         
         let session = URLSession.init(configuration: URLSessionConfiguration.default, delegate: taskDelegate, delegateQueue: nil)
         
         let dataTask = session.dataTask(with: url) { (data, urlResponse, error) in
           if let error = error {
             print(error.localizedDescription)
+            DispatchQueue.main.async {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }
             return
           }
           if let data = data {
             do {
               if let json = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves) as? Dictionary<String,Array<Dictionary<String,Any>>> {
-               // print(json)
+                print(json)
                 self.entityTypes = [EntityType]()
                 var stores = [Store]()
                 var products = [Product]()
+                self.products = [Product]()
+                self.stores = [Store]()
                 if let array = json["data"] {
                   for dictionary in array {
                     if let storeArray = dictionary["stores"] as? Array<Dictionary<String, Any>>{
@@ -338,25 +424,37 @@ extension SearchViewController {
                 }
                 print("\(stores.count) \(products.count)")
                 self.stores = stores
+                self.stores = SharedObjects.shared.updateIncomingStoresWithFavorite(stores: &stores)
                 self.products = products
-                if products.count > 0 {
+                //self.addTempProducts()
+                if self.products.count > 0 {
                     self.entityTypes.append(EntityType.Product)
                 }
-                if stores.count > 0 {
+                if self.stores.count > 0 {
                     self.entityTypes.append(EntityType.Store)
                 }
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
                 
+                if self.products.count == 0 && self.stores.count == 0 {
+                    KSToastView.ks_showToast("No results found", duration: 3.0)
+                }
+                DispatchQueue.main.async {
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                }
               }
             }
             catch {
-              print("Catch from \(error.localizedDescription)")
+              print("Please try again")
+                
+                DispatchQueue.main.async {
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                }
             }
           }
         }
         
         dataTask.resume()
-    }
+        }
 }

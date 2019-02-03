@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SafariServices
 
 class SettingViewController: UIViewController {
     
@@ -28,5 +29,34 @@ class SettingViewController: UIViewController {
     func postShowMyAccount() {
         slideMenuController()?.toggleRight()
         NotificationCenter.default.post(name: NotificationConstant.showMyAccount, object: nil)
+    }
+    
+    
+    @IBAction func helpButtonAction() {
+        let helpString = "https://app.aroundthecorner.store/mobileappsupport"
+        openLinkInSafariViewController(urlString: helpString)
+    }
+    
+    @IBAction func privacyButtonAction() {
+        let privacyString = "https://app.aroundthecorner.store/termsofservice"
+        openLinkInSafariViewController(urlString: privacyString)
+    }
+    
+    @IBAction func aboutUsButtonAction() {
+        let aboutUsString = "https://app.aroundthecorner.store/aboutus"
+        openLinkInSafariViewController(urlString: aboutUsString)
+    }
+    
+    func openLinkInSafariViewController(urlString: String) {
+        let safariVC = SFSafariViewController(url: URL.init(string: urlString)!)
+        self.present(safariVC, animated: true, completion: nil)
+        safariVC.delegate = self
+    }
+}
+
+
+extension SettingViewController: SFSafariViewControllerDelegate {
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        controller.dismiss(animated: true, completion: {})
     }
 }

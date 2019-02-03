@@ -14,13 +14,28 @@ class SharedObjects{
     
     var stores: [Store]?
     
-    var storesForFavorite: [Store]?
+    var storesWithFavorite: [Store]?
     
-    var favStores: [StoreFavorite]? // will contain only favorite items
+    var favStores: [StoreFavorite]? { // will contain only favorite items
+        didSet {
+//            ATCUserDefaults.saveProductFavorite(productFavorites: favProducts ?? [ProductFavorite](), storeFavorites: favStores ?? [StoreFavorite]())
+            
+        }
+    }
     
+    var favProducts: [ProductFavorite]? {
+        didSet {
+            ATCUserDefaults.saveProductFavorite(productFavorites: favProducts ?? [ProductFavorite](), storeFavorites: favStores ?? [StoreFavorite]())
+        }
+    }
+ 
+    var categories: [Category] = [Category]()
     
+    var categoryId: String?
     
-    private init(){}
+    private init(){
+       //ATCUserDefaults.retrieveFavProductStore()
+    }
     
     func getStoresWithFavorite(completionHandler: @escaping ([Store]?) -> Void) {
         var storeWithOutFavoriteArray = [Store]()
@@ -109,7 +124,6 @@ class SharedObjects{
     func updateStoresWithFavorite() -> [Store]? {
         if let storeWithOutFavoriteArray = SharedObjects.shared.stores {
             if let storeFavoriteKeys = SharedObjects.shared.favStores {
-                var favoriteArray = [Store]()
                 for storeFavoriteKey in storeFavoriteKeys {
                     for storeWithOutFavorite in storeWithOutFavoriteArray {
                         if storeFavoriteKey.storeId == storeWithOutFavorite.storeId {
@@ -128,6 +142,109 @@ class SharedObjects{
         }
     }
     
+    func updateProductWithFavorite(productsWithoutFavorite: [Product]?) -> [Product]? {
+        if let productWithOutFavoriteArray = productsWithoutFavorite {
+            if let productFavoriteKeys = SharedObjects.shared.favProducts {
+                for productFavoriteKey in productFavoriteKeys {
+                    for productWithOutFavorite in productWithOutFavoriteArray {
+                        if productFavoriteKey.productId == productWithOutFavorite.productId {
+                            productWithOutFavorite.isFavorite = productFavoriteKey.isFavorite
+                        }
+                    }
+                }
+                return productWithOutFavoriteArray
+            }
+            else {
+                return productWithOutFavoriteArray
+            }
+        }
+        else {
+            return nil
+        }
+    }
+    
+    
+    
+    func storesWithFilter() -> [Store] {
+        var tempStores = [Store]()
+        if let stores = SharedObjects.shared.stores, let filterId = categoryId  {
+            
+            if categoryId == "-1" {
+                return stores
+            }
+            for store in stores {
+                let categories = store.categories
+                for category in categories {
+                    if category.categoryId == filterId {
+                        tempStores.append(store)
+                        break
+                    }
+                }
+            }
+        }
+        return tempStores
+    }
+    
+    
+    func isStoreFavorited(store: Store) -> Bool {
+        let stores = self.favStores?.filter{$0.storeId == store.storeId}
+        if let stores = stores, let store = stores.first, store.isFavorite == true {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    
+    func isProductFavorited(product: Product) -> Bool {
+        print(favProducts?.first?.productId)
+        print(product.productId)
+        
+        
+        if let favProducts = self.favProducts {
+            for product in favProducts {
+                print(product.productId)
+            }
+            let products = favProducts.filter{$0.productId == product.productId}
+            if let product = products.first, product.isFavorite == true {
+                return true
+            }
+            else {
+                return false
+            }
+        }
+        else {
+            return false
+        }
+    }
+    
+    func updateIncomingStoresWithFavorite(stores: inout [Store]) -> [Store] {
+        for store in stores {
+            if let favStores = favStores {
+                for favStore in favStores {
+                    if store.storeId == favStore.storeId {
+                        store.isFavorite = favStore.isFavorite
+                    }
+                }
+            }
+            
+        }
+        return stores
+    }
+    
+    func updateIncomingProductWithFavorite(products: inout [Product]) -> [Product] {
+        for product in products {
+            if let favProducts = favProducts {
+                for favProduct in favProducts {
+                    if favProduct.productId == product.productId {
+                        product.isFavorite = favProduct.isFavorite
+                    }
+                }
+            }
+            
+        }
+        return products
+    }
     
     func updateWithNewOrExistingStoreId(selectedStore: Store) {
         
@@ -136,15 +253,15 @@ class SharedObjects{
 
             var dictionary = Dictionary<String, Any>()
             dictionary["storeid"] = selectedStore.storeId
-            dictionary["isfavorite"] = !selectedStore.isFavorite
+            dictionary["isfavorite"] = !selectedStore.isFavorite // flipping isFavorite
             
             // 1. Create StoreFavorite
-            var storeFavorite = StoreFavorite.init(dictionary: dictionary)
+            let storeFavorite = StoreFavorite.init(dictionary: dictionary)
             
             // 2. Add it in new favorite or modify existing favorite
             if var favStores = SharedObjects.shared.favStores, favStores.count >= 0 {
                 
-                if favStores.count == 0 { // no favorite earlier add
+                if favStores.count == 0 { // no favorite earlier so add it directly
                     favStores.append(storeFavorite)
                     SharedObjects.shared.favStores = favStores
                 }
@@ -174,7 +291,7 @@ class SharedObjects{
             
             
             // Update Store
-            print("Before Favorite \(SharedObjects.shared.stores)")
+            //print("Before Favorite \(SharedObjects.shared.stores)")
             if let storeFavorites = SharedObjects.shared.favStores {
                 for tempStoreFavorite in storeFavorites {
                     for store in stores {
@@ -184,24 +301,87 @@ class SharedObjects{
                     }
                     
                 }
-                
-                print("After Favorite \(SharedObjects.shared.stores)")
-                
+                //print("After Favorite \(SharedObjects.shared.stores)")
             }
             
             // Update StoreWith Favorties
-            
-            SharedObjects.shared.storesForFavorite = SharedObjects.shared.stores?.filter({ (store) -> Bool in
+            SharedObjects.shared.storesWithFavorite = SharedObjects.shared.stores?.filter({ (store) -> Bool in
                 return store.isFavorite
             })
-            
-            print(storesForFavorite?.count)
         }
+    }
+    
+    func updateWithNewOrExistingProductId(selectedProduct: Product) {
+
+            let selectedProduct = selectedProduct
+            
+            var dictionary = Dictionary<String, Any>()
+            dictionary["productid"] = selectedProduct.productId
+            dictionary["isfavorite"] = !selectedProduct.isFavorite
+            
+            // 1. Create ProductFavorite
+            let productFavorite = ProductFavorite.init(dictionary: dictionary)
+            
+            // 2. Add it in new favorite or modify existing favorite
+            if var favProducts = SharedObjects.shared.favProducts, favProducts.count >= 0 {
+                
+                if favProducts.count == 0 { // no favorite earlier so add it directly
+                    favProducts.append(productFavorite)
+                    SharedObjects.shared.favProducts = favProducts
+                }
+                else { //Check existing and modify it
+                    
+                    var count = 0
+                    for favProduct in favProducts {
+                        if favProduct.productId == productFavorite.productId {
+                            favProduct.isFavorite = productFavorite.isFavorite
+                        }
+                        else {
+                            count = count + 1
+                        }
+                    }
+                    
+                    if count == favProducts.count {
+                        favProducts.append(productFavorite)
+                        SharedObjects.shared.favProducts = favProducts
+                    }
+                }
+                
+            }
+            else {
+                SharedObjects.shared.favProducts = [ProductFavorite]()
+                SharedObjects.shared.favProducts?.append(productFavorite)
+            }
+//
+//            // Update Store
+//            print("Before Favorite \(SharedObjects.shared.stores)")
+//            if let favStores = SharedObjects.shared.favStores {
+//                for tempStoreFavorite in favStores {
+//                    for store in stores {
+//                        if store.storeId == tempStoreFavorite.storeId {
+//                            store.isFavorite = tempStoreFavorite.isFavorite
+//                        }
+//                    }
+//
+//                }
+//
+//                print("After Favorite \(SharedObjects.shared.stores)")
+//
+//            }
+//
+//            // Update StoreWith Favorties
+//
+//            SharedObjects.shared.storesWithFavorite = SharedObjects.shared.stores?.filter({ (store) -> Bool in
+//                return store.isFavorite
+//            })
+//
+//            print(storesWithFavorite?.count)
     }
     
     func clearData() {
         self.favStores = [StoreFavorite]()
-        self.storesForFavorite = [Store]()
+        self.storesWithFavorite = [Store]()
+        self.favProducts = [ProductFavorite]()
         self.stores = [Store]()
     }
     

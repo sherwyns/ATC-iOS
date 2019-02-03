@@ -23,6 +23,8 @@ class LoginViewController: UIViewController {
 
     @IBOutlet weak var HUD:MBProgressHUD!
     
+    var operationPayload: OperationPayload?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         customizeViews()
@@ -40,7 +42,7 @@ class LoginViewController: UIViewController {
         
 //        emailTextField.text = "testx@enqos.com"
 //        passwordTextField.text = "enqos@123"
-        
+        print(operationPayload?.payloadType)
         
     }
     
@@ -78,18 +80,20 @@ class LoginViewController: UIViewController {
                         }
                         else {
                             DispatchQueue.main.async(execute: { () -> Void in
+                                ATCUserDefaults.userInfo(mail: self.emailTextField.text!)
                                 ATCUserDefaults.userSignedIn()
+                                self.updateFavorite()
                                 self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
                                 KSToastView.ks_showToast("Welcome!")
                                 
                             })
+                            print(" result \(result)")
                         }
                     }
                 }
                 
             }
             else {
-                
                 KSToastView.ks_showToast("Enter Password!")
             }
         }
@@ -113,12 +117,12 @@ class LoginViewController: UIViewController {
             print(error)
             print(result)
             if let error = error {
-                KSToastView.ks_showToast(error.localizedDescription)
+                KSToastView.ks_showToast("Please try again")
             }
             else {
                 FBSDKGraphRequest.init(graphPath: "me", parameters: ["fields":"email, first_name, last_name"])?.start(completionHandler: { (requestConnection, result, error) in
                     if let error = error {
-                        KSToastView.ks_showToast(error.localizedDescription)
+                        KSToastView.ks_showToast("Please try again")
                     }
                     else {
                         let result = result as! Dictionary<String, String>
@@ -133,17 +137,19 @@ class LoginViewController: UIViewController {
                             
                             Downloader.getJSONUsingURLSession(url: urlString, parameters: parameterDictionary) { (result, errorString) in
                                 if let error = errorString {
-                                    KSToastView.ks_showToast(error)
+                                    KSToastView.ks_showToast("Please try again")
                                 }
                                 else {
                                     DispatchQueue.main.async(execute: { () -> Void in
                                         self.hideHUD()
+                                        ATCUserDefaults.userInfo(mail: email)
                                         ATCUserDefaults.userSignedIn()
+                                        self.updateFavorite()
                                         self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
                                         KSToastView.ks_showToast("Welcome!")
                                     })
                                     
-                                    print(" result \(parameterDictionary)")
+                                    print(" result \(result)")
                                 }
                             }
                         }
@@ -232,12 +238,14 @@ extension LoginViewController: GIDSignInDelegate {
                 else {
                     DispatchQueue.main.async(execute: { () -> Void in
                       self.hideHUD()
+                        ATCUserDefaults.userInfo(mail: user.profile.email!)
                         ATCUserDefaults.userSignedIn()
+                        self.updateFavorite()
                         self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
                         KSToastView.ks_showToast("Welcome!")
                     })
                     
-                    print(" result \(parameterDictionary)")
+                    print(" result \(result)")
                 }
             }
         }

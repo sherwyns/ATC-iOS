@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class AccountViewController: UIViewController {
     @IBOutlet weak var userLabel: UILabel!
     
@@ -45,6 +46,10 @@ class AccountViewController: UIViewController {
         signOut.applyGradient(withColours: [.lightOrange(), .darkOrange()], gradientOrientation: .horizontal)
     }
     
+    override func backAction() {
+        self.navigationController?.dismiss(animated: true, completion: { })
+    }
+    
     @IBAction func showOrHideChangePassword() {
         changePasswordStackView.isHidden = !changePasswordStackView.isHidden
         if changePasswordStackView.isHidden {
@@ -69,5 +74,6 @@ class AccountViewController: UIViewController {
         }
         self.dismiss(animated: true) {}
     }
+    
 
 }

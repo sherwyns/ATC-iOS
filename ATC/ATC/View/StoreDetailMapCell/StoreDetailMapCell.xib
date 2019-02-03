@@ -21,16 +21,24 @@
                     <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="jpE-Zc-2yl">
                         <rect key="frame" x="8" y="5" width="304" height="162.5"/>
                     </mapView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6iA-ae-7cm">
+                        <rect key="frame" x="8" y="5" width="304" height="162.5"/>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="jpE-Zc-2yl" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="9bU-bn-N6n"/>
+                    <constraint firstItem="6iA-ae-7cm" firstAttribute="bottom" secondItem="jpE-Zc-2yl" secondAttribute="bottom" id="RBm-J8-Gvu"/>
                     <constraint firstAttribute="trailing" secondItem="jpE-Zc-2yl" secondAttribute="trailing" constant="8" id="SSo-YT-mZQ"/>
+                    <constraint firstItem="6iA-ae-7cm" firstAttribute="leading" secondItem="jpE-Zc-2yl" secondAttribute="leading" id="TnS-Kk-Sht"/>
+                    <constraint firstItem="6iA-ae-7cm" firstAttribute="trailing" secondItem="jpE-Zc-2yl" secondAttribute="trailing" id="U3I-92-HXV"/>
                     <constraint firstItem="jpE-Zc-2yl" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="ccD-qa-Gnr"/>
                     <constraint firstAttribute="bottom" secondItem="jpE-Zc-2yl" secondAttribute="bottom" constant="5" id="fBy-2H-OHh"/>
+                    <constraint firstItem="6iA-ae-7cm" firstAttribute="top" secondItem="jpE-Zc-2yl" secondAttribute="top" id="nI9-hV-OKh"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="mapButton" destination="6iA-ae-7cm" id="cKt-CR-Ur4"/>
                 <outlet property="mapView" destination="jpE-Zc-2yl" id="rye-hZ-Frp"/>
             </connections>
         </tableViewCell>

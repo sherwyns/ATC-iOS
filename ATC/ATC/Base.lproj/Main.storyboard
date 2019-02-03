@@ -44,7 +44,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iWO-rM-36h">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JBo-1f-Idh" userLabel="Right">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JBo-1f-Idh" userLabel="Right">
                                         <rect key="frame" x="0.0" y="43" width="40" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="40" id="TBn-8s-okr"/>
@@ -201,11 +201,11 @@
             <objects>
                 <viewController id="she-q6-FNb" customClass="EntityViewController" customModule="ATC" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="W0M-qV-sKF">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="579"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="461"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="jOe-h0-GV9">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="579"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="461"/>
                                 <color key="backgroundColor" red="0.79607843137254897" green="0.79607843137254897" blue="0.79607843137254897" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="qdj-8L-1j3">
                                     <size key="itemSize" width="50" height="50"/>
@@ -426,6 +426,9 @@
                                             <constraint firstAttribute="width" constant="35" id="P2k-NJ-RFJ"/>
                                         </constraints>
                                         <state key="normal" image="unfavorite"/>
+                                        <connections>
+                                            <action selector="updateFavoriteAction" destination="3sJ-Qf-5a4" eventType="touchUpInside" id="2yC-CU-L1u"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shop Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="jRG-k6-ttu">
                                         <rect key="frame" x="76" y="18.5" width="212" height="24.5"/>
@@ -457,7 +460,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OSU-xI-rUe">
-                                <rect key="frame" x="8" y="96" width="359" height="80"/>
+                                <rect key="frame" x="8" y="96" width="289" height="80"/>
                                 <connections>
                                     <action selector="showStoreDetail" destination="3sJ-Qf-5a4" eventType="touchUpInside" id="hZP-S9-RvT"/>
                                 </connections>
@@ -540,7 +543,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="sMZ-zI-RSF" secondAttribute="trailing" constant="8" id="4WC-Lw-0S9"/>
-                            <constraint firstItem="OSU-xI-rUe" firstAttribute="trailing" secondItem="ecn-Z8-6JD" secondAttribute="trailing" id="4Xh-jj-Bde"/>
+                            <constraint firstItem="OSU-xI-rUe" firstAttribute="trailing" secondItem="ecn-Z8-6JD" secondAttribute="trailing" constant="-70" id="4Xh-jj-Bde"/>
                             <constraint firstItem="jWv-Yb-fWe" firstAttribute="centerX" secondItem="i3g-1r-wz3" secondAttribute="centerX" id="6aF-Qw-FAf"/>
                             <constraint firstItem="27z-nx-ZyN" firstAttribute="leading" secondItem="i3g-1r-wz3" secondAttribute="leading" id="9bA-X2-R0j"/>
                             <constraint firstItem="sMZ-zI-RSF" firstAttribute="leading" secondItem="i3g-1r-wz3" secondAttribute="leading" constant="8" id="9ev-8U-Wfp"/>
@@ -567,6 +570,7 @@
                         <outlet property="favoriteButton" destination="1Iu-71-oeA" id="oP6-SM-ti8"/>
                         <outlet property="headerContainer" destination="27z-nx-ZyN" id="nP8-WT-wjG"/>
                         <outlet property="headerStoreLabel" destination="jUv-2R-Mo3" id="fEj-pe-4S1"/>
+                        <outlet property="productCategoryLabel" destination="sF3-EA-3l6" id="XEy-HV-tNx"/>
                         <outlet property="storeContainer" destination="ecn-Z8-6JD" id="mUK-bS-7oX"/>
                         <outlet property="storeName" destination="jRG-k6-ttu" id="OLq-oX-PaK"/>
                         <outlet property="storeNeighbourhood" destination="KOB-Q5-N53" id="NNv-le-dIa"/>
@@ -646,11 +650,11 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Yzv-6Y-xfb">
-                                <rect key="frame" x="0.0" y="88" width="375" height="579"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="530"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gBg-bj-s8e" customClass="SegButton" customModule="ATC" customModuleProvider="target">
-                                <rect key="frame" x="47" y="595" width="281" height="60"/>
+                                <rect key="frame" x="47" y="546" width="281" height="60"/>
                                 <color key="backgroundColor" red="1" green="0.25882352939999997" blue="0.25882352939999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="bcQ-bj-bnZ"/>
@@ -849,7 +853,14 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="BBH-9C-OU3"/>
                     </view>
-                    <navigationItem key="navigationItem" title="My Account" id="vGY-QD-xc4"/>
+                    <navigationItem key="navigationItem" title="My Account" leftItemsSupplementBackButton="YES" id="vGY-QD-xc4">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="backArrow" id="5m6-8d-paZ">
+                            <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="backAction" destination="Mv5-Sk-mp8" id="8BB-i9-IFf"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="changePasswordStackView" destination="sKf-Bj-RJh" id="e5U-7t-wpf"/>
                         <outlet property="confirmPasswordTextField" destination="Teh-Qn-T6N" id="hSk-Dv-GEv"/>
@@ -857,7 +868,7 @@
                         <outlet property="newPasswordTextField" destination="ofQ-BF-KNe" id="4De-PV-gPc"/>
                         <outlet property="oldPasswordTextField" destination="fOW-SQ-BYd" id="8wX-81-PtR"/>
                         <outlet property="signOut" destination="oNC-Iu-jED" id="DWf-BP-Lxw"/>
-                        <outlet property="userLabel" destination="Szi-nK-mSp" id="dWN-aL-rlp"/>
+                        <outlet property="userLabel" destination="l2p-I4-1jq" id="fqm-MG-UYf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6kS-dC-o7P" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -884,7 +895,7 @@
                                         <state key="normal" image="ic_settings_2.0"/>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t8z-Ua-yQD">
-                                        <rect key="frame" x="55" y="43" width="62.5" height="40"/>
+                                        <rect key="frame" x="55" y="43" width="63" height="40"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -946,6 +957,9 @@
                                         <state key="normal" title="  Help">
                                             <color key="titleColor" red="0.14117647058823529" green="0.14117647058823529" blue="0.14117647058823529" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="helpButtonAction" destination="mFR-Rx-hDf" eventType="touchUpInside" id="0IN-o3-YTV"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DcG-i6-u94">
                                         <rect key="frame" x="0.0" y="101" width="279" height="1"/>
@@ -971,6 +985,9 @@
                                         <state key="normal" title="  About Us">
                                             <color key="titleColor" red="0.14117647059999999" green="0.14117647059999999" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="aboutUsButtonAction" destination="mFR-Rx-hDf" eventType="touchUpInside" id="vN9-Q1-GTX"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Ej-uz-jSV">
                                         <rect key="frame" x="0.0" y="50" width="247" height="1"/>
@@ -991,6 +1008,9 @@
                                         <state key="normal" title="  Privacy Policy">
                                             <color key="titleColor" red="0.14117647059999999" green="0.14117647059999999" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="privacyButtonAction" destination="mFR-Rx-hDf" eventType="touchUpInside" id="mF9-p2-iSm"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SOe-Xb-465">
                                         <rect key="frame" x="0.0" y="101" width="247" height="1"/>
@@ -1011,6 +1031,9 @@
                                         <state key="normal" title="  Terms &amp; Conditions">
                                             <color key="titleColor" red="0.14117647059999999" green="0.14117647059999999" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="privacyButtonAction" destination="mFR-Rx-hDf" eventType="touchUpInside" id="xZx-pI-JSF"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -1116,7 +1139,7 @@
                                     <constraint firstAttribute="bottom" secondItem="k1N-aq-E40" secondAttribute="bottom" constant="10" id="yag-qV-nYq"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="yWT-oz-Hxa">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="yWT-oz-Hxa">
                                 <rect key="frame" x="0.0" y="88" width="375" height="530"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                             </tableView>
@@ -1494,6 +1517,8 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="pOC-vI-GGG">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -1614,9 +1639,9 @@
         <image name="unfavorite" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Lvg-ux-0oe"/>
-        <segue reference="Rzj-Ws-hZH"/>
-        <segue reference="V98-9V-Tml"/>
-        <segue reference="4Yk-xt-YfT"/>
+        <segue reference="P8e-J9-OZQ"/>
+        <segue reference="RSK-zc-4xS"/>
+        <segue reference="bYA-dD-Qtd"/>
+        <segue reference="aV9-9n-AMA"/>
     </inferredMetricsTieBreakers>
 </document>

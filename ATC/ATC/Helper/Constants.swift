@@ -14,11 +14,16 @@ enum APIMethod: String {
     case socialSignUp = "socialUsers/signin"
     case getStores = "Store/getstores/"
     case getProductByStore = "products/getproductbystore/"
+    case getCategoriesList = "categories/list"
+    case search = "search/by/"
+    case products = "products"
+    case storeDetail = "store/"
 }
 
 class ApiServiceURL {
-    static let scheme     = "http://"
-    static let domain     = "34.209.125.112/"    // Live
+    static let scheme     = "https://"
+//    static let domain     = "dev.aroundthecorner.store/"
+    static let domain     = "api.aroundthecorner.store/"  // Live
     static let apiVersion = "api/"
     
     static func apiInterface(_ apiMethod : APIMethod) -> String{

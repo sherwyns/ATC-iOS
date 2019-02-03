@@ -25,6 +25,8 @@ class HomeViewController: UIViewController, EntityProtocol {
         super.viewDidLoad()
         filterButton.imageEdgeInsets = UIEdgeInsets(top: 11, left:11, bottom: 11, right: 11)
         self.view.backgroundColor = grayColor
+        
+        Downloader.retrieveCategories()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -58,7 +60,7 @@ class HomeViewController: UIViewController, EntityProtocol {
         LoginManager.logout()
         
         if let parent = self.parent as? ATCTabBarViewController {
-            parent.showRegistration()
+            parent.showRegistration(sender: nil)
         }
     }
 }
@@ -101,11 +103,10 @@ extension HomeViewController {
         let urlString = ApiServiceURL.apiInterface(.getStores)
         
         DispatchQueue.main.async {
-            self.showHUD()
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
         }
         Downloader.getStoreJSONUsingURLSession(url: urlString) { (result, errorString) in
             if let error = errorString {
-                
                 KSToastView.ks_showToast(error)
             }
             else {
@@ -115,23 +116,30 @@ extension HomeViewController {
                         let store = Store.init(dictionary: storeDictionary)
                         storeArray.append(store)
                     }
-                    print("B4 \(SharedObjects.shared.favStores?.count)")
                     
                     SharedObjects.shared.stores = storeArray
-                    
-                    print("After \(SharedObjects.shared.favStores?.count)")
-                    
                     SharedObjects.shared.stores = SharedObjects.shared.updateStoresWithFavorite()
-                    self.entityViewController?.stores = SharedObjects.shared.stores
+                    
+                    if let _ = SharedObjects.shared.categoryId {
+                        if SharedObjects.shared.storesWithFilter().count == 0 {
+                            KSToastView.ks_showToast("No shops found", duration: 3.0)
+                        }
+                        self.entityViewController?.stores = SharedObjects.shared.storesWithFilter()
+                    }
+                    else {
+                        if let stores = SharedObjects.shared.stores, stores.count == 0 {
+                            KSToastView.ks_showToast("No shops found", duration: 3.0)
+                        }
+                        self.entityViewController?.stores = SharedObjects.shared.stores
+                    }
                     DispatchQueue.main.async {
                         self.entityViewController?.collectionView.reloadData()
-                    }
-                    
+                    } 
                 }
             }
             
             DispatchQueue.main.async {
-                self.hideHUD()
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }
         }
     }

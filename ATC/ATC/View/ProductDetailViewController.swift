@@ -27,7 +27,7 @@ class ProductDetailViewController: UIViewController {
     
     let grayColor = UIColor.init(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1)
     
-    let cellArray = [ProductDetailCell.Header, ProductDetailCell.About, ProductDetailCell.Similar]
+    var cellArray = [ProductDetailCell.Header, ProductDetailCell.About, ProductDetailCell.Similar]
     
     var kWIDTH_CELL: CGFloat {
         let insettedWidth = Int((self.view.frame.size.width - 24))
@@ -52,8 +52,11 @@ class ProductDetailViewController: UIViewController {
     
     var similarProducts: [Product]? {
         didSet {
-            
-            
+            if let similarProducts = similarProducts, similarProducts.count == 0 {
+                if let lastCell = cellArray.last, lastCell == ProductDetailCell.Similar {
+                    cellArray.removeLast()
+                }
+            }
         }
     }
     
@@ -110,11 +113,20 @@ extension ProductDetailViewController: UITableViewDataSource {
             if let url = URL.init(string: product.imageUrl) {
                 headerCell.productImageView.setImageWith(url, placeholderImage: UIImage.init(named: "placeholder"))
             }
+            if product.isFavorite {
+                headerCell.favoritebutton.setImage(UIImage.init(named: "favorite"), for: .normal)
+            }
+            else {
+                headerCell.favoritebutton.setImage(UIImage.init(named: "unfavorite"), for: .normal)
+            }
+            
+            headerCell.favoritebutton.addTarget(self, action: #selector(ProductDetailViewController.updateProductFavorite(sender:)), for: .touchUpInside)
             return headerCell
         case .About:
             let aboutCell = self.tableView.dequeueReusableCell(withIdentifier: kPRODUCT_DETAIL_ABOUT_CELL) as! ProductDetailAboutCell
             aboutCell.nameLabel.text = product.name
             aboutCell.priceLabel.text = "$\(String(product.price))"
+            aboutCell.descriptionLabel.text = product.description
             return aboutCell
         case .Similar:
             let similarCell = self.tableView.dequeueReusableCell(withIdentifier: kPRODUCT_DETAIL_SIMILAR_CELL) as! ProductDetailSimilarCell
@@ -124,6 +136,41 @@ extension ProductDetailViewController: UITableViewDataSource {
             DispatchQueue.main.async{ self.similarProductsCollectionView?.reloadData() }
             
             return similarCell
+        }
+    }
+    
+    @objc func updateProductFavorite(sender : UIButton) {
+        if !ATCUserDefaults.isUserLoggedIn() {
+            //entityContainer.isHidden = true
+            showLogInAlert()
+            return
+        }
+        SharedObjects.shared.updateWithNewOrExistingProductId(selectedProduct: self.product)
+        
+        updateProductFavoriteButton(sender: sender)
+    }
+    
+    @objc func updateSimilarProductFavorite(sender : UIButton) {
+        if !ATCUserDefaults.isUserLoggedIn() {
+            //entityContainer.isHidden = true
+            showLogInAlert()
+            return
+        }
+        SharedObjects.shared.updateWithNewOrExistingProductId(selectedProduct: similarProducts![sender.tag])
+        
+        
+        self.similarProducts = SharedObjects.shared.updateIncomingProductWithFavorite(products: &similarProducts!)
+        updateProductFavoriteButton(sender: sender)
+    }
+    
+    
+    func updateProductFavoriteButton(sender: UIButton) {
+        self.product.isFavorite = SharedObjects.shared.isProductFavorited(product: self.product)
+        if self.product.isFavorite {
+            sender.setImage(UIImage.init(named: "favorite"), for: .normal)
+        }
+        else {
+            sender.setImage(UIImage.init(named: "unfavorite"), for: .normal)
         }
     }
 }
@@ -137,7 +184,7 @@ extension ProductDetailViewController: UITableViewDelegate {
         case .About:
             let maxLabelWidth: CGFloat = self.view.frame.size.width - 16
             let aboutCell = self.tableView.dequeueReusableCell(withIdentifier: kPRODUCT_DETAIL_ABOUT_CELL) as! ProductDetailAboutCell
-            aboutCell.descriptionLabel.text = productDescription
+            aboutCell.descriptionLabel.text = self.product.description
             let neededSize = aboutCell.descriptionLabel.sizeThatFits(CGSize(width: maxLabelWidth, height: CGFloat.greatestFiniteMagnitude))
             return 60 + neededSize.height
         case .Similar:
@@ -163,8 +210,19 @@ extension ProductDetailViewController: UICollectionViewDataSource {
                 cell?.bannerImageView.setImageWith(url, placeholderImage: UIImage.init(named: "placeholder"))
             }
         }
+        
+        if similarProducts![indexPath.item].isFavorite {
+            cell?.favoritebutton.setImage(UIImage.init(named: "favorite"), for: .normal)
+        }
+        else {
+            cell?.favoritebutton.setImage(UIImage.init(named: "unfavorite"), for: .normal)
+        }
+        
+        cell?.favoritebutton.addTarget(self, action: #selector(ProductDetailViewController.updateProductFavorite(sender:)), for: .touchUpInside)
         return cell ?? UICollectionViewCell()
     }
+    
+    
 }
 
 extension ProductDetailViewController: UICollectionViewDelegate {

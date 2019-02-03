@@ -12,6 +12,7 @@ import MapKit
 class StoreDetailMapCell: UITableViewCell {
     
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var mapButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

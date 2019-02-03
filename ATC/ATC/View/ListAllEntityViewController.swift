@@ -76,7 +76,7 @@ class ListAllEntityViewController: UIViewController, EntityProtocol {
         LoginManager.logout()
         
         if let parent = self.parent as? ATCTabBarViewController {
-            parent.showRegistration()
+            parent.showRegistration(sender: nil)
         }
     }
 }

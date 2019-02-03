@@ -68,4 +68,37 @@ public class ATCUserDefaults {
         UserDefaults.standard.setValue(id, forKey: kUserId)
         UserDefaults.standard.synchronize()
     }
+    
+    static func saveProductFavorite(productFavorites: [ProductFavorite], storeFavorites: [StoreFavorite]) {
+        if let usermail = ATCUserDefaults.userInfo() {
+            var dictionary = Dictionary<String, Array<Dictionary<String,String>>>()
+            
+            var productDictionaryArray = [Dictionary<String,String>]()
+            
+            for productFavorite in productFavorites {
+                let dictionary = productFavorite.dictionaryFromProductFavorite()
+                productDictionaryArray.append(dictionary)
+            }
+            
+            dictionary["productFavorites"] = productDictionaryArray
+            
+            var storeDictionaryArray = [Dictionary<String,String>]()
+            
+            for storeFavorite in storeFavorites {
+                let dictionary = storeFavorite.dictionaryFromStoreFavorite()
+                storeDictionaryArray.append(dictionary)
+            }
+            
+            dictionary["storeFavorites"] = storeDictionaryArray
+            
+            print(UserDefaults.standard.set(dictionary, forKey: usermail))
+        }
+        
+    }
+    
+    static func retrieveFavProductStore() {
+        if let usermail = ATCUserDefaults.userInfo() {
+            print(UserDefaults.value(forKey: usermail))
+        }
+    }
 }

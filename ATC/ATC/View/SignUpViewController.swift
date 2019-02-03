@@ -22,6 +22,8 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var signupButton: UIButton!
     
     @IBOutlet weak var HUD:MBProgressHUD!
+    
+    var operationPayload: OperationPayload?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +40,7 @@ class SignUpViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         //addHUDToView()
+        print(operationPayload?.payloadType)
     }
     
     // MARK: - Navigation
@@ -56,7 +59,7 @@ class SignUpViewController: UIViewController {
         if FBSDKAccessToken.current() != nil {
             FBSDKGraphRequest.init(graphPath: "me", parameters: ["fields":"email, first_name, last_name"])?.start(completionHandler: { (requestConnection, result, error) in
                 if let error = error {
-                    KSToastView.ks_showToast(error.localizedDescription)
+                    KSToastView.ks_showToast("Please try again")
                 }
                 else {
                     let result = result as! Dictionary<String, String>
@@ -75,7 +78,9 @@ class SignUpViewController: UIViewController {
                             }
                             else {
                                 DispatchQueue.main.async(execute: { () -> Void in
+                                    ATCUserDefaults.userInfo(mail: email)
                                     ATCUserDefaults.userSignedIn()
+                                    self.updateFavorite()
                                     self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
                                     KSToastView.ks_showToast("Welcome!")
                                 })
@@ -96,12 +101,12 @@ class SignUpViewController: UIViewController {
             print(error)
             print(result)
             if let error = error {
-                KSToastView.ks_showToast(error.localizedDescription)
+                KSToastView.ks_showToast("Please try again")
             }
             else {
                 FBSDKGraphRequest.init(graphPath: "me", parameters: ["fields":"email, first_name, last_name"])?.start(completionHandler: { (requestConnection, result, error) in
                     if let error = error {
-                        KSToastView.ks_showToast(error.localizedDescription)
+                        KSToastView.ks_showToast("Please try again")
                     }
                     else {
                         let result = result as! Dictionary<String, String>
@@ -120,7 +125,9 @@ class SignUpViewController: UIViewController {
                                 }
                                 else {
                                     DispatchQueue.main.async(execute: { () -> Void in
+                                        ATCUserDefaults.userInfo(mail: email)
                                         ATCUserDefaults.userSignedIn()
+                                        self.updateFavorite()
                                         self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
                                         KSToastView.ks_showToast("Welcome")
                                     })
@@ -163,8 +170,10 @@ class SignUpViewController: UIViewController {
                         if let result = result, let id = result["id"] as? Int{
                             ATCUserDefaults.userIdentity(id: String(id))
                         }
+                        ATCUserDefaults.userInfo(mail: self.emailTextField.text!)
                         ATCUserDefaults.userOpenedApp()
                         ATCUserDefaults.userSignedIn()
+                        self.updateFavorite()
                         DispatchQueue.main.async(execute: { () -> Void in
                             self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
                             KSToastView.ks_showToast("Welcome!")
@@ -254,6 +263,10 @@ extension SignUpViewController: GIDSignInDelegate {
                 }
                 else {
                     DispatchQueue.main.async(execute: { () -> Void in
+                        ATCUserDefaults.userOpenedApp()
+                        ATCUserDefaults.userSignedIn()
+                        self.updateFavorite()
+                        ATCUserDefaults.userInfo(mail:user.profile.email!)
                         self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
                     })
                     KSToastView.ks_showToast("Welcome!")
@@ -266,6 +279,27 @@ extension SignUpViewController: GIDSignInDelegate {
     
 }
 
+extension SignUpViewController: FavoriteProtocol {
+    
+}
+
+extension UIViewController {
+    func updateFavorite() {
+        if let favProtocol = self as? FavoriteProtocol {
+            if let favoritePayloadType = favProtocol.operationPayload?.payloadType {
+                switch favoritePayloadType {
+                case .Favorite:
+                    if let store = favProtocol.operationPayload?.payloadData as? Store {
+                        SharedObjects.shared.updateWithNewOrExistingStoreId(selectedStore: store)
+                    }
+                    else if let product = favProtocol.operationPayload?.payloadData as? Product {
+                        SharedObjects.shared.updateWithNewOrExistingProductId(selectedProduct: product)
+                    }
+                }
+            }
+        }
+    }
+}
 
 //{
 //    "email": "testme@enqos.com",
