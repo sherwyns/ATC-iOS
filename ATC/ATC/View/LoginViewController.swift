@@ -39,11 +39,6 @@ class LoginViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         addHUDToView()
-        
-//        emailTextField.text = "testx@enqos.com"
-//        passwordTextField.text = "enqos@123"
-        print(operationPayload?.payloadType)
-        
     }
     
     // MARK: - Navigation
@@ -66,7 +61,8 @@ class LoginViewController: UIViewController {
                 
                 let urlString = ApiServiceURL.apiInterface(.Login)
                 
-                Downloader.getJSONUsingURLSession(url: urlString, parameters: parameterDictionary) { (result, errorString) in
+                Downloader.getJSONUsingURLSessionPOSTRequest(url: urlString, parameters: parameterDictionary) { (loginResult, errorString) in
+                    self.hideHUD()
                     if let error = errorString {
                         self.hideHUD()
                         KSToastView.ks_showToast(error)
@@ -79,15 +75,26 @@ class LoginViewController: UIViewController {
                             }
                         }
                         else {
-                            DispatchQueue.main.async(execute: { () -> Void in
-                                ATCUserDefaults.userInfo(mail: self.emailTextField.text!)
-                                ATCUserDefaults.userSignedIn()
-                                self.updateFavorite()
-                                self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
-                                KSToastView.ks_showToast("Welcome!")
-                                
-                            })
-                            print(" result \(result)")
+                            if let `loginResult` = loginResult {
+                                if let message = loginResult["message"] as? String, message == "user already exists" {
+                                    KSToastView.ks_showToast(message)
+                                    return
+                                }
+                                if let userId = loginResult["userId"] as? Int {
+                                    DispatchQueue.main.async(execute: { () -> Void in
+                                        ATCUserDefaults.userOpenedApp()
+                                        ATCUserDefaults.userSignedIn()
+                                        self.updateFavorite()
+                                        ATCUserDefaults.userIdentity(id: String(userId))
+                                        ATCUserDefaults.userInfo(mail:self.emailTextField.text!)
+                                        self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
+                                    })
+                                    KSToastView.ks_showToast("Welcome!")
+                                }
+                            }
+                            else {
+                                KSToastView.ks_showToast("Please try Again")
+                            }
                         }
                     }
                 }
@@ -126,30 +133,38 @@ class LoginViewController: UIViewController {
                     }
                     else {
                         let result = result as! Dictionary<String, String>
-                        if let email = result["email"] as? String, let firstName = result["first_name"] as? String, let lastName = result["last_name"] as? String {
-                            var parameterDictionary = Dictionary<String, String>()
-                            parameterDictionary["email"] = email
-                            parameterDictionary["externalid"]      = "user.userID"
-                            parameterDictionary["provider"]      = "facebook"
+                        if let email = result["email"] as? String, let firstName = result["first_name"] as? String, let lastName = result["last_name"] as? String, let userId = result["id"] as? String {
+                            var parameterDictionary = Dictionary<String, Any>()
+                            parameterDictionary["email"]       = email
+                            parameterDictionary["externalid"]  = userId
+                            parameterDictionary["provider"]    = "facebook"
+                            parameterDictionary["requestCode"] = 0
                             self.showHUD()
                             
-                            let urlString = ApiServiceURL.apiInterface(.socialSignUp)
+                            let urlString = ApiServiceURL.apiInterface(.socialSignIn)
                             
-                            Downloader.getJSONUsingURLSession(url: urlString, parameters: parameterDictionary) { (result, errorString) in
-                                if let error = errorString {
+                            Downloader.getJSONUsingURLSessionPOSTRequest(url: urlString, parameters: parameterDictionary) { (facebookResult, errorString) in
+                                self.hideHUD()
+                                if let _ = errorString {
                                     KSToastView.ks_showToast("Please try again")
                                 }
                                 else {
-                                    DispatchQueue.main.async(execute: { () -> Void in
-                                        self.hideHUD()
-                                        ATCUserDefaults.userInfo(mail: email)
-                                        ATCUserDefaults.userSignedIn()
-                                        self.updateFavorite()
-                                        self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
-                                        KSToastView.ks_showToast("Welcome!")
-                                    })
-                                    
-                                    print(" result \(result)")
+                                    if let facebookResult = facebookResult {
+                                        if let userId = facebookResult["userId"] as? Int {
+                                            DispatchQueue.main.async(execute: { () -> Void in
+                                                ATCUserDefaults.userOpenedApp()
+                                                ATCUserDefaults.userSignedIn()
+                                                self.updateFavorite()
+                                                ATCUserDefaults.userIdentity(id: String(userId))
+                                                ATCUserDefaults.userInfo(mail:email)
+                                                self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
+                                            })
+                                            KSToastView.ks_showToast("Welcome!")
+                                        }
+                                    }
+                                    else {
+                                        KSToastView.ks_showToast("Please try Again")
+                                    }
                                 }
                             }
                         }
@@ -223,29 +238,37 @@ extension LoginViewController: GIDSignInDelegate {
         }else {
             print(user.profile.email)
             
-            var parameterDictionary = Dictionary<String, String>()
+            var parameterDictionary = Dictionary<String, Any>()
             parameterDictionary["email"] = user.profile.email!
             parameterDictionary["externalid"]      = user.userID
             parameterDictionary["provider"]      = "google"
+            parameterDictionary["requestCode"]      = 0
             self.showHUD()
             
-            let urlString = ApiServiceURL.apiInterface(.socialSignUp)
+            let urlString = ApiServiceURL.apiInterface(.socialSignIn)
             
-            Downloader.getJSONUsingURLSession(url: urlString, parameters: parameterDictionary) { (result, errorString) in
+            Downloader.getJSONUsingURLSessionPOSTRequest(url: urlString, parameters: parameterDictionary) { (googleResult, errorString) in
+                self.hideHUD()
                 if let error = errorString {
                     KSToastView.ks_showToast(error)
                 }
                 else {
-                    DispatchQueue.main.async(execute: { () -> Void in
-                      self.hideHUD()
-                        ATCUserDefaults.userInfo(mail: user.profile.email!)
-                        ATCUserDefaults.userSignedIn()
-                        self.updateFavorite()
-                        self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
-                        KSToastView.ks_showToast("Welcome!")
-                    })
-                    
-                    print(" result \(result)")
+                    if let `googleResult` = googleResult {
+                        if let userId = googleResult["userId"] as? Int {
+                            DispatchQueue.main.async(execute: { () -> Void in
+                                ATCUserDefaults.userOpenedApp()
+                                ATCUserDefaults.userSignedIn()
+                                self.updateFavorite()
+                                ATCUserDefaults.userIdentity(id: String(userId))
+                                ATCUserDefaults.userInfo(mail:user.profile.email!)
+                                self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
+                            })
+                            KSToastView.ks_showToast("Welcome!")
+                        }
+                    }
+                    else {
+                        KSToastView.ks_showToast("Please try Again")
+                    }
                 }
             }
         }

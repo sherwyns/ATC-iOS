@@ -9,15 +9,18 @@
 import Foundation
 
 enum APIMethod: String {
-    case Login                   = "Users/login"
-    case SignUp    = "Users"
-    case socialSignUp = "socialUsers/signin"
-    case getStores = "Store/getstores/"
+    case Login             = "Users/login"
+    case SignUp            = "Users"
+    case socialSignIn      = "socialUsers/signin"
+    case socialSignUp      = "socialUsers/signup"
+    case getStores         = "Store/getstores/"
     case getProductByStore = "products/getproductbystore/"
     case getCategoriesList = "categories/list"
-    case search = "search/by/"
-    case products = "products"
-    case storeDetail = "store/"
+    case search            = "search/by/"
+    case products          = "products"
+    case storeDetail       = "store/"
+    case getFavoriteList   = "favorite/list"
+    case saveFavorite      = "favorite/save"
 }
 
 class ApiServiceURL {

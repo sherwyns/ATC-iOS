@@ -10,97 +10,16 @@ import Foundation
 import AFNetworking
 
 class Downloader {
+    static let UUID_HEADER = "X-Header-UUID"
     
-    func makePostRequestWith(urlString: String, data: Data) -> URLRequest?{
-        
-        guard let url = URL(string: urlString) else {
-            return nil
-        }
-        
-        let boundaryConstant = "----------------------App"
-        let contentType = "multipart/form-data; boundary=\(boundaryConstant)"
-        
-        var mutableRequest = URLRequest(url: url)
-        mutableRequest.httpMethod = "POST"
-        mutableRequest.setValue(contentType, forHTTPHeaderField: "Content-Type")
-        mutableRequest.setValue("\(data.count)", forHTTPHeaderField: "Content-Length")
-        mutableRequest.httpBody = data
-        return mutableRequest
-    }
-    
-    func dataFromDictionary(dictionary: Dictionary<String, String>) -> Data {
-        var postData = Data()
-        let boundaryConstant = "----------------------App"
-        
-        
-        for (key, value) in dictionary {
-            postData.append("--\(boundaryConstant)\r\n".data(using: String.Encoding.utf8)!)
-            
-            let param = "Content-Disposition: form-data; name=\"" +  key + "\"\r\n\r\n"
-            postData.append(param.data(using: String.Encoding.utf8)!)
-            
-            let value = value + "\r\n"
-            postData.append(value.data(using: String.Encoding.utf8)!)
-        }
-        postData.append("--\(boundaryConstant)\r\n".data(using: String.Encoding.utf8)!)
-        return postData
-        
-    }
-    
-    func getDataFromServer(_ url : String, parameters : Dictionary<String, AnyObject>,  completionHandler: @escaping (_ result : Dictionary<String, AnyObject>?, _ error: String?) -> Void) {
-        print(url)
-        var urlString = url
-        
-        urlString = urlString.addingPercentEncoding( withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-        
-        let manager = AFHTTPSessionManager()
-        
-        manager.responseSerializer = AFJSONResponseSerializer.init(readingOptions: .allowFragments)
-        
-        manager.requestSerializer.setValue("application/form-data", forHTTPHeaderField: "Content-Type")
-        
-        manager.responseSerializer.acceptableContentTypes?.insert("text/html")
-        
-        manager.post(urlString, parameters: parameters, progress: nil, success: { (dataTask, response) in
-            print("Reponse -> \(response)")
-            if let jsonDictionary = response as? Dictionary<String, AnyObject> {
-                completionHandler(jsonDictionary, nil)
-            }
-            else {
-                completionHandler(nil, nil)
-            }
-        }) { (dataTask, error) in
-            print("Error \(error)")
-            completionHandler(nil, "Sorry there is some issue!")
-        }
-        
-        //        manager.post(urlString, parameters: parameters, constructingBodyWith: { (formData) in
-        //
-        //        }, progress: { (progress) in
-        //
-        //        }, success: { (dataTask, response) in
-        //            print("Reponse -> \(response)")
-        //            if let jsonDictionary = response as? Dictionary<String, AnyObject> {
-        //                completionHandler(jsonDictionary, nil)
-        //            }
-        //            else {
-        //                completionHandler(nil, nil)
-        //            }
-        //        }) { (dataTask, error) in
-        //            print("Error \(error)")
-        //            completionHandler(nil, "Sorry there is some issue!")
-        //
-        //        }
-    }
-    
-    static func getJSONUsingURLSession(url : String, parameters : Dictionary<String, String>,  completionHandler: @escaping (_ result : Dictionary<String, AnyObject?>?, _ error: String?) -> Void) {
+static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Dictionary<String, Any>,  completionHandler: @escaping (_ result : Dictionary<String, AnyObject?>?, _ error: String?) -> Void) {
         
         guard let serviceUrl = URL(string: url) else { return }
         
         var request = URLRequest(url: serviceUrl)
         request.httpMethod = "POST"
         request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
-        
+        request.setValue(uniqueDeviceIdentifier(), forHTTPHeaderField: UUID_HEADER)
         guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {
             return
         }
@@ -112,6 +31,7 @@ class Downloader {
                 print(response)
             }
             if let data = data {
+                print(String.init(data: data, encoding: String.Encoding.ascii))
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as? Dictionary<String, AnyObject?>
                     print(json!)
@@ -119,10 +39,6 @@ class Downloader {
                         if let error = json["error"] as? Dictionary<String, AnyObject>, let message = error["message"]  as? String {
                             completionHandler(nil, message)
                         }
-//                        else if let id = json["id"] as? String{
-//                            UserDefaults.standard.setValue(true, forKey: ATCUserDefaults.kIsUserLoggedIn)
-//                            completionHandler(json, nil)
-//                        }
                         else {
                             completionHandler(json, nil)
                         }
@@ -137,12 +53,11 @@ class Downloader {
     
     static func getStoreJSONUsingURLSession(url : String, completionHandler: @escaping (_ result : Dictionary<String, AnyObject?>?, _ error: String?) -> Void) {
         
-        
-        
         guard let serviceUrl = URL(string: url) else { return }
         
         var request = URLRequest(url: serviceUrl)
         request.httpMethod = "GET"
+        request.setValue(uniqueDeviceIdentifier(), forHTTPHeaderField: UUID_HEADER)
         let taskDelegate = TaskDelegate()
         
         let session = URLSession.init(configuration: URLSessionConfiguration.default, delegate: taskDelegate, delegateQueue: nil)
@@ -158,10 +73,6 @@ class Downloader {
                         if let error = json["error"] as? Dictionary<String, AnyObject>, let message = error["message"]  as? String {
                             completionHandler(nil, message)
                         }
-                            //                        else if let id = json["id"] as? String{
-                            //                            UserDefaults.standard.setValue(true, forKey: ATCUserDefaults.kIsUserLoggedIn)
-                            //                            completionHandler(json, nil)
-                            //                        }
                         else {
                             completionHandler(json, nil)
                         }
@@ -174,7 +85,7 @@ class Downloader {
             else {
                 completionHandler(nil, "Please try again")
             }
-            }.resume()
+        }.resume()
     }
     
     static func getProductJSONUsingURLSession(url : String, completionHandler: @escaping (_ result :Any?, _ error: String?) -> Void) {
@@ -183,6 +94,7 @@ class Downloader {
         
         var request = URLRequest(url: serviceUrl)
         request.httpMethod = "GET"
+        request.setValue(uniqueDeviceIdentifier(), forHTTPHeaderField: UUID_HEADER)
         let taskDelegate = TaskDelegate()
         
         let session = URLSession.init(configuration: URLSessionConfiguration.default, delegate: taskDelegate, delegateQueue: nil)
@@ -196,16 +108,6 @@ class Downloader {
                     print(json!)
                     if let json = json {
                          completionHandler(json, nil)
-//                        if let error = json["error"] as? Dictionary<String, AnyObject>, let message = error["message"]  as? String {
-//                            completionHandler(nil, message)
-//                        }
-//                            //                        else if let id = json["id"] as? String{
-//                            //                            UserDefaults.standard.setValue(true, forKey: ATCUserDefaults.kIsUserLoggedIn)
-//                            //                            completionHandler(json, nil)
-//                            //                        }
-//                        else {
-//                            completionHandler(json, nil)
-//                        }
                     }
                 }catch {
                     print(error)
@@ -220,13 +122,9 @@ class Downloader {
     
     static func getStoreJSONUsingURLSession(serviceUrl : URL, completionHandler: @escaping (_ result : Dictionary<String, AnyObject?>?, _ error: String?) -> Void) {
         
-        
-        
-        //guard let serviceUrl = URL(string: url) else { return }
-        
         var request = URLRequest(url: serviceUrl)
         request.httpMethod = "GET"
-        
+        request.setValue(uniqueDeviceIdentifier(), forHTTPHeaderField: UUID_HEADER)
         let session = URLSession.shared
         session.dataTask(with: request) { (data, response, error) in
             if let response = response {
@@ -240,10 +138,6 @@ class Downloader {
                         if let error = json["error"] as? Dictionary<String, AnyObject>, let message = error["message"]  as? String {
                             completionHandler(nil, message)
                         }
-                            //                        else if let id = json["id"] as? String{
-                            //                            UserDefaults.standard.setValue(true, forKey: ATCUserDefaults.kIsUserLoggedIn)
-                            //                            completionHandler(json, nil)
-                            //                        }
                         else {
                             completionHandler(json, nil)
                         }
@@ -259,46 +153,11 @@ class Downloader {
             }.resume()
     }
     
-    func getDataFromServer(_ url : String, parameters : Dictionary<String, AnyObject>, image : UIImage,  completionHandler: @escaping (_ result : Dictionary<String, AnyObject>?, _ error: String?) -> Void) {
-        print(url)
-        var urlString = url
-        
-        urlString = urlString.addingPercentEncoding( withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-        
-        let manager = AFHTTPSessionManager()
-        
-        manager.responseSerializer = AFJSONResponseSerializer.init(readingOptions: .mutableContainers)
-        manager.responseSerializer.acceptableContentTypes?.insert("text/html")
-        
-        manager.requestSerializer = AFJSONRequestSerializer()
-        manager.requestSerializer.setValue("multipart/form-data", forHTTPHeaderField: "Content-Type")
-        
-//        let data = UIImageJPEGRepresentation(image, 0.5)
-//
-//        manager.post(urlString, parameters: parameters, constructingBodyWith: { (formData) in
-//            formData.appendPart(withFileData: data!, name: "received_file", fileName: "attachment.jpg", mimeType: "image/jpeg")
-//        }, progress: { (progress) in
-//
-//        }, success: { (dataTask, response) in
-//            print("Response -> \(response)")
-//            if let jsonDictionary = response as? Dictionary<String, AnyObject> {
-//                completionHandler(jsonDictionary, nil)
-//            }
-//            else {
-//                completionHandler(nil, nil)
-//            }
-//        }) { (dataTask, error) in
-//            print("Error \(error)")
-//            completionHandler(nil, "Sorry there is some issue!")
-//
-//        }
-    }
-    
     static func retrieveCategories() {
         let urlString = ApiServiceURL.apiInterface(APIMethod.getCategoriesList)
         
         Downloader.getStoreJSONUsingURLSession(url: urlString) { (result, errorString) in
-            if let error = errorString {
+            if let _ = errorString {
                 
             }
             else {
@@ -313,13 +172,123 @@ class Downloader {
                     allDictionary["id"] = "-1"
                     allDictionary["name"] = "All"
                     
-                    var allCategory = Category.init(dictionary: allDictionary)
+                    let allCategory = Category.init(dictionary: allDictionary)
                     categories.insert(allCategory, at: 0)
                     SharedObjects.shared.categories = categories
                 }
             }
         }
     }
+    
+    static func updateStoreFavorite(store: Store) {
+        
+        guard let userId = ATCUserDefaults.userId(), let intUserId = Int(userId) else {
+            return
+        }
+        
+        var parameterDictionary = Dictionary<String, Any>()
+        parameterDictionary["user_id"]    = intUserId
+        parameterDictionary["id"]         = store.storeId
+        parameterDictionary["isfavorite"] = store.isFavorite
+        parameterDictionary["type"]       = "store"
+        Downloader.getJSONUsingURLSessionPOSTRequest(url: ApiServiceURL.apiInterface(.saveFavorite), parameters: parameterDictionary) { (resultDictionary, error) in
+            print(resultDictionary!)
+        }
+    }
+    
+    static func updateProductFavorite(product: Product) {
+        //        {
+        //        "user_id": 10,
+        //        "id": 20,
+        //        "isfavorite":1,
+        //        "type":"product"
+        //        }
+        
+        guard let userId = ATCUserDefaults.userId(), let intUserId = Int(userId) else {
+            return
+        }
+        
+        var parameterDictionary = Dictionary<String, Any>()
+        parameterDictionary["user_id"]    = intUserId
+        parameterDictionary["id"]         = product.productId
+        parameterDictionary["isfavorite"] = !product.isFavorite
+        parameterDictionary["type"]       = "product"
+        Downloader.getJSONUsingURLSessionPOSTRequest(url: ApiServiceURL.apiInterface(.saveFavorite), parameters: parameterDictionary) { (resultDictionary, error) in
+            print(resultDictionary!)
+        }
+    }
+    
+    static func uniqueDeviceIdentifier() -> String{
+        if let uuid = UIDevice.current.identifierForVendor?.uuidString {
+            return uuid
+        }
+        return String()
+    }
+    
+    static func retrieveStoreFavorites() {
+        guard let userId = ATCUserDefaults.userId(), let intUserId = Int(userId) else {
+            return
+        }
+        var parameterDictionary = Dictionary<String, Any>()
+        parameterDictionary["user_id"]    = intUserId
+        parameterDictionary["type"]       = "store"
+        
+        Downloader.getJSONUsingURLSessionPOSTRequest(url: ApiServiceURL.apiInterface(.getFavoriteList), parameters: parameterDictionary) { (favStoreList, errorString) in
+            if let _ = errorString {
+                
+            }
+            else {
+                if let favStoreList = favStoreList, let data = favStoreList["data"] as? Array<Dictionary<String,Any>> {
+                    var storeFavorites = [StoreFavorite]()
+                    for favorite in data {
+                        if let id = favorite["store_id"] as? Int, let isFavorite = favorite["favorite"] as? Bool, isFavorite == true {
+                            print(id)
+                            
+                            var dictionary = Dictionary<String, Any>()
+                            dictionary["storeid"] = id
+                            dictionary["isfavorite"] = true
+                            
+                            storeFavorites.append(StoreFavorite.init(dictionary: dictionary))
+                        }
+                    }
+                    SharedObjects.shared.favStores = storeFavorites
+                }
+            }
+        }
+    }
+    
+    static func retrieveProductFavorites() {
+        guard let userId = ATCUserDefaults.userId(), let intUserId = Int(userId) else {
+            return
+        }
+        var parameterDictionary = Dictionary<String, Any>()
+        parameterDictionary["user_id"]    = intUserId
+        parameterDictionary["type"]       = "product"
+        
+        Downloader.getJSONUsingURLSessionPOSTRequest(url: ApiServiceURL.apiInterface(.getFavoriteList), parameters: parameterDictionary) { (favProductList, errorString) in
+            if let _ = errorString {
+                
+            }
+            else {
+                if let favProductList = favProductList, let data = favProductList["data"] as? Array<Dictionary<String,Any>> {
+                    var productFavorites = [ProductFavorite]()
+                    for favorite in data {
+                        if let id = favorite["product_id"] as? Int, let isFavorite = favorite["favorite"] as? Bool, isFavorite == true {
+                            print(id)
+                            
+                            var dictionary = Dictionary<String, Any>()
+                            dictionary["productid"] = id
+                            dictionary["isfavorite"] = true
+                            
+                            productFavorites.append(ProductFavorite.init(dictionary: dictionary))
+                        }
+                    }
+                    SharedObjects.shared.favProducts = productFavorites
+                }
+            }
+        }
+    }
+  
 }
 
 
@@ -330,3 +299,5 @@ class TaskDelegate: NSObject, URLSessionTaskDelegate {
         completionHandler(.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
     }
 }
+
+
