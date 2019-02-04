@@ -13,6 +13,7 @@ enum APIMethod: String {
     case SignUp            = "Users"
     case socialSignIn      = "socialUsers/signin"
     case socialSignUp      = "socialUsers/signup"
+    case changePassword    = "Users/change-password"
     case getStores         = "Store/getstores/"
     case getProductByStore = "products/getproductbystore/"
     case getCategoriesList = "categories/list"
@@ -21,6 +22,8 @@ enum APIMethod: String {
     case storeDetail       = "store/"
     case getFavoriteList   = "favorite/list"
     case saveFavorite      = "favorite/save"
+    case forgotPassword    = "service/email"
+
 }
 
 class ApiServiceURL {

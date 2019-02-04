@@ -45,6 +45,10 @@ class FavoriteViewController: UIViewController, EntityProtocol {
         if segue.identifier == "FavoriteEntityViewController" {
             if let entityViewController = segue.destination as? EntityViewController {
                 self.entityViewController = entityViewController
+                var stores = SharedObjects.shared.updateStoresWithFavorite()
+                
+                stores = stores?.filter{$0.isFavorite == true}
+                self.entityViewController?.stores = stores
                 self.entityViewController?.isFiltered = true
             }
         }
@@ -188,6 +192,12 @@ extension FavoriteViewController {
                     products = products?.filter{$0.isFavorite == true}
                     
                     self.entityViewController?.products = products
+                    
+                    var stores = SharedObjects.shared.updateStoresWithFavorite()
+                    stores = stores?.filter{$0.isFavorite == true}
+                    
+                    self.entityViewController?.stores = stores
+                    
                     DispatchQueue.main.async {
                         self.entityViewController?.collectionView.reloadData()
                     }

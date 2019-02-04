@@ -38,7 +38,6 @@ class LoginViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        addHUDToView()
     }
     
     // MARK: - Navigation
@@ -80,13 +79,16 @@ class LoginViewController: UIViewController {
                                     KSToastView.ks_showToast(message)
                                     return
                                 }
-                                if let userId = loginResult["userId"] as? Int {
+                                if let userId = loginResult["userId"] as? Int, let token = loginResult["id"] as? String {
                                     DispatchQueue.main.async(execute: { () -> Void in
                                         ATCUserDefaults.userOpenedApp()
                                         ATCUserDefaults.userSignedIn()
                                         self.updateFavorite()
                                         ATCUserDefaults.userIdentity(id: String(userId))
                                         ATCUserDefaults.userInfo(mail:self.emailTextField.text!)
+                                        ATCUserDefaults.changePasswordToken(token)
+                                        Downloader.retrieveStoreFavorites()
+                                        Downloader.retrieveProductFavorites()
                                         self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
                                     })
                                     KSToastView.ks_showToast("Welcome!")
@@ -107,7 +109,7 @@ class LoginViewController: UIViewController {
         else {
             KSToastView.ks_showToast("Enter  User Name!")
         }
-        self.hideHUD()
+        
         return
     }
     
@@ -150,13 +152,16 @@ class LoginViewController: UIViewController {
                                 }
                                 else {
                                     if let facebookResult = facebookResult {
-                                        if let userId = facebookResult["userId"] as? Int {
+                                        if let userId = facebookResult["userId"] as? Int, let token = facebookResult["id"] as? String {
                                             DispatchQueue.main.async(execute: { () -> Void in
                                                 ATCUserDefaults.userOpenedApp()
                                                 ATCUserDefaults.userSignedIn()
                                                 self.updateFavorite()
                                                 ATCUserDefaults.userIdentity(id: String(userId))
                                                 ATCUserDefaults.userInfo(mail:email)
+                                                ATCUserDefaults.changePasswordToken(token)
+                                                Downloader.retrieveStoreFavorites()
+                                                Downloader.retrieveProductFavorites()
                                                 self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
                                             })
                                             KSToastView.ks_showToast("Welcome!")
@@ -178,15 +183,7 @@ class LoginViewController: UIViewController {
 
 extension LoginViewController {
     // MARK: - HUD
-    func addHUDToView() {
-//        HUD = MBProgressHUD(view: self.view)
-//
-//        HUD.frame.origin = CGPoint(x: self.view.frame.origin.x/2, y: self.view.frame.origin.y/2)
-//        HUD.frame.size  = CGSize(width: 50, height: 50)
-//        self.view.addSubview(HUD)
-//        HUD.mode = MBProgressHUDMode.indeterminate
-//        HUD.isUserInteractionEnabled = true
-    }
+    
     func showHUD(){
         DispatchQueue.main.async(execute: { () -> Void in
             self.HUD.show(animated: true)
@@ -254,13 +251,16 @@ extension LoginViewController: GIDSignInDelegate {
                 }
                 else {
                     if let `googleResult` = googleResult {
-                        if let userId = googleResult["userId"] as? Int {
+                        if let userId = googleResult["userId"] as? Int,  let token = googleResult["id"] as? String  {
                             DispatchQueue.main.async(execute: { () -> Void in
                                 ATCUserDefaults.userOpenedApp()
                                 ATCUserDefaults.userSignedIn()
                                 self.updateFavorite()
                                 ATCUserDefaults.userIdentity(id: String(userId))
                                 ATCUserDefaults.userInfo(mail:user.profile.email!)
+                                ATCUserDefaults.changePasswordToken(token)
+                                Downloader.retrieveStoreFavorites()
+                                Downloader.retrieveProductFavorites()
                                 self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
                             })
                             KSToastView.ks_showToast("Welcome!")

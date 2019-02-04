@@ -30,7 +30,7 @@
 		32371DB4217CCADF0020AD13 /* ATCUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32371DB3217CCADF0020AD13 /* ATCUserDefaults.swift */; };
 		32371DB6217CCDF50020AD13 /* Credential.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32371DB5217CCDF50020AD13 /* Credential.storyboard */; };
 		323864E221C89F72001C50DF /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323864E121C89F72001C50DF /* FilterViewController.swift */; };
-		32414A352206A1CF003B658C /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 32414A342206A1CF003B658C /* Roboto-Regular.ttf */; };
+		32414A37220762DE003B658C /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32414A36220762DE003B658C /* ForgotPasswordViewController.swift */; };
 		3242F0BA217BA8BA009E1A63 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3242F0B9217BA8BA009E1A63 /* AppDelegate.swift */; };
 		3242F0BC217BA8BA009E1A63 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3242F0BB217BA8BA009E1A63 /* ViewController.swift */; };
 		3242F0BF217BA8BA009E1A63 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3242F0BD217BA8BA009E1A63 /* Main.storyboard */; };
@@ -67,6 +67,7 @@
 		32F707BD21A2227100A6D592 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F707BC21A2227100A6D592 /* FavoriteViewController.swift */; };
 		32FB5432218639E500D437EC /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 32FB5431218639E500D437EC /* credentials.plist */; };
 		32FB543421863C5600D437EC /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FB543321863C5600D437EC /* LoginManager.swift */; };
+		DE22EC462207E10A00CD7883 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE22EC452207E10900CD7883 /* Roboto-Regular.ttf */; };
 		DEC0770D21ECCD55007F5A54 /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC0770C21ECCD55007F5A54 /* StoreViewController.swift */; };
 		DEC0771A21ECD6C9007F5A54 /* Roboto-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DEC0770E21ECD6C1007F5A54 /* Roboto-ThinItalic.ttf */; };
 		DEC0771B21ECD6C9007F5A54 /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DEC0770F21ECD6C2007F5A54 /* Roboto-Black.ttf */; };
@@ -126,7 +127,7 @@
 		32371DB5217CCDF50020AD13 /* Credential.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Credential.storyboard; sourceTree = "<group>"; };
 		32371E33217D7D900020AD13 /* ATC-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ATC-Bridging-Header.h"; sourceTree = "<group>"; };
 		323864E121C89F72001C50DF /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
-		32414A342206A1CF003B658C /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Regular.ttf"; path = "../../../../../Desktop/Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		32414A36220762DE003B658C /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		3242F0B6217BA8BA009E1A63 /* ATC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ATC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3242F0B9217BA8BA009E1A63 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3242F0BB217BA8BA009E1A63 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -170,6 +171,7 @@
 		32FB5431218639E500D437EC /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
 		32FB543321863C5600D437EC /* LoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
 		C922EB9BDB09E54E4AEC3E02 /* Pods-ATC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ATC.release.xcconfig"; path = "Target Support Files/Pods-ATC/Pods-ATC.release.xcconfig"; sourceTree = "<group>"; };
+		DE22EC452207E10900CD7883 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Regular.ttf"; path = "ATC/Resources/Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		DEC0770C21ECCD55007F5A54 /* StoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StoreViewController.swift; path = ../../StoreViewController.swift; sourceTree = "<group>"; };
 		DEC0770E21ECD6C1007F5A54 /* Roboto-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-ThinItalic.ttf"; sourceTree = "<group>"; };
 		DEC0770F21ECD6C2007F5A54 /* Roboto-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Black.ttf"; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 				32133C6121B108B400E1635B /* ProductDetailViewController.swift */,
 				323864E121C89F72001C50DF /* FilterViewController.swift */,
 				326C323821E398DF0045F34C /* ListAllEntityViewController.swift */,
+				32414A36220762DE003B658C /* ForgotPasswordViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 		3242F0AD217BA8BA009E1A63 = {
 			isa = PBXGroup;
 			children = (
+				DE22EC452207E10900CD7883 /* Roboto-Regular.ttf */,
 				3242F0B8217BA8BA009E1A63 /* ATC */,
 				3242F0CD217BA8BB009E1A63 /* ATCTests */,
 				3242F0D8217BA8BB009E1A63 /* ATCUITests */,
@@ -482,7 +486,6 @@
 		32FB204121861FE700AC683E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				32414A342206A1CF003B658C /* Roboto-Regular.ttf */,
 				DEC0770F21ECD6C2007F5A54 /* Roboto-Black.ttf */,
 				DEC0771921ECD6C8007F5A54 /* Roboto-BlackItalic.ttf */,
 				DEC0771021ECD6C2007F5A54 /* Roboto-Bold.ttf */,
@@ -629,6 +632,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE22EC462207E10A00CD7883 /* Roboto-Regular.ttf in Resources */,
 				3242F0C4217BA8BB009E1A63 /* LaunchScreen.storyboard in Resources */,
 				3218ABD221B55C570098F761 /* ProductDetailSimilarCell.xib in Resources */,
 				32E682F321C6770300609E93 /* SearchEntityCell.xib in Resources */,
@@ -641,7 +645,6 @@
 				32F707B721A1F13700A6D592 /* EntityViewCell.xib in Resources */,
 				DEC0771B21ECD6C9007F5A54 /* Roboto-Black.ttf in Resources */,
 				32DCA38621E267C300276D27 /* FilterCell.xib in Resources */,
-				32414A352206A1CF003B658C /* Roboto-Regular.ttf in Resources */,
 				3212FC2C21B297AB000E8F45 /* StoreDetailAboutCell.xib in Resources */,
 				32E682EF21C6706200609E93 /* TableHeader.xib in Resources */,
 				DEC0771E21ECD6C9007F5A54 /* Roboto-LightItalic.ttf in Resources */,
@@ -790,6 +793,7 @@
 				32B12E7F217E04BD00BB1299 /* LoginViewController.swift in Sources */,
 				32F707B321A1E23D00A6D592 /* EntityViewController.swift in Sources */,
 				32B12E83217E07AB00BB1299 /* Extensions.swift in Sources */,
+				32414A37220762DE003B658C /* ForgotPasswordViewController.swift in Sources */,
 				32058ABC21B55968007C50BE /* ProductDetailHeaderCell.swift in Sources */,
 				32B12E7B217E008000BB1299 /* Downloader.swift in Sources */,
 				32824A5D218C91B10016CD3F /* SettingViewController.swift in Sources */,
@@ -1003,6 +1007,7 @@
 					"$(PROJECT_DIR)/ATC",
 				);
 				INFOPLIST_FILE = ATC/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1032,6 +1037,7 @@
 					"$(PROJECT_DIR)/ATC",
 				);
 				INFOPLIST_FILE = ATC/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

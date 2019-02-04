@@ -42,7 +42,7 @@ class EntityViewController: UIViewController {
     
     var stores: [Store]? {
         didSet {
-            //self.collectionView.reloadData()
+            DispatchQueue.main.async { self.collectionView.reloadData()}
         }
     }
     

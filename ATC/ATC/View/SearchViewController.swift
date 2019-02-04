@@ -243,6 +243,12 @@ extension SearchViewController: UITableViewDelegate {
             sender.setImage(UIImage.init(named: "unfavorite"), for: .normal)
         }
     }
+    
+    @IBAction func showHomeViewController(){
+        if let parent = self.parent?.parent as? ATCTabBarViewController {
+            parent.selectedViewController = parent.viewControllers![1]
+        }
+    }
    
 }
 

@@ -31,7 +31,13 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
                 print(response)
             }
             if let data = data {
-                print(String.init(data: data, encoding: String.Encoding.ascii))
+                if let emptyString = String.init(data: data, encoding: String.Encoding.ascii), emptyString.count == 0 {
+                    var dictionary = Dictionary<String, AnyObject>()
+                    dictionary["resultMessage"] = "Success" as AnyObject
+                    completionHandler(dictionary, nil)
+                    return
+                }
+                
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as? Dictionary<String, AnyObject?>
                     print(json!)

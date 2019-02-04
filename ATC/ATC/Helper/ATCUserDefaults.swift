@@ -14,6 +14,14 @@ public class ATCUserDefaults {
     static let kIsUserLoggedIn = "isUserLoggedIn"
     static let kUserInfo       = "userInfo"
     static let kUserId       = "userId"
+    static let kChangePasswordToken = "token"
+    
+    static func changePasswordToken() -> String? {
+        if let changePasswordToken = UserDefaults.standard.value(forKey: kChangePasswordToken) as? String {
+            return changePasswordToken
+        }
+        return nil
+    }
     
     static func isUserLoggedIn() -> Bool {
         if let isUserLoggedIn = UserDefaults.standard.value(forKey: kIsUserLoggedIn) as? Bool {
@@ -56,6 +64,9 @@ public class ATCUserDefaults {
     static func logoutApp() {
         SharedObjects.shared.clearData()
         UserDefaults.standard.setValue(false, forKey: kIsUserLoggedIn)
+        UserDefaults.standard.setValue(nil, forKey: kChangePasswordToken)
+        UserDefaults.standard.setValue(nil, forKey: kUserId)
+        UserDefaults.standard.setValue(nil, forKey: kUserInfo)
         UserDefaults.standard.synchronize()
     }
 
@@ -69,36 +80,8 @@ public class ATCUserDefaults {
         UserDefaults.standard.synchronize()
     }
     
-    static func saveProductFavorite(productFavorites: [ProductFavorite], storeFavorites: [StoreFavorite]) {
-        if let usermail = ATCUserDefaults.userInfo() {
-            var dictionary = Dictionary<String, Array<Dictionary<String,String>>>()
-            
-            var productDictionaryArray = [Dictionary<String,String>]()
-            
-            for productFavorite in productFavorites {
-                let dictionary = productFavorite.dictionaryFromProductFavorite()
-                productDictionaryArray.append(dictionary)
-            }
-            
-            dictionary["productFavorites"] = productDictionaryArray
-            
-            var storeDictionaryArray = [Dictionary<String,String>]()
-            
-            for storeFavorite in storeFavorites {
-                let dictionary = storeFavorite.dictionaryFromStoreFavorite()
-                storeDictionaryArray.append(dictionary)
-            }
-            
-            dictionary["storeFavorites"] = storeDictionaryArray
-            
-            print(UserDefaults.standard.set(dictionary, forKey: usermail))
-        }
-        
-    }
-    
-    static func retrieveFavProductStore() {
-        if let usermail = ATCUserDefaults.userInfo() {
-            print(UserDefaults.value(forKey: usermail))
-        }
+    static func changePasswordToken(_ token : String) {
+        UserDefaults.standard.setValue(token, forKey: kChangePasswordToken)
+        UserDefaults.standard.synchronize()
     }
 }
