@@ -37,8 +37,13 @@ class SettingViewController: UIViewController {
         openLinkInSafariViewController(urlString: helpString)
     }
     
-    @IBAction func privacyButtonAction() {
+    @IBAction func termsButtonAction() {
         let privacyString = "https://app.aroundthecorner.store/termsofservice"
+        openLinkInSafariViewController(urlString: privacyString)
+    }
+    
+    @IBAction func privacyButtonAction() {
+        let privacyString = "https://app.aroundthecorner.store/termsofservice#privacy_policy"
         openLinkInSafariViewController(urlString: privacyString)
     }
     

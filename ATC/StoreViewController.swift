@@ -303,6 +303,14 @@ extension StoreViewController {
                     
                     categoryArray = categoryArray.sorted{$0.name < $1.name}
                     
+                    if categoryArray.count > 0 {
+                        var dictionary = Dictionary<String, Any>()
+                        dictionary["name"] = "All"
+                        dictionary["id"] = "-1"
+                        dictionary["products"] = uncategorisedProduct
+                        categoryArray.insert(Category.init(dictionary: dictionary), at: 0)
+                    }
+                    
                     self.store.categories = categoryArray
                     
                     self.hideOrShowCategory()

@@ -57,10 +57,12 @@ class SearchViewController: UIViewController {
         tableView.delegate = self
         tableView.backgroundColor = grayColor
         self.view.backgroundColor = grayColor
-        self.tableView.isHidden = true
+        //self.tableView.isHidden = true
         
         searchTextField.delegate = self
         
+
+        searchTextField.addTarget(self, action: #selector(textFieldEditingDidChange), for: UIControl.Event.editingChanged)
 
     }
     
@@ -153,7 +155,10 @@ extension SearchViewController: UITableViewDataSource {
         searchCell.backgroundColor = grayColor
         searchCell.collectionView.backgroundColor = grayColor
         searchCell.collectionView.tag = entityTypes[indexPath.section] == EntityType.Store ? 1 : 0
-        searchCell.collectionView.reloadData()
+        DispatchQueue.main.async {
+            searchCell.collectionView.reloadData()
+        }
+        searchCell.collectionView.isScrollEnabled = false
         return searchCell
     }
     
@@ -286,7 +291,16 @@ extension SearchViewController: UICollectionViewDataSource {
             let productCell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductEntityCell.kPRODUCT_ENTITY_CELL, for: indexPath) as! ProductEntityCell
             productCell.nameLabel.text = products[indexPath.item].name
             let product = products[indexPath.item]
-                productCell.priceLabel.text = "$\(String(product.price))"
+            if product.price == 0 {
+                productCell.priceLabel.text = "Contact Store"
+            }
+            else if product.price == 0.0 {
+                productCell.priceLabel.text = "Contact Store"
+            }
+            else {
+                productCell.priceLabel.text = "$\(String(format: "%.2f", product.price))"
+            }
+            
             if let url = URL.init(string: product.imageUrl) {
                 productCell.bannerImageView.setImageWith(url, placeholderImage: UIImage.init(named: "placeholder"))
             }
@@ -359,7 +373,7 @@ extension SearchViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.tableView.isHidden = true
+        //self.tableView.isHidden = true
         textField.textAlignment = .left
     }
     
@@ -381,6 +395,24 @@ extension UIViewController {
 }
 
 extension SearchViewController {
+    @objc func textFieldEditingDidChange(sender: UITextField) {
+        if let text = sender.text {
+            if text.count >= 1 {
+                searchStoreAndProduct(text: text)
+            }
+            if text.count == 0 {
+                self.entityTypes = [EntityType]()
+                self.products = [Product]()
+                self.stores = [Store]()
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
+        
+    }
+    
     func searchStoreAndProduct(text: String) {
         
         let urlString = "\(ApiServiceURL.apiInterface(.search))\(text)"
@@ -444,7 +476,9 @@ extension SearchViewController {
                 }
                 
                 if self.products.count == 0 && self.stores.count == 0 {
-                    KSToastView.ks_showToast("No results found", duration: 3.0)
+                    DispatchQueue.main.async {
+                        KSToastView.ks_showToast("No results found", duration: 3.0)
+                    }
                 }
                 DispatchQueue.main.async {
                     UIApplication.shared.isNetworkActivityIndicatorVisible = false

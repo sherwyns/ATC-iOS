@@ -97,6 +97,17 @@ extension EntityViewController: UICollectionViewDataSource {
         cell?.nameLabel.text = products?[indexPath.item].name
         if let product = products?[indexPath.item] {
             cell?.priceLabel.text = "$\(String(product.price))"
+            
+            if product.price == 0 {
+                cell?.priceLabel.text = "Contact Store"
+            }
+            else if product.price == 0.0 {
+                cell?.priceLabel.text = "Contact Store"
+            }
+            else {
+                cell?.priceLabel.text = "$\(String(format: "%.2f", product.price))"
+            }
+            
             if let url = URL.init(string: product.imageUrl) {
                 cell?.bannerImageView.setImageWith(url, placeholderImage: UIImage.init(named: "placeholder"))
             }

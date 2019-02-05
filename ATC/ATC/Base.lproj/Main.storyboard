@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="0fP-Eu-FGc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="0fP-Eu-FGc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -1070,7 +1071,7 @@
                                             <color key="titleColor" red="0.14117647059999999" green="0.14117647059999999" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="privacyButtonAction" destination="mFR-Rx-hDf" eventType="touchUpInside" id="xZx-pI-JSF"/>
+                                            <action selector="termsButtonAction" destination="mFR-Rx-hDf" eventType="touchUpInside" id="uaI-WL-YSO"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -1165,7 +1166,7 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ov3-Xl-Zpx">
-                                        <rect key="frame" x="0.0" y="47" width="25" height="25"/>
+                                        <rect key="frame" x="0.0" y="34.5" width="25" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="25" id="QTK-qy-PyP"/>
                                         </constraints>
@@ -1680,13 +1681,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="backArrow" width="24" height="25"/>
-        <image name="blueFilter" width="62" height="62"/>
+        <image name="backArrow" width="48" height="50"/>
+        <image name="blueFilter" width="31" height="31"/>
         <image name="downArrow" width="50" height="48"/>
         <image name="filter" width="512" height="512"/>
         <image name="ic_settings_2.0" width="20" height="20"/>
         <image name="search" width="2064" height="2011"/>
-        <image name="shopThumb" width="152" height="152"/>
+        <image name="shopThumb" width="76" height="76"/>
         <image name="unfavorite" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
