@@ -14,6 +14,7 @@ class ProductEntityCell: UICollectionViewCell {
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var favoritebutton: UIButton!
+    @IBOutlet weak var callButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,6 +28,26 @@ class ProductEntityCell: UICollectionViewCell {
         favoritebutton.layer.cornerRadius = 35.0 / 2
         favoritebutton.layer.masksToBounds = true
         favoritebutton.imageEdgeInsets = UIEdgeInsets(top: 8, left:8, bottom: 8, right: 8)
+        
+        callButton.layer.cornerRadius = 4.0
+        callButton.layer.borderWidth = 0.75
+        callButton.layer.borderColor = UIColor.darkGray.cgColor
     }
+    
+    func showPriceOrCallbutton(price: Float) {
+        if price == 0.0 {
+            callButton.isHidden = false
+            priceLabel.isHidden = true
+        }
+        else if price == 0 {
+            callButton.isHidden = false
+            priceLabel.isHidden = true
+        }
+        else {
+            callButton.isHidden = true
+            priceLabel.isHidden = false
+        }
+    }
+    
 
 }

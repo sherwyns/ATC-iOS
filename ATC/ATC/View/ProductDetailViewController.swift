@@ -125,7 +125,8 @@ extension ProductDetailViewController: UITableViewDataSource {
         case .About:
             let aboutCell = self.tableView.dequeueReusableCell(withIdentifier: kPRODUCT_DETAIL_ABOUT_CELL) as! ProductDetailAboutCell
             aboutCell.nameLabel.text = product.name
-            aboutCell.priceLabel.text = "$\(String(product.price))"
+            aboutCell.priceLabel.text = "$\(String(format: "%.2f", product.price))"
+            aboutCell.showPriceOrCallbutton(price: product.price)
             aboutCell.descriptionLabel.text = product.description
             return aboutCell
         case .Similar:
@@ -205,7 +206,8 @@ extension ProductDetailViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductEntityCell.kPRODUCT_ENTITY_CELL, for: indexPath) as? ProductEntityCell
         cell?.nameLabel.text = similarProducts?[indexPath.item].name
         if let product = similarProducts?[indexPath.item] {
-            cell?.priceLabel.text = "$\(String(product.price))"
+            cell?.priceLabel.text = "$\(String(format: "%.2f", product.price))"
+            cell?.showPriceOrCallbutton(price: product.price)
             if let url = URL.init(string: product.imageUrl) {
                 cell?.bannerImageView.setImageWith(url, placeholderImage: UIImage.init(named: "placeholder"))
             }

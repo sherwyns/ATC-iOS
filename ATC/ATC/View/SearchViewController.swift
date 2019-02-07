@@ -52,7 +52,7 @@ class SearchViewController: UIViewController {
         
         tableView.register(UINib.init(nibName: "TableHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "TableHeader")
         tableView.register(UINib.init(nibName: kSearchEntityCell, bundle: nil), forCellReuseIdentifier: kSearchEntityCell)
-        
+        tableView.keyboardDismissMode = .onDrag
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = grayColor
@@ -289,25 +289,18 @@ extension SearchViewController: UICollectionViewDataSource {
             return entityCell
         case .Product:
             let productCell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductEntityCell.kPRODUCT_ENTITY_CELL, for: indexPath) as! ProductEntityCell
-            productCell.nameLabel.text = products[indexPath.item].name
+            
             let product = products[indexPath.item]
-            if product.price == 0 {
-                productCell.priceLabel.text = "Contact Store"
-            }
-            else if product.price == 0.0 {
-                productCell.priceLabel.text = "Contact Store"
-            }
-            else {
-                productCell.priceLabel.text = "$\(String(format: "%.2f", product.price))"
-            }
+            
+            productCell.nameLabel.text = products[indexPath.item].name
+            productCell.priceLabel.text = "$\(String(format: "%.2f", product.price))"
+            productCell.showPriceOrCallbutton(price: product.price)
+            productCell.favoritebutton.tag = indexPath.item
+            productCell.favoritebutton.addTarget(self, action: #selector(SearchViewController.updateProductFavorite(sender:)), for: .touchUpInside)
             
             if let url = URL.init(string: product.imageUrl) {
                 productCell.bannerImageView.setImageWith(url, placeholderImage: UIImage.init(named: "placeholder"))
             }
-            productCell.favoritebutton.tag = indexPath.item
-            productCell.favoritebutton.addTarget(self, action: #selector(SearchViewController.updateProductFavorite(sender:)), for: .touchUpInside)
-            
-            
             return productCell
         }
     }
@@ -415,10 +408,13 @@ extension SearchViewController {
     
     func searchStoreAndProduct(text: String) {
         
-        let urlString = "\(ApiServiceURL.apiInterface(.search))\(text)"
+        var urlString = "\(ApiServiceURL.apiInterface(.search))\(text)" ?? ""
         
-        let url = URL.init(string: urlString)!
-        
+
+//        let fstring =
+        guard let finalString = urlString.addingPercentEncoding( withAllowedCharacters: CharacterSet.urlQueryAllowed), let url = URL.init(string: finalString) else  {
+            return
+        }
         let taskDelegate = TaskDelegate()
         
         DispatchQueue.main.async {
@@ -476,9 +472,9 @@ extension SearchViewController {
                 }
                 
                 if self.products.count == 0 && self.stores.count == 0 {
-                    DispatchQueue.main.async {
-                        KSToastView.ks_showToast("No results found", duration: 3.0)
-                    }
+//                    DispatchQueue.main.async {
+//                        KSToastView.ks_showToast("No results found", duration: 3.0)
+//                    }
                 }
                 DispatchQueue.main.async {
                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
