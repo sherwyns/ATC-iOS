@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -51,13 +52,13 @@
                                         <state key="normal" image="unfavorite"/>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shop Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eAF-4u-EL4">
-                                        <rect key="frame" x="76" y="18.5" width="157" height="24.5"/>
+                                        <rect key="frame" x="76" y="18.5" width="171" height="24.5"/>
                                         <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="24"/>
                                         <color key="textColor" red="0.14117647059999999" green="0.14117647059999999" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Place, Street, City, Pincode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qCw-QM-3E0">
-                                        <rect key="frame" x="76" y="44.5" width="157" height="16"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Place, Street, City, Pincode" textAlignment="natural" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qCw-QM-3E0">
+                                        <rect key="frame" x="76" y="45" width="171" height="19.5"/>
                                         <fontDescription key="fontDescription" name="Roboto-BoldItalic" family="Roboto" pointSize="13"/>
                                         <color key="textColor" red="0.92156862750000001" green="0.3921568627" blue="0.13725490200000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -75,9 +76,10 @@
                                     <constraint firstItem="ski-CY-rDi" firstAttribute="leading" secondItem="Lhm-Pg-Iep" secondAttribute="leading" constant="20" id="TYw-9c-ZAP"/>
                                     <constraint firstAttribute="trailing" secondItem="UOb-xO-NKF" secondAttribute="trailing" constant="20" id="UTj-01-d85"/>
                                     <constraint firstItem="eAF-4u-EL4" firstAttribute="leading" secondItem="ski-CY-rDi" secondAttribute="trailing" constant="16" id="XVE-7v-NBL"/>
-                                    <constraint firstItem="qCw-QM-3E0" firstAttribute="bottom" secondItem="UOb-xO-NKF" secondAttribute="bottom" constant="3" id="aS8-hO-8ag"/>
+                                    <constraint firstItem="qCw-QM-3E0" firstAttribute="bottom" secondItem="Lhm-Pg-Iep" secondAttribute="bottom" constant="-15.5" id="aS8-hO-8ag"/>
+                                    <constraint firstItem="qCw-QM-3E0" firstAttribute="top" secondItem="eAF-4u-EL4" secondAttribute="bottom" constant="2" id="gEr-dD-lq6"/>
                                     <constraint firstItem="UOb-xO-NKF" firstAttribute="centerY" secondItem="Lhm-Pg-Iep" secondAttribute="centerY" id="nUO-jY-YGf"/>
-                                    <constraint firstItem="UOb-xO-NKF" firstAttribute="leading" secondItem="eAF-4u-EL4" secondAttribute="trailing" constant="16" id="tjQ-Vo-7KD"/>
+                                    <constraint firstItem="UOb-xO-NKF" firstAttribute="leading" secondItem="eAF-4u-EL4" secondAttribute="trailing" constant="2" id="tjQ-Vo-7KD"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -117,7 +119,7 @@
     </objects>
     <resources>
         <image name="placeholder" width="493" height="391"/>
-        <image name="shopThumb" width="152" height="152"/>
+        <image name="shopThumb" width="76" height="76"/>
         <image name="unfavorite" width="50" height="50"/>
     </resources>
 </document>

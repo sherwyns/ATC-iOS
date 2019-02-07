@@ -94,7 +94,7 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
         }.resume()
     }
     
-    static func getProductJSONUsingURLSession(url : String, completionHandler: @escaping (_ result :Any?, _ error: String?) -> Void) {
+    static func getAnyJSONUsingURLSession(url : String, completionHandler: @escaping (_ result :Any?, _ error: String?) -> Void) {
     
         guard let serviceUrl = URL(string: url) else { return }
         
@@ -203,12 +203,6 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
     }
     
     static func updateProductFavorite(product: Product) {
-        //        {
-        //        "user_id": 10,
-        //        "id": 20,
-        //        "isfavorite":1,
-        //        "type":"product"
-        //        }
         
         guard let userId = ATCUserDefaults.userId(), let intUserId = Int(userId) else {
             return

@@ -130,6 +130,11 @@ extension EntityViewController: UICollectionViewDataSource {
             else {
                 cell?.favoritebutton.setImage(UIImage.init(named: "unfavorite"), for: .normal)
             }
+            
+            if let imageUrl = URL.init(string: store.storeCategoryImageUrlString()) {
+                cell?.categoryImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "gift"))
+            }
+            
         }
         else {
             cell?.name.text = "Product"

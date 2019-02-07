@@ -19,7 +19,7 @@ enum APIMethod: String {
     case getCategoriesList = "categories/list"
     case search            = "search/by/"
     case products          = "products"
-    case storeDetail       = "store/"
+    case storeDetail       = "store/getstore/"
     case getFavoriteList   = "favorite/list"
     case saveFavorite      = "favorite/save"
     case forgotPassword    = "service/email"

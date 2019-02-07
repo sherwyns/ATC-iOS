@@ -33,7 +33,7 @@ class SharedObjects{
         var storeWithFavoriteArray = [Store]()
         let storeUrlString = ApiServiceURL.apiInterface(.getStores)
         Downloader.getStoreJSONUsingURLSession(url: storeUrlString) { (result, errorString) in
-            if let error = errorString {
+            if let _ = errorString {
                 completionHandler(nil)
             }
             else {

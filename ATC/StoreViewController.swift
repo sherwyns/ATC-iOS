@@ -21,7 +21,7 @@ class StoreViewController: UIViewController, EntityProtocol {
     @IBOutlet weak var storeNeighbourhood: UILabel!
     @IBOutlet weak var headerStoreLabel: UIButton!
     @IBOutlet weak var productCategoryLabel: UILabel!
-    
+    @IBOutlet weak var categoryImageView: UIImageView!
     @IBOutlet weak var HUD:MBProgressHUD!
     
     var entityViewController: EntityViewController?
@@ -48,6 +48,10 @@ class StoreViewController: UIViewController, EntityProtocol {
         self.storeNeighbourhood.text = store.neighbourhood
         
         self.hideOrShowCategory()
+        
+        if let imageUrl = URL.init(string: store.storeCategoryImageUrlString()) {
+            categoryImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "shopThumb"))
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -174,7 +174,7 @@ extension FavoriteViewController {
         DispatchQueue.main.async {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
         }
-        Downloader.getProductJSONUsingURLSession(url: urlString) { (result, errorString) in
+        Downloader.getAnyJSONUsingURLSession(url: urlString) { (result, errorString) in
             if let error = errorString {
                 KSToastView.ks_showToast(error)
             }

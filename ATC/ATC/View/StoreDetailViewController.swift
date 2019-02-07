@@ -82,6 +82,14 @@ class StoreDetailViewController: UIViewController {
         let storeUrl = self.store.storeUrl
         openLinkInSafariViewController(urlString: storeUrl)
     }
+    
+    @objc func callStore() {
+        if store.phoneNumber.count > 0 {
+            if let url = URL(string: "tel://\(store.phoneNumber)") {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
+    }
 }
 
 extension StoreDetailViewController: UITableViewDataSource {
@@ -104,22 +112,58 @@ extension StoreDetailViewController: UITableViewDataSource {
             }else {
                 headerCell.favoriteButton.setImage(UIImage.init(named: "unfavorite"), for: .normal)
             }
+            headerCell.shopSubLabel.text = self.store.fullAddress()
+            self.store.workingHours()
             headerCell.favoriteButton.addTarget(self, action: #selector(StoreDetailViewController.updateFavorite(sender:)), for: .touchUpInside)
             headerCell.shopLabel.text = store.name
+            
+            if let imageUrl = URL.init(string: store.storeCategoryImageUrlString()) {
+                headerCell.shopCategoryImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "shopThumb"))
+            }
             return headerCell
         case .Detail:
             let aboutCell = self.tableView.dequeueReusableCell(withIdentifier: kStoreDetailAboutCell) as! StoreDetailAboutCell
             aboutCell.globeButton.addTarget(self, action: #selector(StoreDetailViewController.openStoreUrl), for: .touchUpInside)
+            aboutCell.callButton.addTarget(self, action: #selector(StoreDetailViewController.callStore), for: .touchUpInside)
             aboutCell.descriptionLabel.text = store.description
+            
+            if let _ = URL.init(string: store.storeUrl) {
+                aboutCell.globeButton.isHidden = false
+            }
+            else {
+                aboutCell.globeButton.isHidden = true
+            }
+            
+            if store.phoneNumber.count > 0 {
+                aboutCell.callButton.isHidden = false
+            }
+            else {
+                aboutCell.callButton.isHidden = true
+            }
+            
+            aboutCell.workingHourLabel.text = self.store.workingHours()
+            
+            aboutCell.mailButton.isHidden = true
+            
             return aboutCell
         case .Map:
             let mapCell = self.tableView.dequeueReusableCell(withIdentifier: kStoreDetailMapCell) as! StoreDetailMapCell
             
-//            13.0827° N, 80.2707° E
-            self.store.latitude = 13.0827
-            self.store.longitude = 80.2707
-            let coordinate = CLLocationCoordinate2D.init(latitude: CLLocationDegrees(self.store.latitude), longitude: CLLocationDegrees(self.store.longitude))
+            var coordinate = CLLocationCoordinate2D.init(latitude: CLLocationDegrees(0), longitude: CLLocationDegrees(0))
+            
+            if self.store.latitude != 0 && self.store.longitude != 0 {
+                coordinate = CLLocationCoordinate2D.init(latitude: CLLocationDegrees(self.store.latitude), longitude: CLLocationDegrees(self.store.longitude))
+            }
+            else {
+                coordinate = CLLocationCoordinate2D.init(latitude: CLLocationDegrees( 47.608013), longitude: CLLocationDegrees(-122.335167))
+            }
+            
             mapCell.mapView.setCenter(coordinate, animated: true)
+            
+            let annotation = MKPointAnnotation()
+            annotation.title = self.store.name
+            annotation.coordinate = coordinate
+            mapCell.mapView.addAnnotation(annotation)
             mapCell.mapButton.addTarget(self, action: #selector(StoreDetailViewController.openMaps), for: .touchUpInside)
             return mapCell
         }
@@ -153,30 +197,41 @@ extension StoreDetailViewController {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
         }
         Downloader.getStoreJSONUsingURLSession(url: urlString) { (result, errorString) in
-            if let error = errorString {
+            if let _ = errorString {
                 
             }
             else {
-                if let result = result {
-                    if let storeDescription = result["description"] as? String {
+                if let result = result, let data = result["data"] as? Array<Dictionary<String,Any?>>, data.count > 0, let storeDictionary = data.first {
+                    if let storeDescription = storeDictionary["description"] as? String {
                         self.store.description = storeDescription
                     }
-                    
-                    if let latitude = result["latitude"] as? Float {
+
+                    if let latitude = storeDictionary["latitude"] as? Float {
                         self.store.latitude = latitude
-                    } else if let latitude = result["latitude"] as? Double {
+                    } else if let latitude = storeDictionary["latitude"] as? Double {
                         self.store.latitude = Float(latitude)
-                    } else if let latitude = result["latitude"] as? Int {
+                    } else if let latitude = storeDictionary["latitude"] as? Int {
                         self.store.latitude = Float(latitude)
+                    }
+
+                    if let longitude = storeDictionary["longitude"] as? Float {
+                        self.store.longitude = longitude
+                    } else if let longitude = storeDictionary["longitude"] as? Double {
+                        self.store.longitude = Float(longitude)
+                    } else if let longitude = storeDictionary["longitude"] as? Int {
+                        self.store.longitude = Float(longitude)
                     }
                     
-                    if let longitude = result["longitude"] as? Float {
-                        self.store.longitude = longitude
-                    } else if let longitude = result["longitude"] as? Double {
-                        self.store.longitude = Float(longitude)
-                    } else if let longitude = result["longitude"] as? Int {
-                        self.store.longitude = Float(longitude)
+                    if let phoneNumber = storeDictionary["phonenumber"] as? String {
+                        self.store.phoneNumber = phoneNumber
                     }
+                    
+                    if let storeUrl = storeDictionary["store_url"] as? String {
+                        self.store.storeUrl = storeUrl
+                    }
+                    
+                    self.store = Store.init(dictionary: storeDictionary)
+                    
                 }
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -216,8 +271,17 @@ extension StoreDetailViewController {
 //        let url = "http://maps.apple.com/maps?saddr=\(self.store.latitude),\(self.store.longitude)"
 //        UIApplication.shared.openURL(URL(string:url)!)
         
-        let latitude: CLLocationDegrees = CLLocationDegrees(self.store.latitude)
-        let longitude: CLLocationDegrees = CLLocationDegrees(self.store.longitude)
+        var latitude: CLLocationDegrees = CLLocationDegrees(self.store.latitude)
+        var longitude: CLLocationDegrees = CLLocationDegrees(self.store.longitude)
+        
+        if self.store.latitude != 0 && self.store.longitude != 0 {
+            latitude = CLLocationDegrees(self.store.latitude)
+            longitude = CLLocationDegrees(self.store.longitude)
+        }
+        else {
+            latitude = 47.608013
+            longitude = -122.335167
+        }
         
         let regionDistance:CLLocationDistance = 10000
         let coordinates = CLLocationCoordinate2DMake(latitude, longitude)

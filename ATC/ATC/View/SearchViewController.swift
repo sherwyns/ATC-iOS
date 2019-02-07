@@ -286,6 +286,10 @@ extension SearchViewController: UICollectionViewDataSource {
                 entityCell.favoritebutton.setImage(UIImage.init(named: "unfavorite"), for: .normal)
             }
             
+            if let imageUrl = URL.init(string: store.storeCategoryImageUrlString()) {
+                entityCell.categoryImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "gift"))
+            }
+            
             return entityCell
         case .Product:
             let productCell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductEntityCell.kPRODUCT_ENTITY_CELL, for: indexPath) as! ProductEntityCell

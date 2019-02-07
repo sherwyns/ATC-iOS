@@ -48,7 +48,7 @@ class ProductFavorite {
 class Store {
     let storeId:Int
     let name: String
-    let storeUrl: String
+    var storeUrl: String
     let imageUrl: String
     var latitude: Float
     var longitude : Float
@@ -56,12 +56,24 @@ class Store {
     var isFavorite = false
     let neighbourhood: String
     var description: String
-
+    var phoneNumber: String
+    var address: String
+    var state: String
+    var city: String
+    var zipcode: String
+    var workinghours: String
+    
     init(dictionary: Dictionary<String, Any>) {
-        self.storeId    = dictionary["id"] as? Int ?? 0
-        self.name   = dictionary["shop_name"] as? String ?? ""
-        self.storeUrl   = dictionary["store_url"] as? String ?? ""
-        self.imageUrl   = dictionary["image"] as? String ?? ""
+        self.storeId     = dictionary["id"] as? Int ?? 0
+        self.name        = dictionary["shop_name"] as? String ?? ""
+        self.storeUrl    = dictionary["store_url"] as? String ?? ""
+        self.imageUrl    = dictionary["image"] as? String ?? ""
+        self.phoneNumber = dictionary["phonenumber"] as? String ?? ""
+        self.address = dictionary["address"] as? String ?? ""
+        self.state = dictionary["state"] as? String ?? ""
+        self.city = dictionary["city"] as? String ?? ""
+        self.zipcode = dictionary["zipcode"] as? String ?? ""
+        self.workinghours = dictionary["workinghours"] as? String ?? ""
         
         if let latitude = dictionary["latitude"] as? Float {
             self.latitude = latitude
@@ -94,14 +106,76 @@ class Store {
         }
         self.categories = categoryArray
     }
+}
+
+extension Store {
+    func fullAddress() -> String {
+        var addressComponentArray = [String]()
+        if self.address.count > 0 {
+            addressComponentArray.append(address)
+        }
+        if self.city.count > 0 {
+            addressComponentArray.append(city)
+        }
+        if self.state.count > 0 {
+            addressComponentArray.append(state)
+        }
+        if self.zipcode.count > 0 {
+            addressComponentArray.append(zipcode)
+        }
+        
+        var finalAddress = String()
+        
+        if addressComponentArray.count == 1 {
+            return addressComponentArray.first!
+        }
+        else {
+            for component in addressComponentArray {
+                
+                if let firstComponent = addressComponentArray.first, component == firstComponent {
+                    finalAddress = component
+                }
+                else {
+                    finalAddress = finalAddress + ", " + component
+                }
+            }
+        }
+        
+        return finalAddress
+    }
     
-//    id = 19;
-//    image = "https://lh5.googleusercontent.com/p/AF1QipN9bsT0HkTlHXT2_nts7ffPrM3-kpC8KntwCd--=w408-h229-k-no";
-//    latitude = 0;
-//    longitude = 0;
-//    neighbourhood = "ballard, seattle";
-//    "shop_name" = "JOANN Fabrics and Crafts";
-//    "store_url" = "stores.joann.com";
+    func workingHours() -> String {
+        if let data = self.workinghours.data(using: .utf8) {
+            do {
+                if let workingHourDictionary = try JSONSerialization.jsonObject(with: data, options : .allowFragments) as? Dictionary<String,Any> {
+                    print(workingHourDictionary) // use the json here
+                    
+                    if let dayWorkingHourDictionary = workingHourDictionary[Date.dayOfWeek()] as? Dictionary<String,String>, let endTime = dayWorkingHourDictionary["endTime"] {
+                        return "Open until " + endTime
+                    }
+                    else {
+                        return String()
+                    }
+                }
+                else {
+                    return String()
+                }
+            } catch let error as NSError {
+                print(error)
+                return String()
+            }
+        }
+        return String()
+    }
+    
+    func storeCategoryImageUrlString() -> String {
+        
+        if let category = self.categories.first {
+            return category.imageUrl
+        }
+        
+        return String()
+    }
 }
 
 class Category {
@@ -177,4 +251,57 @@ class Product {
 //    category_id: 1,
 //    category_name: "Accessories",
 //    category_image: null
+}
+
+
+//["sunday": {
+//    endTime = "05:00PM";
+//    startTime = "09:00AM";
+//    }, "friday": {
+//        endTime = "05:00PM";
+//        startTime = "09:00AM";
+//    }, "tuesday": {
+//        endTime = "05:00PM";
+//        startTime = "09:00AM";
+//    }, "saturday": {
+//        endTime = "05:00PM";
+//        startTime = "09:00AM";
+//    }, "monday": {
+//        endTime = "05:00PM";
+//        startTime = "09:00AM";
+//    }, "wednesday": {
+//        endTime = "05:00PM";
+//        startTime = "09:00AM";
+//    }, "thursday": {
+//        endTime = "05:00PM";
+//        startTime = "09:00AM";
+//    }]
+enum weekday: String {
+    case sunday    = "sunday"
+    case monday    = "monday"
+    case tuesday   = "tuesday"
+    case wednesday = "wednesday"
+    case thursday  = "thursday"
+    case friday    = "friday"
+    case saturday  = "saturday"
+}
+
+public func dayOfTheWeek() -> String {
+    
+    return String()
+}
+
+extension Date {
+    static func dayOfWeek() -> String {
+        
+        let daysArray = ["sunday",
+                         "monday",
+                         "tuesday",
+                         "wednesday",
+                         "thursday",
+                         "friday",
+                         "saturday"]
+        
+        return daysArray[Calendar.current.component(.weekday, from: Date()) - 1]
+    }
 }

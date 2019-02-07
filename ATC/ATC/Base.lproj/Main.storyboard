@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="0fP-Eu-FGc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="0fP-Eu-FGc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -567,6 +567,7 @@
                         <outlet property="HUD" destination="jWv-Yb-fWe" id="HrL-9V-BH3"/>
                         <outlet property="categoryCollectionView" destination="Anp-ze-Foz" id="7od-Ur-XTZ"/>
                         <outlet property="categoryContainer" destination="sMZ-zI-RSF" id="04N-ON-OYE"/>
+                        <outlet property="categoryImageView" destination="nOo-5K-RP1" id="K0i-fW-5lg"/>
                         <outlet property="categoryListContainer" destination="jvo-cd-Bnk" id="EuV-lO-npL"/>
                         <outlet property="favoriteButton" destination="1Iu-71-oeA" id="oP6-SM-ti8"/>
                         <outlet property="headerContainer" destination="27z-nx-ZyN" id="nP8-WT-wjG"/>
