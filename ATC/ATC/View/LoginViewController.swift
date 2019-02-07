@@ -16,7 +16,7 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
-    
+     @IBOutlet weak var forgotButton: UIButton!
     @IBOutlet weak var facebookButton: UIButton!
     @IBOutlet weak var googleButton: GIDSignInButton!
     @IBOutlet weak var loginButton: UIButton!
@@ -204,6 +204,7 @@ extension LoginViewController {
         facebookButton.makeRoundedCorner()
         googleButton.makeRoundedCorner()
         loginButton.makeRoundedCorner()
+        forgotButton.contentHorizontalAlignment = .right
         loginButton.applyGradient(withColours: [.lightOrange(), .darkOrange()], gradientOrientation: .horizontal)
         view.applyGradient(withColours: [.lightBlue(), .darkBlue()], gradientOrientation: .vertical)
     }
