@@ -92,7 +92,6 @@ extension EntityViewController: UICollectionViewDataSource {
     
     switch entityType {
     case .Product:
-        
         let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: ProductEntityCell.kPRODUCT_ENTITY_CELL, for: indexPath) as? ProductEntityCell
         cell?.nameLabel.text = products?[indexPath.item].name
         if let product = products?[indexPath.item] {
@@ -132,7 +131,7 @@ extension EntityViewController: UICollectionViewDataSource {
             }
             
             if let imageUrl = URL.init(string: store.storeCategoryImageUrlString()) {
-                cell?.categoryImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "gift"))
+                cell?.categoryImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "placeholder"))
             }
             
         }
@@ -223,7 +222,19 @@ extension EntityViewController: UICollectionViewDelegate {
         case .Store:
             if let store = storeForIndexPath(indexPath.item) {
                 self.parent?.performSegue(withIdentifier: "showStore", sender: store)
+                
+                if let categoryId = SharedObjects.shared.categoryId, categoryId != "-1" {
+                    var analyticsStoreDictionary = Dictionary<String, Any>()
+                    analyticsStoreDictionary["store_id"] = store.storeId
+                    analyticsStoreDictionary["category_id"] = categoryId
+                    let analyticsUrl = ApiServiceURL.apiInterface(.categoryimpression)
+                    
+                    Downloader.updateJSONUsingURLSessionPOSTRequestForAnalytics(url: analyticsUrl, parameters: analyticsStoreDictionary) { (result, errorString) in
+                        
+                    }
+                }
             }
+            
         case .Product:
             var newProduct = products
             if let  selectedProduct = newProduct?.remove(at: indexPath.item) {

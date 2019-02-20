@@ -36,7 +36,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lhm-Pg-Iep">
                                 <rect key="frame" x="0.0" y="119.5" width="304" height="80"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shopThumb" translatesAutoresizingMaskIntoConstraints="NO" id="ski-CY-rDi">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="ski-CY-rDi">
                                         <rect key="frame" x="20" y="20" width="40" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="grb-JN-zuu"/>
@@ -119,7 +119,6 @@
     </objects>
     <resources>
         <image name="placeholder" width="493" height="391"/>
-        <image name="shopThumb" width="76" height="76"/>
         <image name="unfavorite" width="50" height="50"/>
     </resources>
 </document>

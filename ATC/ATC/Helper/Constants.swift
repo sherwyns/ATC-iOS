@@ -9,20 +9,23 @@
 import Foundation
 
 enum APIMethod: String {
-    case Login             = "Users/login"
-    case SignUp            = "Users"
-    case socialSignIn      = "socialUsers/signin"
-    case socialSignUp      = "socialUsers/signup"
-    case changePassword    = "Users/change-password"
-    case getStores         = "Store/getstores/"
-    case getProductByStore = "products/getproductbystore/"
-    case getCategoriesList = "categories/list"
-    case search            = "search/by/"
-    case products          = "products"
-    case storeDetail       = "store/getstore/"
-    case getFavoriteList   = "favorite/list"
-    case saveFavorite      = "favorite/save"
-    case forgotPassword    = "service/email"
+    case Login              = "Users/login"
+    case SignUp             = "Users"
+    case socialSignIn       = "socialUsers/signin"
+    case socialSignUp       = "socialUsers/signup"
+    case changePassword     = "Users/change-password"
+    case getStores          = "Store/getstores/"
+    case getProductByStore  = "products/getproductbystore/"
+    case getCategoriesList  = "categories/list"
+    case search             = "search/by/"
+    case products           = "products"
+    case storeDetail        = "store/getstore/"
+    case getFavoriteList    = "favorite/list"
+    case saveFavorite       = "favorite/save"
+    case forgotPassword     = "service/email"
+    case productimpression  = "service/productimpression"
+    case storeimpression    = "service/storeimpression"
+    case categoryimpression = "service/categoryimpression"
 
 }
 

@@ -38,7 +38,7 @@ class StoreViewController: UIViewController, EntityProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         customizeViews()
-        self.store.categories = [Category]()
+        //self.store.categories = [Category]()
         registerCollectionViewCells()
         self.categoryCollectionView.dataSource = self
         self.categoryCollectionView.delegate = self
@@ -50,7 +50,15 @@ class StoreViewController: UIViewController, EntityProtocol {
         self.hideOrShowCategory()
         
         if let imageUrl = URL.init(string: store.storeCategoryImageUrlString()) {
-            categoryImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "shopThumb"))
+            categoryImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "placeholder"))
+        }
+        
+        var analyticsStoreDictionary = Dictionary<String, Any>()
+        analyticsStoreDictionary["store_id"] = store.storeId
+        let analyticsUrl = ApiServiceURL.apiInterface(.storeimpression)
+        
+        Downloader.updateJSONUsingURLSessionPOSTRequestForAnalytics(url: analyticsUrl, parameters: analyticsStoreDictionary) { (result, errorString) in
+            
         }
     }
     

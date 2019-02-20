@@ -287,7 +287,7 @@ extension SearchViewController: UICollectionViewDataSource {
             }
             
             if let imageUrl = URL.init(string: store.storeCategoryImageUrlString()) {
-                entityCell.categoryImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "gift"))
+                entityCell.categoryImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "placeholder"))
             }
             
             return entityCell

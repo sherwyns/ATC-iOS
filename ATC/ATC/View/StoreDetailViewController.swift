@@ -118,7 +118,7 @@ extension StoreDetailViewController: UITableViewDataSource {
             headerCell.shopLabel.text = store.name
             
             if let imageUrl = URL.init(string: store.storeCategoryImageUrlString()) {
-                headerCell.shopCategoryImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "shopThumb"))
+                headerCell.shopCategoryImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "placeholder"))
             }
             return headerCell
         case .Detail:
@@ -163,6 +163,8 @@ extension StoreDetailViewController: UITableViewDataSource {
             let annotation = MKPointAnnotation()
             annotation.title = self.store.name
             annotation.coordinate = coordinate
+            let region = MKCoordinateRegion(center: annotation.coordinate, latitudinalMeters: CLLocationDistance(exactly: 1000)!, longitudinalMeters: CLLocationDistance(exactly: 1000)!)
+            mapCell.mapView.setRegion(region, animated: true)
             mapCell.mapView.addAnnotation(annotation)
             mapCell.mapButton.addTarget(self, action: #selector(StoreDetailViewController.openMaps), for: .touchUpInside)
             return mapCell
@@ -231,6 +233,7 @@ extension StoreDetailViewController {
                     }
                     
                     self.store = Store.init(dictionary: storeDictionary)
+                    self.store.isFavorite = SharedObjects.shared.isStoreFavorited(store: self.store)
                     
                 }
                 DispatchQueue.main.async {
@@ -242,6 +245,8 @@ extension StoreDetailViewController {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }
         }
+        
+        
     }
     func openLinkInSafariViewController(urlString: String) {
         
@@ -283,7 +288,7 @@ extension StoreDetailViewController {
             longitude = -122.335167
         }
         
-        let regionDistance:CLLocationDistance = 10000
+        let regionDistance:CLLocationDistance = 100
         let coordinates = CLLocationCoordinate2DMake(latitude, longitude)
         let regionSpan = MKCoordinateRegion(center: coordinates, latitudinalMeters: regionDistance, longitudinalMeters: regionDistance)
         let options = [

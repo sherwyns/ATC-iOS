@@ -288,6 +288,56 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
             }
         }
     }
+    
+    static func updateJSONUsingURLSessionPOSTRequestForAnalytics(url : String, parameters : Dictionary<String, Any>,  completionHandler: @escaping (_ result : Dictionary<String, AnyObject?>?, _ error: String?) -> Void) {
+        
+        guard let serviceUrl = URL(string: url) else { return }
+        
+        var request = URLRequest(url: serviceUrl)
+        request.httpMethod = "POST"
+        request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue(uniqueDeviceIdentifier(), forHTTPHeaderField: UUID_HEADER)
+        
+        if let token = ATCUserDefaults.changePasswordToken() {
+            request.setValue(token, forHTTPHeaderField: "Acces_token")
+        }
+        
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {
+            return
+        }
+        request.httpBody = httpBody
+        
+        let session = URLSession.shared
+        session.dataTask(with: request) { (data, response, error) in
+            if let response = response {
+                print(response)
+            }
+            if let data = data {
+                if let emptyString = String.init(data: data, encoding: String.Encoding.ascii), emptyString.count == 0 {
+                    var dictionary = Dictionary<String, AnyObject>()
+                    dictionary["resultMessage"] = "Success" as AnyObject
+                    completionHandler(dictionary, nil)
+                    return
+                }
+                
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as? Dictionary<String, AnyObject?>
+                    print(json!)
+                    if let json = json {
+                        if let error = json["error"] as? Dictionary<String, AnyObject>, let message = error["message"]  as? String {
+                            completionHandler(nil, message)
+                        }
+                        else {
+                            completionHandler(json, nil)
+                        }
+                    }
+                }catch {
+                    print(error)
+                    completionHandler(nil, "Please try again")
+                }
+            }
+            }.resume()
+    }
   
 }
 

@@ -66,6 +66,16 @@ class ProductDetailViewController: UIViewController {
         
         self.tableView.backgroundColor = grayColor
         self.view.backgroundColor = grayColor
+        
+        var analyticsProductDictionary = Dictionary<String, Any>()
+        analyticsProductDictionary["store_id"] = product.storeId
+        analyticsProductDictionary["product_id"] = product.productId
+        analyticsProductDictionary["name"] = product.name
+        let analyticsUrl = ApiServiceURL.apiInterface(.productimpression)
+        
+        Downloader.updateJSONUsingURLSessionPOSTRequestForAnalytics(url: analyticsUrl, parameters: analyticsProductDictionary) { (result, errorString) in
+            
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
