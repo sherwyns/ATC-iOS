@@ -62,6 +62,7 @@ class Store {
     var city: String
     var zipcode: String
     var workinghours: String
+    var categoryImageUrl: String?
     
     init(dictionary: Dictionary<String, Any>) {
         self.storeId     = dictionary["id"] as? Int ?? 0
@@ -105,6 +106,8 @@ class Store {
             }
         }
         self.categories = categoryArray
+        
+        self.categoryImageUrl = categoryArray.first?.imageUrl
     }
 }
 

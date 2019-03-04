@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 enum EntityType {
     case Store
@@ -99,7 +100,8 @@ extension EntityViewController: UICollectionViewDataSource {
             cell?.showPriceOrCallbutton(price: product.price)
             
             if let url = URL.init(string: product.imageUrl) {
-                cell?.bannerImageView.setImageWith(url, placeholderImage: UIImage.init(named: "placeholder"))
+                //cell?.bannerImageView.setImageWith(url, placeholderImage: UIImage.init(named: "placeholder"))
+                cell?.bannerImageView.sd_setImage(with: url, placeholderImage: UIImage.init(named: "placeholder"), options: [SDWebImageOptions.retryFailed, .handleCookies, .scaleDownLargeImages, .transformAnimatedImage], completed:nil)
             }
             
             cell?.favoritebutton.tag = indexPath.item
@@ -115,10 +117,12 @@ extension EntityViewController: UICollectionViewDataSource {
     case .Store:
         let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: kENTITY_VIEW, for: indexPath) as? EntityViewCell
         if let store = storeForIndexPath(indexPath.item) {
+            print("category image url \(indexPath.row) \(store.name) \(store.storeCategoryImageUrlString())")
             cell?.name.text = store.name.capitalizeFirst
             cell?.subName.text = store.neighbourhood
             if let imageUrl = URL.init(string: store.imageUrl) {
-                cell?.bannerImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "placeholder"))
+                //cell?.bannerImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "placeholder"))
+                cell?.bannerImageView.sd_setImage(with: imageUrl, placeholderImage: UIImage.init(named: "placeholder"), options: [SDWebImageOptions.retryFailed, .handleCookies, .scaleDownLargeImages, .transformAnimatedImage], completed:nil)
             }
             
             cell?.favoritebutton.tag = indexPath.item
@@ -130,8 +134,9 @@ extension EntityViewController: UICollectionViewDataSource {
                 cell?.favoritebutton.setImage(UIImage.init(named: "unfavorite"), for: .normal)
             }
             
-            if let imageUrl = URL.init(string: store.storeCategoryImageUrlString()) {
-                cell?.categoryImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "placeholder"))
+            if let imageUrlString = store.categoryImageUrl, let imageUrl = URL.init(string: imageUrlString) {
+                //cell?.categoryImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "placeholder"))
+                cell?.categoryImageView.sd_setImage(with: imageUrl, placeholderImage: UIImage.init(named: "placeholder"), options: [SDWebImageOptions.retryFailed, .handleCookies, .scaleDownLargeImages, .transformAnimatedImage], completed:nil)
             }
             
         }

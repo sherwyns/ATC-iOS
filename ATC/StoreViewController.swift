@@ -69,6 +69,10 @@ class StoreViewController: UIViewController, EntityProtocol {
         self.getProductByStore()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+       self.store.categories = Array<Category>( self.store.categories.dropFirst()) as Array<Category>
+    }
+    
     func updateStoreFavorite() {
         if let favStores = SharedObjects.shared.favStores {
             for storeFavorite in favStores {

@@ -18,6 +18,7 @@ class HomeViewController: UIViewController, EntityProtocol {
     
     var entityViewController: EntityViewController?
     var stores: [Store]?
+    var isFirst:Bool = true
     
     let grayColor = UIColor.init(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1)
     
@@ -31,7 +32,11 @@ class HomeViewController: UIViewController, EntityProtocol {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        getStores()
+        if isFirst {
+           getStores()
+            isFirst = false
+        }
+        
 //
 //        SharedObjects.shared.getStoresWithFavorite { (completionStores) in
 //            self.stores = completionStores
