@@ -24,6 +24,8 @@ class SharedObjects{
     
     var categoryId: String?
     
+    var canReloadStore: Bool = true
+    
     private init(){
        //ATCUserDefaults.retrieveFavProductStore()
     }

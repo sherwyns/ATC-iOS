@@ -72,7 +72,7 @@ class AccountViewController: UIViewController {
     @IBAction func signoutAction() {
         ATCUserDefaults.logoutApp()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
+        SharedObjects.shared.canReloadStore = true
         if let tabbar = appDelegate.tabbarController {
             for controller in tabbar.viewControllers! {
                 if let vc = controller as? EntityProtocol {

@@ -110,7 +110,7 @@
                                             <constraint firstAttribute="height" constant="27" id="rG6-uS-3nY"/>
                                         </constraints>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Product"/>
+                                        <state key="normal" title="Products"/>
                                         <connections>
                                             <action selector="productButtonAction" destination="2b6-0s-rhj" eventType="touchUpInside" id="j6d-mG-DMy"/>
                                         </connections>
@@ -131,7 +131,7 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Store"/>
+                                        <state key="normal" title="Stores"/>
                                         <connections>
                                             <action selector="storeButtonAction" destination="2b6-0s-rhj" eventType="touchUpInside" id="hfp-3T-hAw"/>
                                         </connections>
@@ -652,11 +652,11 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Yzv-6Y-xfb">
-                                <rect key="frame" x="0.0" y="88" width="375" height="579"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="530"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gBg-bj-s8e" customClass="SegButton" customModule="ATC" customModuleProvider="target">
-                                <rect key="frame" x="47" y="595" width="281" height="60"/>
+                                <rect key="frame" x="47" y="546" width="281" height="60"/>
                                 <color key="backgroundColor" red="1" green="0.25882352939999997" blue="0.25882352939999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="bcQ-bj-bnZ"/>
@@ -1693,8 +1693,8 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="P8e-J9-OZQ"/>
-        <segue reference="Jmr-GZ-yV8"/>
-        <segue reference="Uem-O0-Fqe"/>
+        <segue reference="RSK-zc-4xS"/>
+        <segue reference="bYA-dD-Qtd"/>
         <segue reference="aV9-9n-AMA"/>
     </inferredMetricsTieBreakers>
 </document>

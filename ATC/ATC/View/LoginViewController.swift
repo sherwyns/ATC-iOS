@@ -83,6 +83,7 @@ class LoginViewController: UIViewController {
                                     DispatchQueue.main.async(execute: { () -> Void in
                                         ATCUserDefaults.userOpenedApp()
                                         ATCUserDefaults.userSignedIn()
+                                        SharedObjects.shared.canReloadStore = true
                                         self.updateFavorite()
                                         ATCUserDefaults.userIdentity(id: String(userId))
                                         ATCUserDefaults.userInfo(mail:self.emailTextField.text!)
@@ -156,6 +157,7 @@ class LoginViewController: UIViewController {
                                             DispatchQueue.main.async(execute: { () -> Void in
                                                 ATCUserDefaults.userOpenedApp()
                                                 ATCUserDefaults.userSignedIn()
+                                                SharedObjects.shared.canReloadStore = true
                                                 self.updateFavorite()
                                                 ATCUserDefaults.userIdentity(id: String(userId))
                                                 ATCUserDefaults.userInfo(mail:email)
@@ -256,6 +258,7 @@ extension LoginViewController: GIDSignInDelegate {
                             DispatchQueue.main.async(execute: { () -> Void in
                                 ATCUserDefaults.userOpenedApp()
                                 ATCUserDefaults.userSignedIn()
+                                SharedObjects.shared.canReloadStore = true
                                 self.updateFavorite()
                                 ATCUserDefaults.userIdentity(id: String(userId))
                                 ATCUserDefaults.userInfo(mail:user.profile.email!)

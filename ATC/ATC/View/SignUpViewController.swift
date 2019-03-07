@@ -92,6 +92,7 @@ class SignUpViewController: UIViewController {
                                 DispatchQueue.main.async(execute: { () -> Void in
                                     ATCUserDefaults.userInfo(mail: email)
                                     ATCUserDefaults.userSignedIn()
+                                    SharedObjects.shared.canReloadStore = true
                                     self.updateFavorite()
                                     self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
                                     KSToastView.ks_showToast("Welcome!")
@@ -140,6 +141,7 @@ class SignUpViewController: UIViewController {
                                     DispatchQueue.main.async(execute: { () -> Void in
                                         ATCUserDefaults.userInfo(mail: email)
                                         ATCUserDefaults.userSignedIn()
+                                        SharedObjects.shared.canReloadStore = true
                                         self.updateFavorite()
                                         self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
                                         KSToastView.ks_showToast("Welcome")
@@ -187,6 +189,7 @@ class SignUpViewController: UIViewController {
                         ATCUserDefaults.userInfo(mail: self.emailTextField.text!)
                         ATCUserDefaults.userOpenedApp()
                         ATCUserDefaults.userSignedIn()
+                        SharedObjects.shared.canReloadStore = true
                         self.updateFavorite()
                         DispatchQueue.main.async(execute: { () -> Void in
                             self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
@@ -288,6 +291,7 @@ extension SignUpViewController: GIDSignInDelegate {
                             DispatchQueue.main.async(execute: { () -> Void in
                                 ATCUserDefaults.userOpenedApp()
                                 ATCUserDefaults.userSignedIn()
+                                SharedObjects.shared.canReloadStore = true
                                 self.updateFavorite()
                                 ATCUserDefaults.userIdentity(id: String(userId))
                                 ATCUserDefaults.userInfo(mail:user.profile.email!)

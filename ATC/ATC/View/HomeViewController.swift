@@ -32,12 +32,14 @@ class HomeViewController: UIViewController, EntityProtocol {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if isFirst {
+        if SharedObjects.shared.canReloadStore {
            getStores()
-            isFirst = false
+            SharedObjects.shared.canReloadStore = false
         }
-        
-//
+        else {
+            self.entityViewController?.collectionView.reloadData()
+        }
+//        SharedObjects.shared.favStores
 //        SharedObjects.shared.getStoresWithFavorite { (completionStores) in
 //            self.stores = completionStores
 //            self.entityViewController?.stores = self.stores

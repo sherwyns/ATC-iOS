@@ -14,7 +14,7 @@ class LoginManager {
     static func logout(){
         GIDSignIn.sharedInstance()?.signOut()
 //        FBSession.activeSession.closeAndClearTokenInformation()
-        
+        SharedObjects.shared.canReloadStore = true
         FBSDKLoginManager().logOut()
     }
 }
