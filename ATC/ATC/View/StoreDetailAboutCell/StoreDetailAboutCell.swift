@@ -19,6 +19,12 @@ class StoreDetailAboutCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        callButton.highlightedStateColor()
+        mailButton.highlightedStateColor()
+        globeButton.highlightedStateColor()
+        
+        
         callButton.layer.cornerRadius = 24.5
         mailButton.layer.cornerRadius = 24.5
         globeButton.layer.cornerRadius = 24.5
@@ -30,6 +36,8 @@ class StoreDetailAboutCell: UITableViewCell {
         callButton.imageEdgeInsets = UIEdgeInsets(top: 10, left:10, bottom: 10, right: 10)
         mailButton.imageEdgeInsets = UIEdgeInsets(top: 10, left:10, bottom: 10, right: 10)
          globeButton.imageEdgeInsets = UIEdgeInsets(top: 10, left:10, bottom: 10, right: 10)
+        
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

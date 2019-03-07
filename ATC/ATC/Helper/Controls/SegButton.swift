@@ -9,14 +9,23 @@
 import UIKit
 
 class SegButton: UIButton {
-
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+    
+    var view:UIView?
+    
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        guard let _ = view else {
+            return
+        }
+        
+        view = UIView.init(frame: self.frame)
+        view?.backgroundColor = .white
+        self.addSubview(view!)
+        self.layer.cornerRadius = 13.5
+        let color = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.21)
+        view!.layer.applySketchShadow(color: color, alpha: 1, x: 0.0, y: 9.0, blur: 14.9, spread: 1.1)
     }
-    */
     
     override public class var layerClass: Swift.AnyClass {
         return CAGradientLayer.self
@@ -24,7 +33,7 @@ class SegButton: UIButton {
     
     func highlightedStateColor() {
         self.layer.cornerRadius = 13.5
-        self.layer.masksToBounds = true
+        //self.layer.masksToBounds = true
         self.applyGradient(withColours: [ .darkBlue(), .lightBlue()], gradientOrientation: .horizontal)
         self.setTitleColor(.white, for: .normal)
         let color = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.21)
