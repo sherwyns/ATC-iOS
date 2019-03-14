@@ -105,10 +105,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
 //        ];
         print(" SourceUrl \(url)")
-//        return FBSDKApplicationDelegate.sharedInstance()?.application(app, open: url, sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as! String, annotation: options[UIApplication.OpenURLOptionsKey.annotation]) ?? false
-        return GIDSignIn.sharedInstance().handle(url as URL?,
-                                                 sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as! String,
-                                                 annotation: options[UIApplication.OpenURLOptionsKey.annotation])
+        
+        
+//        return true
+        if url.absoluteString.contains("fb1928761557159871") {
+            return FBSDKApplicationDelegate.sharedInstance()?.application(app, open: url, sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as! String, annotation: options[UIApplication.OpenURLOptionsKey.annotation]) ?? false
+        }
+        else {
+            return GIDSignIn.sharedInstance().handle(url as URL?,
+                                                     sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as! String,
+                                                     annotation: options[UIApplication.OpenURLOptionsKey.annotation])
+        }
+
+        
 
     }
 
