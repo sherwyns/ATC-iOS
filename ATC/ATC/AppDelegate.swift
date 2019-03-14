@@ -151,7 +151,12 @@ class IrregularityContentView: ESTabBarItemContentView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     self.imageView.backgroundColor = .white
-    self.insets = UIEdgeInsets.init(top: -32, left: 0, bottom: 0, right: 0)
+    if #available(iOS 11.0, *) {
+        self.imageView.directionalLayoutMargins = NSDirectionalEdgeInsets.init(top: -30, leading: 5, bottom: 5, trailing: 5)
+    } else {
+        // Fallback on earlier versions
+    }
+    self.insets = UIEdgeInsets.init(top: -22, left: 0, bottom: 0, right: 0)
     self.superview?.bringSubviewToFront(self)
     
     textColor = UIColor.init(white: 255.0 / 255.0, alpha: 1.0)

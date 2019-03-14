@@ -80,7 +80,7 @@ extension FilterViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let categoryId = SharedObjects.shared.categories[indexPath.row].categoryId
         SharedObjects.shared.categoryId = categoryId
-        
+        SharedObjects.shared.canReloadStore = true
         self.dismiss(animated: true, completion: {})
     }
     

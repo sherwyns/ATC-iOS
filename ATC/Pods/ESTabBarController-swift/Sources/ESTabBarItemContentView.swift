@@ -127,6 +127,7 @@ open class ESTabBarItemContentView: UIView {
     
     open var imageView: UIImageView = {
         let imageView = UIImageView.init(frame: CGRect.zero)
+        
         imageView.backgroundColor = .clear
         return imageView
     }()
