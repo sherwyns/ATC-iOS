@@ -15,6 +15,7 @@ public class ATCUserDefaults {
     static let kUserInfo       = "userInfo"
     static let kUserId       = "userId"
     static let kChangePasswordToken = "token"
+    static let kAppWalkthrough = "appWalkthrough"
     
     static func changePasswordToken() -> String? {
         if let changePasswordToken = UserDefaults.standard.value(forKey: kChangePasswordToken) as? String {
@@ -37,6 +38,13 @@ public class ATCUserDefaults {
         return true
     }
     
+    static func isAppWalkthroughDone() -> Bool {
+        if let isFirstTime = UserDefaults.standard.value(forKey: kAppWalkthrough) as? Bool {
+            return isFirstTime
+        }
+        return false
+    }
+    
     static func userInfo() -> String? {
         if let userMail = UserDefaults.standard.value(forKey: kUserInfo) as? String {
             return userMail
@@ -53,6 +61,11 @@ public class ATCUserDefaults {
     
     static func userOpenedApp() {
         UserDefaults.standard.setValue(false, forKey: kIsFirstTime)
+        UserDefaults.standard.synchronize()
+    }
+    
+    static func appWalkthroughDone() {
+        UserDefaults.standard.setValue(true, forKey: kAppWalkthrough)
         UserDefaults.standard.synchronize()
     }
     

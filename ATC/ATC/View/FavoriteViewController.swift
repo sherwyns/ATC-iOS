@@ -127,8 +127,6 @@ extension FavoriteViewController {
                 KSToastView.ks_showToast(error)
             }
             else {
-                print(result)
-                
                 if let result = result, let storeDictionaryArray = result["data"] as? Array<Dictionary<String, Any>> {
                     
                     var storeArray = [Store]()
@@ -142,7 +140,6 @@ extension FavoriteViewController {
                         self.entityViewController?.collectionView.reloadData()
                     }
                 }
-                
             }
             DispatchQueue.main.async {
                 self.hideHUD()

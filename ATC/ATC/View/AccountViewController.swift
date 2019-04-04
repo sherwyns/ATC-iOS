@@ -23,7 +23,7 @@ class AccountViewController: UIViewController {
     @IBOutlet weak var confirmPasswordTextField: UITextField!
     
     @IBOutlet weak var changePasswordStackView: UIStackView!
-    @IBOutlet weak var HUD:MBProgressHUD!
+    @IBOutlet var HUD:MBProgressHUD!
     override func viewDidLoad() {
         super.viewDidLoad()
         customizeViews()

@@ -412,10 +412,8 @@ extension SearchViewController {
     
     func searchStoreAndProduct(text: String) {
         
-        var urlString = "\(ApiServiceURL.apiInterface(.search))\(text)" ?? ""
+        let urlString = "\(ApiServiceURL.apiInterface(.search))\(text)"
         
-
-//        let fstring =
         guard let finalString = urlString.addingPercentEncoding( withAllowedCharacters: CharacterSet.urlQueryAllowed), let url = URL.init(string: finalString) else  {
             return
         }

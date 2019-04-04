@@ -2,7 +2,7 @@
 //  FilterCell.swift
 //  ATC
 //
-//  Created by Rathinavel, Dhandapani(AWF) on 06/01/19.
+//  Created by Rathinavel, Dhandapani on 06/01/19.
 //  Copyright © 2019 Rathinavel, Dhandapani. All rights reserved.
 //
 

@@ -149,7 +149,9 @@ class LoginViewController: UIViewController {
                             Downloader.getJSONUsingURLSessionPOSTRequest(url: urlString, parameters: parameterDictionary) { (facebookResult, errorString) in
                                 self.hideHUD()
                                 if let _ = errorString {
-                                    KSToastView.ks_showToast("Please try again")
+                                    DispatchQueue.main.async(execute: { () -> Void in
+                                        KSToastView.ks_showToast("Please try Again")
+                                    })
                                 }
                                 else {
                                     if let facebookResult = facebookResult {
@@ -168,9 +170,22 @@ class LoginViewController: UIViewController {
                                             })
                                             KSToastView.ks_showToast("Welcome!")
                                         }
+                                        else {
+                                            if let errorMessage = facebookResult["message"] as? String {
+                                                if errorMessage == "No User" {
+                                                    KSToastView.ks_showToast("Kindle register and login again")
+                                                }
+                                                else {
+                                                    KSToastView.ks_showToast(errorMessage)
+                                                }
+                                                
+                                            }
+                                        }
                                     }
                                     else {
-                                        KSToastView.ks_showToast("Please try Again")
+                                        DispatchQueue.main.async(execute: { () -> Void in
+                                            KSToastView.ks_showToast("Please try Again")
+                                        })
                                     }
                                 }
                             }
@@ -250,7 +265,9 @@ extension LoginViewController: GIDSignInDelegate {
             Downloader.getJSONUsingURLSessionPOSTRequest(url: urlString, parameters: parameterDictionary) { (googleResult, errorString) in
                 self.hideHUD()
                 if let error = errorString {
-                    KSToastView.ks_showToast(error)
+                    DispatchQueue.main.async(execute: { () -> Void in
+                        KSToastView.ks_showToast(error)
+                    })
                 }
                 else {
                     if let `googleResult` = googleResult {
@@ -267,11 +284,26 @@ extension LoginViewController: GIDSignInDelegate {
                                 Downloader.retrieveProductFavorites()
                                 self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
                             })
-                            KSToastView.ks_showToast("Welcome!")
+                            DispatchQueue.main.async(execute: { () -> Void in
+                                KSToastView.ks_showToast("Welcome!")
+                            })
+                        }
+                        else {
+                            if let errorMessage = googleResult["message"] as? String {
+                                if errorMessage == "No User" {
+                                    KSToastView.ks_showToast("Kindle register and login again")
+                                }
+                                else {
+                                    KSToastView.ks_showToast(errorMessage)
+                                }
+                                
+                            }
                         }
                     }
                     else {
-                        KSToastView.ks_showToast("Please try Again")
+                        DispatchQueue.main.async(execute: { () -> Void in
+                            KSToastView.ks_showToast("Please try Again")
+                        })
                     }
                 }
             }

@@ -38,7 +38,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
     let settingViewController = storyboard.instantiateViewController(withIdentifier: "SettingViewController") as! SettingViewController
     slideMenuController = SlideMenuController.init(mainViewController: tabbarController, rightMenuViewController: settingViewController)
-    // slideMenuController.automaticallyAdjustsScrollViewInsets = true
     return slideMenuController
   }
   

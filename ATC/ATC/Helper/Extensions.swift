@@ -70,12 +70,11 @@ public extension UIViewController {
     }
     
     func showBackButton() {
-        if let navItem = self.navigationItem as? UINavigationItem {
-            let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: #selector(UIViewController.backAction))
-            backButton.image = UIImage(named: "backButton")
-            backButton.imageInsets.left = -10
-            navItem.leftBarButtonItem = backButton
-        }
+        let navItem = self.navigationItem
+        let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: #selector(UIViewController.backAction))
+        backButton.image = UIImage(named: "backButton")
+        backButton.imageInsets.left = -10
+        navItem.leftBarButtonItem = backButton
     }
     
     @IBAction func backAction() {

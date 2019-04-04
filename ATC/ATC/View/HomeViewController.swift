@@ -12,7 +12,7 @@ import KSToastView
 
 class HomeViewController: UIViewController, EntityProtocol {
     
-    @IBOutlet weak var HUD:MBProgressHUD!
+    @IBOutlet var HUD:MBProgressHUD!
     @IBOutlet weak var entityContainer: UIView!
     @IBOutlet weak var filterButton: UIButton!
     
@@ -32,6 +32,11 @@ class HomeViewController: UIViewController, EntityProtocol {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        if !ATCUserDefaults.isAppWalkthroughDone() {
+            self.performSegue(withIdentifier: "AppIntro", sender: nil)
+        }
+        
         if SharedObjects.shared.canReloadStore {
            getStores()
             SharedObjects.shared.canReloadStore = false
