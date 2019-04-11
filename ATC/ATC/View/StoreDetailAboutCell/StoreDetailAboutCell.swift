@@ -15,7 +15,8 @@ class StoreDetailAboutCell: UITableViewCell {
     @IBOutlet weak var globeButton:SegButton!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var workingHourLabel: UILabel!
-    
+    @IBOutlet weak var toolsLeftConstraint: NSLayoutConstraint!
+    @IBOutlet weak var toolsRightConstraint: NSLayoutConstraint!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

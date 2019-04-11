@@ -279,7 +279,6 @@ extension StoreViewController {
             }
             else {
                 if let result = result, let productDictionaryArray = result["data"] as? Array<Dictionary<String, Any>> {
-                    print("Parsing passed")
                     var uncategorisedProduct = [Product]()
                     
                     // get categoryId only
@@ -289,8 +288,6 @@ extension StoreViewController {
                         categoryIdSet.insert(product.categoryId)
                         uncategorisedProduct.append(product)
                     }
-                    
-                    print(categoryIdSet)
                     
                     var categoryArray = [Category]()
                     
@@ -311,10 +308,6 @@ extension StoreViewController {
                         
                         let category = Category.init(dictionary: dictionary)
                         categoryArray.append(category)
-                    }
-                    
-                    for category in categoryArray {
-                        print(category.name)
                     }
                     
                     categoryArray = categoryArray.sorted{$0.name < $1.name}

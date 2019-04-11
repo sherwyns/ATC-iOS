@@ -151,7 +151,7 @@ extension Store {
         if let data = self.workinghours.data(using: .utf8) {
             do {
                 if let workingHourDictionary = try JSONSerialization.jsonObject(with: data, options : .allowFragments) as? Dictionary<String,Any> {
-                    print(workingHourDictionary) // use the json here
+                    //print(workingHourDictionary) // use the json here
                     
                     if let dayWorkingHourDictionary = workingHourDictionary[Date.dayOfWeek()] as? Dictionary<String,String>, let endTime = dayWorkingHourDictionary["endTime"] {
                         return "Open until " + endTime
@@ -164,7 +164,7 @@ extension Store {
                     return String()
                 }
             } catch let error as NSError {
-                print(error)
+                //print(error)
                 return String()
             }
         }

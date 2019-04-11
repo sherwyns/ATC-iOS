@@ -67,7 +67,7 @@ class LoginViewController: UIViewController {
                         KSToastView.ks_showToast(error)
                     }
                     else {
-                        print(parameterDictionary)
+                        //print(parameterDictionary)
                         if let error = parameterDictionary["error"] as? Dictionary<String, AnyObject?> {
                             if let message = error["message"] as? String {
                                 KSToastView.ks_showToast(message)
@@ -124,8 +124,6 @@ class LoginViewController: UIViewController {
         let loginManager = FBSDKLoginManager()
         
         loginManager.logIn(withReadPermissions: ["public_profile", "email"], from: self) { (result, error) in
-            print(error)
-            print(result)
             if let error = error {
                 KSToastView.ks_showToast("Please try again")
             }
@@ -250,9 +248,7 @@ extension LoginViewController: GIDSignInDelegate {
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if error != nil {
             
-        }else {
-            print(user.profile.email)
-            
+        } else {
             var parameterDictionary = Dictionary<String, Any>()
             parameterDictionary["email"] = user.profile.email!
             parameterDictionary["externalid"]      = user.userID

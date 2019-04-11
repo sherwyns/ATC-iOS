@@ -24,8 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     GIDSignIn.sharedInstance().clientID = "274395748043-r3sagataa6qui95vsuirn74eruvtur9i.apps.googleusercontent.com"
     FBSDKApplicationDelegate.sharedInstance()?.application(application, didFinishLaunchingWithOptions: launchOptions)
     self.window?.rootViewController = entryRootViewController()
-    print("USERID \(ATCUserDefaults.userId())")
-    print("Mail \(ATCUserDefaults.userInfo())")
+    //print("USERID \(ATCUserDefaults.userId())")
+    //print("Mail \(ATCUserDefaults.userInfo())")
     
     Downloader.retrieveStoreFavorites()
     Downloader.retrieveProductFavorites()
@@ -97,16 +97,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        
-//        [[FBSDKApplicationDelegate sharedInstance] application:application
-//            openURL:url
-//            sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
-//            annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
-//        ];
-        print(" SourceUrl \(url)")
-        
-        
-//        return true
         if url.absoluteString.contains("fb1928761557159871") {
             return FBSDKApplicationDelegate.sharedInstance()?.application(app, open: url, sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as! String, annotation: options[UIApplication.OpenURLOptionsKey.annotation]) ?? false
         }
@@ -131,7 +121,7 @@ extension AppDelegate: GIDSignInDelegate {
             let _ = user.userID                  // For client-side use only!
             let idToken = user.authentication.idToken // Safe to send to the server
             let email = user.profile.email
-            print("mail \(user.profile.email) \(user.authentication.idToken)")
+            //print("mail \(user.profile.email) \(user.authentication.idToken)")
         }
     }
 }

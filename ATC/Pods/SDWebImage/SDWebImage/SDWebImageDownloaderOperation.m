@@ -460,32 +460,34 @@ didReceiveResponse:(NSURLResponse *)response
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler {
     
-    NSURLSessionAuthChallengeDisposition disposition = NSURLSessionAuthChallengePerformDefaultHandling;
-    __block NSURLCredential *credential = nil;
+    completionHandler(NSURLSessionAuthChallengeUseCredential, [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust]);
     
-    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
-        if (!(self.options & SDWebImageDownloaderAllowInvalidSSLCertificates)) {
-            disposition = NSURLSessionAuthChallengePerformDefaultHandling;
-        } else {
-            credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
-            disposition = NSURLSessionAuthChallengeUseCredential;
-        }
-    } else {
-        if (challenge.previousFailureCount == 0) {
-            if (self.credential) {
-                credential = self.credential;
-                disposition = NSURLSessionAuthChallengeUseCredential;
-            } else {
-                disposition = NSURLSessionAuthChallengeCancelAuthenticationChallenge;
-            }
-        } else {
-            disposition = NSURLSessionAuthChallengeCancelAuthenticationChallenge;
-        }
-    }
-    
-    if (completionHandler) {
-        completionHandler(disposition, credential);
-    }
+//    NSURLSessionAuthChallengeDisposition disposition = NSURLSessionAuthChallengePerformDefaultHandling;
+//    __block NSURLCredential *credential = nil;
+//
+//    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+//        if (!(self.options & SDWebImageDownloaderAllowInvalidSSLCertificates)) {
+//            disposition = NSURLSessionAuthChallengePerformDefaultHandling;
+//        } else {
+//            credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
+//            disposition = NSURLSessionAuthChallengeUseCredential;
+//        }
+//    } else {
+//        if (challenge.previousFailureCount == 0) {
+//            if (self.credential) {
+//                credential = self.credential;
+//                disposition = NSURLSessionAuthChallengeUseCredential;
+//            } else {
+//                disposition = NSURLSessionAuthChallengeCancelAuthenticationChallenge;
+//            }
+//        } else {
+//            disposition = NSURLSessionAuthChallengeCancelAuthenticationChallenge;
+//        }
+//    }
+//
+//    if (completionHandler) {
+//        completionHandler(disposition, credential);
+//    }
 }
 
 #pragma mark Helper methods

@@ -18,8 +18,6 @@ class CredentialViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print(operationPayload?.payloadType)
     }
     
     override func viewDidLayoutSubviews() {

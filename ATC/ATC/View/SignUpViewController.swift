@@ -39,8 +39,6 @@ class SignUpViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        //addHUDToView()
-        print(operationPayload?.payloadType)
     }
     
     // MARK: - Navigation
@@ -97,7 +95,6 @@ class SignUpViewController: UIViewController {
                                     self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
                                     KSToastView.ks_showToast("Welcome!")
                                 })
-                                print(" result \(facebookResult)")
                             }
                         }
                     }
@@ -110,8 +107,6 @@ class SignUpViewController: UIViewController {
         let loginManager = FBSDKLoginManager()
     
         loginManager.logIn(withReadPermissions: ["public_profile", "email"], from: self) { (result, error) in
-            print(error)
-            print(result)
             if let error = error {
                 KSToastView.ks_showToast("Please try again")
             }
@@ -146,8 +141,6 @@ class SignUpViewController: UIViewController {
                                         self.performSegue(withIdentifier: "startShoppingSegue", sender: nil)
                                         KSToastView.ks_showToast("Welcome")
                                     })
-                                    
-                                    print(" result \(parameterDictionary)")
                                 }
                             }
                         }
@@ -182,7 +175,6 @@ class SignUpViewController: UIViewController {
                         KSToastView.ks_showToast(error)
                     }
                     else {
-                        print(parameterDictionary)
                         if let result = result, let id = result["id"] as? Int{
                             ATCUserDefaults.userIdentity(id: String(id))
                         }
@@ -264,7 +256,6 @@ extension SignUpViewController: GIDSignInDelegate {
         if error != nil {
             
         }else {
-            print(user.profile.email)
             
             var parameterDictionary = Dictionary<String, Any>()
             parameterDictionary["email"] = user.profile.email!

@@ -46,7 +46,7 @@
                                     <constraint firstAttribute="height" constant="30" id="a7p-gj-fXL"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="15"/>
-                                <state key="normal" title="Call">
+                                <state key="normal" title="Visit">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                             </button>

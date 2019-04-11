@@ -1,0 +1,9 @@
+{"data":[
+    {"id":883,"store_id":20,"title":"Ilse Jacobsen ","description":"Short Handmade Rain Boots","price":174,"product_image":"floral-midi","category_id":341,"category_name":"Shoes"},
+    {"id":884,"store_id":20,"title":"SUSAN GOODWIN JEWELRY","description":"COLLECTION OF ONE OF A KIND HANDMADE JEWELRY BY SUSAN GOODWIN","price":0,"product_image":"diamond","category_id":320,"category_name":"Jewelry"},
+    {"id":885,"store_id":20,"title":"TAYLOR & TESSIER JEWLERY","description":"COLLECTION OF HANDMADE JEWELRY FROM ASPEN, CO.","price":0,"product_image":"diamond","category_id":320,"category_name":"Jewelry"},
+    {"id":1107,"store_id":20,"title":"CITIZEN & AGOLDE ","description":"VARIOUS DENIM STYLES","price":0,"product_image":"tees","category_id":5430,"category_name":"Women's clothing"},
+    {"id":1108,"store_id":20,"title":"BITTE KAI RAND","description":"An International fashion brand with a rich history in Scandinavian design.","price":0,"product_image":"tees","category_id":5430,"category_name":"Women's clothing"},
+    {"id":1109,"store_id":20,"title":"Veronique Miljkovitch","description":"Born in Paris, educated in Denmark and perfected in Montreal, designer Veronique Miljkovitch's collections combine texture and tasteful draping and silhouettes that celebrate the natural form.","price":0,"product_image":"tees","category_id":5430,"category_name":"Women's clothing"}
+    ]
+}

@@ -183,7 +183,7 @@ extension SearchViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        return 55
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -192,10 +192,10 @@ extension SearchViewController: UITableViewDelegate {
         case .Product:
             let count = self.products.count
             if count > 2 {
-                return (kWIDTH_CELL * 2)// + 16
+                return (kWIDTH_CELL * 2) + 10
             }
             else {
-                return (kWIDTH_CELL) //+ 16
+                return (kWIDTH_CELL) + 10
             }
         case .Store:
             let count = self.stores.count
@@ -277,6 +277,8 @@ extension SearchViewController: UICollectionViewDataSource {
             
             if let imageUrl = URL.init(string: store.imageUrl) {
                 entityCell.bannerImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "placeholder"))
+            }else {
+                entityCell.bannerImageView.image = UIImage.init(named: "placeholder")
             }
             
             if store.isFavorite {
@@ -288,6 +290,8 @@ extension SearchViewController: UICollectionViewDataSource {
             
             if let imageUrl = URL.init(string: store.storeCategoryImageUrlString()) {
                 entityCell.categoryImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "placeholder"))
+            } else {
+                entityCell.categoryImageView.image = UIImage.init(named: "placeholder")
             }
             
             return entityCell
@@ -304,6 +308,8 @@ extension SearchViewController: UICollectionViewDataSource {
             
             if let url = URL.init(string: product.imageUrl) {
                 productCell.bannerImageView.setImageWith(url, placeholderImage: UIImage.init(named: "placeholder"))
+            } else {
+                productCell.bannerImageView.image = UIImage.init(named: "placeholder")
             }
             return productCell
         }
@@ -426,73 +432,80 @@ extension SearchViewController {
         let session = URLSession.init(configuration: URLSessionConfiguration.default, delegate: taskDelegate, delegateQueue: nil)
         
         let dataTask = session.dataTask(with: url) { (data, urlResponse, error) in
-          if let error = error {
-            print(error.localizedDescription)
-            DispatchQueue.main.async {
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            }
-            return
-          }
-          if let data = data {
-            do {
-              if let json = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves) as? Dictionary<String,Array<Dictionary<String,Any>>> {
-                print(json)
-                self.entityTypes = [EntityType]()
-                var stores = [Store]()
-                var products = [Product]()
-                self.products = [Product]()
-                self.stores = [Store]()
-                if let array = json["data"] {
-                  for dictionary in array {
-                    if let storeArray = dictionary["stores"] as? Array<Dictionary<String, Any>>{
-                      for storeDictionary in storeArray {
-                        let store = Store.init(dictionary: storeDictionary)
-                        stores.append(store)
-                      }
-                    }
-                    if let productArray = dictionary["products"] as? Array<Dictionary<String, Any>>{
-                      for productDictionary in productArray {
-                        let product = Product.init(dictionary: productDictionary)
-                        products.append(product)
-                      }
-                    }
-                  }
-                }
-                print("\(stores.count) \(products.count)")
-                self.stores = stores
-                self.stores = SharedObjects.shared.updateIncomingStoresWithFavorite(stores: &stores)
-                self.products = products
-                //self.addTempProducts()
-                if self.products.count > 0 {
-                    self.entityTypes.append(EntityType.Product)
-                }
-                if self.stores.count > 0 {
-                    self.entityTypes.append(EntityType.Store)
-                }
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-                
-                if self.products.count == 0 && self.stores.count == 0 {
-//                    DispatchQueue.main.async {
-//                        KSToastView.ks_showToast("No results found", duration: 3.0)
-//                    }
-                }
+            if let error = error {
+                print(error.localizedDescription)
                 DispatchQueue.main.async {
                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 }
-              }
+                return
             }
-            catch {
-              print("Please try again")
-                
-                DispatchQueue.main.async {
-                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            if let data = data {
+                do {
+                    if let json = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves) as? Dictionary<String,Array<Dictionary<String,Any>>> {
+                        print(json)
+                        self.entityTypes = [EntityType]()
+                        var stores = [Store]()
+                        var products = [Product]()
+                        self.products = [Product]()
+                        self.stores = [Store]()
+                        if let array = json["data"] {
+                            for dictionary in array {
+                                if let storeArray = dictionary["stores"] as? Array<Dictionary<String, Any>>{
+                                    for storeDictionary in storeArray {
+                                        let store = Store.init(dictionary: storeDictionary)
+                                        stores.append(store)
+                                    }
+                                }
+                                if let productArray = dictionary["products"] as? Array<Dictionary<String, Any>>{
+                                    for productDictionary in productArray {
+                                        let product = Product.init(dictionary: productDictionary)
+                                        products.append(product)
+                                    }
+                                }
+                            }
+                        }
+                        //print("\(stores.count) \(products.count)")
+                        self.stores = stores
+                        self.stores = SharedObjects.shared.updateIncomingStoresWithFavorite(stores: &stores)
+                        self.products = products
+                        //self.addTempProducts()
+                        if self.products.count > 0 {
+                            self.entityTypes.append(EntityType.Product)
+                        }
+                        if self.stores.count > 0 {
+                            self.entityTypes.append(EntityType.Store)
+                        }
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                        }
+                        
+                        if self.products.count == 0 && self.stores.count == 0 {
+                            //                    DispatchQueue.main.async {
+                            //                        KSToastView.ks_showToast("No results found", duration: 3.0)
+                            //                    }
+                        }
+                        DispatchQueue.main.async {
+                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                        }
+                    }
+                    else {
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                        }
+                    }
+                }
+                catch {
+                    //print("Please try again")
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                    DispatchQueue.main.async {
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                    }
                 }
             }
-          }
         }
         
         dataTask.resume()
-        }
+    }
 }

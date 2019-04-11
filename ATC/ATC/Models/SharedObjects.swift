@@ -39,7 +39,7 @@ class SharedObjects{
                 completionHandler(nil)
             }
             else {
-                print(result)
+                //print(result)
                 if let result = result, let storeDictionaryArray = result["data"] as? Array<Dictionary<String, Any>> {
                     for storeDictionary in storeDictionaryArray {
                         let store = Store.init(dictionary: storeDictionary)
@@ -88,17 +88,17 @@ class SharedObjects{
         urlComponents.queryItems = [queryItem]
         
         if let url = urlComponents.url {
-            print(url)   // "https://www.google.com/search?q=Formula%20One"
+            //print(url)   // "https://www.google.com/search?q=Formula%20One"
             
             Downloader.getStoreJSONUsingURLSession(serviceUrl: url) { (result, errorString) in
                 if let error = errorString {
                     completionHandler(nil)
                 }
                 else {
-                    print(result)
+                    //print(result)
                     
                     if let result = result, let storeFavDictionaryArray = result["store"] as? Array<Dictionary<String, Any>> {
-                        print(storeFavDictionaryArray)
+                        //print(storeFavDictionaryArray)
                         var favOnlyArray = [StoreFavorite]()
                         for storeFavDictionary in storeFavDictionaryArray {
                             let storeFav = StoreFavorite.init(dictionary: storeFavDictionary)
@@ -190,14 +190,11 @@ class SharedObjects{
     }
     
     func isProductFavorited(product: Product) -> Bool {
-        print(favProducts?.first?.productId)
-        print(product.productId)
+        //print(favProducts?.first?.productId)
+        //print(product.productId)
         
         
         if let favProducts = self.favProducts {
-            for product in favProducts {
-                print(product.productId)
-            }
             let products = favProducts.filter{$0.productId == product.productId}
             if let product = products.first, product.isFavorite == true {
                 return true

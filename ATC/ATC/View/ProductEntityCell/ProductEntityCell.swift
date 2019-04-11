@@ -21,6 +21,8 @@ class ProductEntityCell: UICollectionViewCell {
         self.layer.cornerRadius = 5.0
         bannerImageView.layer.cornerRadius = 5.0
         bannerImageView.layer.masksToBounds = true
+        bannerImageView.image = UIImage.init(named: "placeholder")
+        
         self.layer.masksToBounds = true
         let color = UIColor.init(red: 144.0/255.0, green: 144.0/255.0, blue: 144.0/255.0, alpha: 0.21)
         self.layer.applySketchShadow(color: color, alpha: 1, x: 0.0, y: 3.0, blur: 14.9, spread: 1.1)
@@ -49,5 +51,8 @@ class ProductEntityCell: UICollectionViewCell {
         }
     }
     
-
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        bannerImageView.image = UIImage.init(named: "placeholder")
+    }
 }

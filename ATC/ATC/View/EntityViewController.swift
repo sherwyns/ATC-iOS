@@ -21,6 +21,7 @@ class EntityViewController: UIViewController {
     
     var isFiltered = false
     var isFromSearch = false
+    var isMock = false
     var kWIDTH_CELL: CGFloat {
         let insettedWidth = Int((self.view.frame.size.width - 24))
         if (insettedWidth%2) == 0 {
@@ -49,7 +50,9 @@ class EntityViewController: UIViewController {
     
     var products: [Product]? {
         didSet {
-            DispatchQueue.main.async { self.collectionView.reloadData()}
+            DispatchQueue.main.async { self.collectionView.reloadData()
+                self.collectionView.setContentOffset(CGPoint.init(x: 0, y: 0), animated: false)
+            }
         }
     }
     
@@ -100,8 +103,14 @@ extension EntityViewController: UICollectionViewDataSource {
             cell?.showPriceOrCallbutton(price: product.price)
             
             if let url = URL.init(string: product.imageUrl) {
-                //cell?.bannerImageView.setImageWith(url, placeholderImage: UIImage.init(named: "placeholder"))
-                cell?.bannerImageView.sd_setImage(with: url, placeholderImage: UIImage.init(named: "placeholder"), options: [SDWebImageOptions.retryFailed, .handleCookies, .scaleDownLargeImages, .transformAnimatedImage], completed:nil)
+                
+                if isMock {
+                    cell?.bannerImageView.image = UIImage.init(named: product.imageUrl)
+                } else {
+                    cell?.bannerImageView.sd_setImage(with: url, placeholderImage: UIImage.init(named: "placeholder"), options: [SDWebImageOptions.retryFailed, .handleCookies, .scaleDownLargeImages, .transformAnimatedImage], completed:nil)
+                }
+            } else {
+                cell?.bannerImageView.image = UIImage.init(named: "placeholder")
             }
             
             cell?.favoritebutton.tag = indexPath.item
@@ -117,7 +126,7 @@ extension EntityViewController: UICollectionViewDataSource {
     case .Store:
         let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: kENTITY_VIEW, for: indexPath) as? EntityViewCell
         if let store = storeForIndexPath(indexPath.item) {
-            print("category image url \(indexPath.row) \(store.name) \(store.storeCategoryImageUrlString())")
+            //print("category image url \(indexPath.row) \(store.name) \(store.storeCategoryImageUrlString())")
             cell?.name.text = store.name.capitalizeFirst
             cell?.subName.text = store.neighbourhood
             if let imageUrl = URL.init(string: store.imageUrl) {
@@ -137,7 +146,10 @@ extension EntityViewController: UICollectionViewDataSource {
             if let imageUrlString = store.categoryImageUrl, let imageUrl = URL.init(string: imageUrlString) {
                 //cell?.categoryImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "placeholder"))
                 cell?.categoryImageView.sd_setImage(with: imageUrl, placeholderImage: UIImage.init(named: "placeholder"), options: [SDWebImageOptions.retryFailed, .handleCookies, .scaleDownLargeImages, .transformAnimatedImage], completed:nil)
+            } else {
+                cell?.categoryImageView.image = UIImage.init(named: "placeholder")
             }
+            
             
         }
         else {
@@ -169,7 +181,6 @@ extension EntityViewController: UICollectionViewDataSource {
                 self.stores = SharedObjects.shared.stores
             }
         case .Product:
-            print("Hello Product")
             if let products = self.products {
                 let selectedProduct = products[sender.tag]
                 if !ATCUserDefaults.isUserLoggedIn() {

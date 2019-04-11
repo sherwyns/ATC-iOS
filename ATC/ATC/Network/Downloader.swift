@@ -27,9 +27,6 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
         
         let session = URLSession.shared
         session.dataTask(with: request) { (data, response, error) in
-            if let response = response {
-                print(response)
-            }
             if let data = data {
                 if let emptyString = String.init(data: data, encoding: String.Encoding.ascii), emptyString.count == 0 {
                     var dictionary = Dictionary<String, AnyObject>()
@@ -40,7 +37,7 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
                 
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as? Dictionary<String, AnyObject?>
-                    print(json!)
+                    //print(json!)
                     if let json = json {
                         if let error = json["error"] as? Dictionary<String, AnyObject>, let message = error["message"]  as? String {
                             completionHandler(nil, message)
@@ -50,7 +47,7 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
                         }
                     }
                 }catch {
-                    print(error)
+                    //print(error)
                     completionHandler(nil, "Please try again")
                 }
             }
@@ -68,13 +65,11 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
         
         let session = URLSession.init(configuration: URLSessionConfiguration.default, delegate: taskDelegate, delegateQueue: nil)
         session.dataTask(with: request) { (data, response, error) in
-            if let response = response {
-                print(response)
-            }
+            
             if let data = data {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as? Dictionary<String, AnyObject?>
-                    print(json!)
+                    //print(json!)
                     if let json = json {
                         if let error = json["error"] as? Dictionary<String, AnyObject>, let message = error["message"]  as? String {
                             completionHandler(nil, message)
@@ -84,7 +79,7 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
                         }
                     }
                 }catch {
-                    print(error)
+                    //print(error)
                     completionHandler(nil, "Please try again")
                 }
             }
@@ -105,18 +100,16 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
         
         let session = URLSession.init(configuration: URLSessionConfiguration.default, delegate: taskDelegate, delegateQueue: nil)
         session.dataTask(with: request) { (data, response, error) in
-            if let response = response {
-                print(response)
-            }
+            
             if let data = data {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as? Array<Dictionary<String, AnyObject?>>
-                    print(json!)
+                    //print(json!)
                     if let json = json {
                          completionHandler(json, nil)
                     }
                 }catch {
-                    print(error)
+                    //print(error)
                     completionHandler(nil, "Please try again")
                 }
             }
@@ -133,9 +126,7 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
         request.setValue(uniqueDeviceIdentifier(), forHTTPHeaderField: UUID_HEADER)
         let session = URLSession.shared
         session.dataTask(with: request) { (data, response, error) in
-            if let response = response {
-                print(response)
-            }
+            
             if let data = data {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as? Dictionary<String, AnyObject?>
@@ -149,7 +140,7 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
                         }
                     }
                 }catch {
-                    print(error)
+                    //print(error)
                     completionHandler(nil, "Please try again")
                 }
             }
@@ -198,7 +189,7 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
         parameterDictionary["isfavorite"] = store.isFavorite
         parameterDictionary["type"]       = "store"
         Downloader.getJSONUsingURLSessionPOSTRequest(url: ApiServiceURL.apiInterface(.saveFavorite), parameters: parameterDictionary) { (resultDictionary, error) in
-            print(resultDictionary!)
+            //print(resultDictionary!)
         }
     }
     
@@ -214,7 +205,7 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
         parameterDictionary["isfavorite"] = !product.isFavorite
         parameterDictionary["type"]       = "product"
         Downloader.getJSONUsingURLSessionPOSTRequest(url: ApiServiceURL.apiInterface(.saveFavorite), parameters: parameterDictionary) { (resultDictionary, error) in
-            print(resultDictionary!)
+            //print(resultDictionary!)
         }
     }
     
@@ -242,7 +233,6 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
                     var storeFavorites = [StoreFavorite]()
                     for favorite in data {
                         if let id = favorite["store_id"] as? Int, let isFavorite = favorite["favorite"] as? Bool, isFavorite == true {
-                            print(id)
                             
                             var dictionary = Dictionary<String, Any>()
                             dictionary["storeid"] = id
@@ -274,8 +264,6 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
                     var productFavorites = [ProductFavorite]()
                     for favorite in data {
                         if let id = favorite["product_id"] as? Int, let isFavorite = favorite["favorite"] as? Bool, isFavorite == true {
-                            print(id)
-                            
                             var dictionary = Dictionary<String, Any>()
                             dictionary["productid"] = id
                             dictionary["isfavorite"] = true
@@ -309,9 +297,7 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
         
         let session = URLSession.shared
         session.dataTask(with: request) { (data, response, error) in
-            if let response = response {
-                print(response)
-            }
+            
             if let data = data {
                 if let emptyString = String.init(data: data, encoding: String.Encoding.ascii), emptyString.count == 0 {
                     var dictionary = Dictionary<String, AnyObject>()
@@ -322,7 +308,7 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
                 
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as? Dictionary<String, AnyObject?>
-                    print(json!)
+                    //print(json!)
                     if let json = json {
                         if let error = json["error"] as? Dictionary<String, AnyObject>, let message = error["message"]  as? String {
                             completionHandler(nil, message)
@@ -332,7 +318,7 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
                         }
                     }
                 }catch {
-                    print(error)
+                    //print(error)
                     completionHandler(nil, "Please try again")
                 }
             }

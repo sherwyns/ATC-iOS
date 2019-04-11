@@ -145,6 +145,9 @@ extension StoreDetailViewController: UITableViewDataSource {
             
             aboutCell.mailButton.isHidden = true
             
+            aboutCell.toolsLeftConstraint.priority = UILayoutPriority(rawValue: 750)
+            aboutCell.toolsRightConstraint.priority = UILayoutPriority(rawValue: 1000)
+            
             return aboutCell
         case .Map:
             let mapCell = self.tableView.dequeueReusableCell(withIdentifier: kStoreDetailMapCell) as! StoreDetailMapCell

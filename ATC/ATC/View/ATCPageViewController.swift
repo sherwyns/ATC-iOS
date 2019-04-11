@@ -18,23 +18,69 @@ class ATCPageViewController: UIPageViewController {
     
     fileprivate lazy var pages: [UIViewController] = {
         return [
-            self.getViewController(withIdentifier: "IntroViewController", imageName: "ShopHome_Intro"),
-            self.getViewController(withIdentifier: "IntroViewController", imageName: "ShopPageWithProducts_Intro"),
-            self.getViewController(withIdentifier: "IntroViewController", imageName: "Favorites_Intro"),
-            self.getViewController(withIdentifier: "IntroViewController", imageName: "ShopDetails_Intro"),
-            self.getViewController(withIdentifier: "IntroViewController", imageName: "comingSoon_Intro")
+            self.getViewController(withIdentifier: "MockHomeViewController"),
+            self.getViewController(withIdentifier: "MockStoreViewController"),
+            self.getViewController(withIdentifier: "MockStoreDetailViewController"),
+            self.getViewController(withIdentifier: "MockFavoriteViewController"),
+            self.getViewController(withIdentifier: "ComingSoonViewController")
         ]
     }()
     
     let images = ["ShopHome_Intro", "ShopPageWithProducts_Intro", "Favorites_Intro", "ShopDetails_Intro", "comingSoon_Intro"]
     
-    fileprivate func getViewController(withIdentifier identifier: String, imageName: String) -> UIViewController {
-        let introViewController = UIStoryboard(name: "AppIntro", bundle: nil).instantiateViewController(withIdentifier: identifier) as! IntroViewController
+    fileprivate func getViewController(withIdentifier identifier: String) -> UIViewController {
+       
+        let mainStoryBoard = UIStoryboard.init(name: "Main", bundle: nil)
+        let appIntroMainStoryBoard = UIStoryboard.init(name: "AppIntro", bundle: nil)
+    
+        var categoryDictionary =  Dictionary<String, Any>()
+        categoryDictionary["id"] = 15
+        categoryDictionary["image_url"] = "https://api.aroundthecorner.store/storecategory/speaker.png"
+        categoryDictionary["name"] = "Audio Equipment"
         
-        let _ = introViewController.view
+        var storeDictionary = Dictionary<String, Any>()
+        storeDictionary["business_type"] = 2
+        storeDictionary["id"] = 23
+        storeDictionary["image"] = "https://api.aroundthecorner.store/images/store_1549060043915.png"
+        storeDictionary["neighbourhood"] = "South Lake Union"
+        storeDictionary["business_type"] = 2
+        storeDictionary["shop_name"] = "Lioz Clothiers"
+        storeDictionary["store_url"] = "www.turntablestrails.com"
+        storeDictionary["category"] = categoryDictionary
+        storeDictionary["description"] = "Women's boutique carrying stylish apparel, jewelry & accessories from area designers. Many top brands are available at this thrift store."
+        storeDictionary["phonenumber"] = "+91 1800 0000"
         
-        introViewController.imageView.image = UIImage.init(named: imageName)
-        return introViewController
+        let store = Store.init(dictionary: storeDictionary)
+        
+        if identifier == "ComingSoonViewController" {
+            let comingSoonViewController = appIntroMainStoryBoard.instantiateViewController(withIdentifier: "ComingSoonViewController") as! ComingSoonViewController
+            return comingSoonViewController
+        }
+        
+        if identifier == "MockHomeViewController" {
+            let mockHomeviewController = appIntroMainStoryBoard.instantiateViewController(withIdentifier: "MockHomeViewController") as! MockHomeViewController
+            return mockHomeviewController
+        }
+        
+        if identifier == "MockStoreViewController" {
+            let mockStoreViewController = appIntroMainStoryBoard.instantiateViewController(withIdentifier: "MockStoreViewController") as! MockStoreViewController
+            mockStoreViewController.store = store
+            return mockStoreViewController
+        }
+        
+        if identifier == "MockStoreDetailViewController" {
+            let mockStoreDetailViewController = appIntroMainStoryBoard.instantiateViewController(withIdentifier: "MockStoreDetailViewController") as! MockStoreDetailViewController
+            mockStoreDetailViewController.store = store
+            return mockStoreDetailViewController
+        }
+        
+        if identifier == "MockFavoriteViewController" {
+            let mockFavoriteViewController = appIntroMainStoryBoard.instantiateViewController(withIdentifier: "MockFavoriteViewController") as! MockFavoriteViewController
+            //mockFavoriteViewController.store = store
+            return mockFavoriteViewController
+        }
+        
+        return UIViewController()
     }
     
     override func viewDidLoad() {

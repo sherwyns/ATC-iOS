@@ -89,6 +89,7 @@
                 <constraints>
                     <constraint firstItem="1gA-II-0Bf" firstAttribute="top" secondItem="3u7-gy-W5v" secondAttribute="bottom" constant="18" id="6ZY-kQ-Oj9"/>
                     <constraint firstItem="jul-0A-Z3y" firstAttribute="centerY" secondItem="3u7-gy-W5v" secondAttribute="centerY" id="Bmb-0f-gIg"/>
+                    <constraint firstItem="3XO-cs-lX6" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" priority="750" constant="10" id="CIS-p6-Opx"/>
                     <constraint firstAttribute="trailing" secondItem="1gA-II-0Bf" secondAttribute="trailing" constant="8" id="Dmy-TU-sfg"/>
                     <constraint firstItem="1gA-II-0Bf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="dNQ-t9-ewN"/>
                     <constraint firstItem="3XO-cs-lX6" firstAttribute="top" secondItem="1gA-II-0Bf" secondAttribute="bottom" constant="4.5" id="l1N-mw-l8q"/>
@@ -105,6 +106,8 @@
                 <outlet property="descriptionLabel" destination="1gA-II-0Bf" id="sBr-aF-Yft"/>
                 <outlet property="globeButton" destination="fld-jE-7uz" id="NfI-6c-Vgb"/>
                 <outlet property="mailButton" destination="ly1-G6-Xfk" id="Dg4-C4-oEZ"/>
+                <outlet property="toolsLeftConstraint" destination="CIS-p6-Opx" id="uuG-UI-OU9"/>
+                <outlet property="toolsRightConstraint" destination="zD4-rU-eZ2" id="nJH-40-RVA"/>
                 <outlet property="workingHourLabel" destination="jul-0A-Z3y" id="Rsb-Up-Z76"/>
             </connections>
             <point key="canvasLocation" x="52.799999999999997" y="125.4872563718141"/>

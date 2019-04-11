@@ -31,6 +31,7 @@ class EntityViewCell: UICollectionViewCell {
         super.prepareForReuse()
         name.text = ""
         subName.text = ""
+        bannerImageView.image = UIImage.init(named: "placeholder")
     }
 
 }
