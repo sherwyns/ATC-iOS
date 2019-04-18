@@ -12,6 +12,7 @@ import KSToastView
 class StoreViewController: UIViewController, EntityProtocol {
     
     @IBOutlet weak var headerContainer: UIView!
+    
     @IBOutlet weak var storeContainer: UIView!
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var categoryContainer: UIView!

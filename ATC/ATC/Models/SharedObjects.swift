@@ -7,7 +7,8 @@
 //
 
 import Foundation
-
+import CoreLocation
+import UIKit
 class SharedObjects{
     
     static let shared = SharedObjects()
@@ -24,7 +25,13 @@ class SharedObjects{
     
     var categoryId: String?
     
+    var categoryIds = [String]()
+    
+    var neighbourhoods = [String]()
+    
     var canReloadStore: Bool = true
+    
+    var location: CLLocation?
     
     private init(){
        //ATCUserDefaults.retrieveFavProductStore()
@@ -352,6 +359,18 @@ class SharedObjects{
         self.storesWithFavorite = [Store]()
         self.favProducts = [ProductFavorite]()
         self.stores = [Store]()
+    }
+    
+}
+
+
+extension SharedObjects: LocationUpdate {
+    func latestCoordinate(_ location: CLLocation) {
+        self.location = location
+    }
+    
+    func message(_ string: String) {
+        //NotificationCenter.default.post(name: NSNotification., object: <#T##Any?#>)
     }
     
 }

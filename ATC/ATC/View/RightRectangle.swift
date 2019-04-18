@@ -2,8 +2,8 @@
 //  RightRectangle.swift
 //  test
 //
-//  Created by Rathinavel, Dhandapani(AWF) on 05/04/19.
-//  Copyright © 2019 Rathinavel, Dhandapani(AWF). All rights reserved.
+//  Created by Rathinavel, Dhandapani on 05/04/19.
+//  Copyright © 2019 Rathinavel, Dhandapani. All rights reserved.
 //
 
 import UIKit

@@ -2,7 +2,7 @@
 //  MockHomeViewController.swift
 //  ATC
 //
-//  Created by Rathinavel, Dhandapani(AWF) on 05/04/19.
+//  Created by Rathinavel, Dhandapani on 05/04/19.
 //  Copyright © 2019 Rathinavel, Dhandapani. All rights reserved.
 //
 

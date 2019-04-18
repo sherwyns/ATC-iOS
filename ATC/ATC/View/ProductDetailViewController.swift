@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import MBProgressHUD
+import AFNetworking
 
 enum ProductDetailCell {
     case Header
@@ -17,6 +19,8 @@ enum ProductDetailCell {
 class ProductDetailViewController: UIViewController {
   
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet var HUD:MBProgressHUD!
+    
     var similarProductsCollectionView: UICollectionView?
     let kPRODUCT_DETAIL_HEADER_CELL = "ProductDetailHeaderCell"
     let kPRODUCT_DETAIL_ABOUT_CELL = "ProductDetailAboutCell"
@@ -46,6 +50,8 @@ class ProductDetailViewController: UIViewController {
     
     let kENTITY_VIEW = "EntityViewCell"
     
+    var headerCellHeight = 226
+    
     //fileprivate let sectionInsets = UIEdgeInsets(top: 0.0, left: 8.0, bottom: 50.0, right: 8.0)
     
     var product: Product!
@@ -62,7 +68,7 @@ class ProductDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        registerCellForTableView()
+        
         
         self.tableView.backgroundColor = grayColor
         self.view.backgroundColor = grayColor
@@ -80,7 +86,37 @@ class ProductDetailViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        DispatchQueue.main.async {self.tableView.reloadData()}
+        downloadImage()
+    }
+    
+    func downloadImage() {
+        if let imageUrl = URL.init(string: product.imageUrl) {
+            
+            let urlRequest = URLRequest.init(url: imageUrl)
+            showHUD()
+            AFImageDownloader.defaultInstance().downloadImage(for: urlRequest, success: { (urlRequest, urlResponse, image) in
+                if let cgImage = image.cgImage {
+                    let width = cgImage.width
+                    let height = cgImage.height
+                    let screenWidth = UIScreen.main.bounds.size.width
+                    
+                    let tempheight = screenWidth * (CGFloat(height) / CGFloat(width))
+                    
+                    self.headerCellHeight = Int(tempheight) + 80
+                    self.reloadTableView()
+                }
+            }) { (urlRequest, urlResponse, error) in
+                print("failure")
+                self.reloadTableView()
+            }
+        } else {
+            self.reloadTableView()
+        }
+    }
+    
+    func reloadTableView() {
+        self.registerCellForTableView()
+        self.hideHUD()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -93,6 +129,16 @@ class ProductDetailViewController: UIViewController {
                     productDetailViewController.similarProducts = tempProduct
                 }
                 
+            }
+        }
+        
+        if segue.identifier == "showStoreDetailViewController" {
+            if let storeDetailViewController = segue.destination as? StoreDetailViewController {
+                //stor\\\eDetailViewController.store = self.store
+              let store = SharedObjects.shared.stores?.first{return $0.storeId == product.storeId}
+              if let store = store {
+                storeDetailViewController.store = store
+              }
             }
         }
     }
@@ -138,6 +184,23 @@ extension ProductDetailViewController: UITableViewDataSource {
             aboutCell.priceLabel.text = "$\(String(format: "%.2f", product.price))"
             aboutCell.showPriceOrCallbutton(price: product.price)
             aboutCell.descriptionLabel.text = product.description
+            
+            let shopCategoryImageUrl = SharedObjects.shared.stores?.first {return $0.storeId == product.storeId}?.categoryImageUrl
+            let shopName = SharedObjects.shared.stores?.first {return $0.storeId == product.storeId}?.name
+            
+            if let shopCategoryImageUrl = shopCategoryImageUrl, let url = URL.init(string: shopCategoryImageUrl) {
+                aboutCell.shopCAtegoryImageView.setImageWith(url, placeholderImage: UIImage.init(named: "placeholder"))
+            }else {
+                aboutCell.shopCAtegoryImageView.image = UIImage.init(named: "placeholder")
+            }
+            
+            if let shopName = shopName {
+                aboutCell.shopLabel.text = shopName
+            } else {
+                aboutCell.shopLabel.text = ""
+            }
+            
+            aboutCell.shopButton.addTarget(self, action: #selector(ProductDetailViewController.showStoreViewController), for: .touchUpInside)
             return aboutCell
         case .Similar:
             let similarCell = self.tableView.dequeueReusableCell(withIdentifier: kPRODUCT_DETAIL_SIMILAR_CELL) as! ProductDetailSimilarCell
@@ -149,6 +212,14 @@ extension ProductDetailViewController: UITableViewDataSource {
             return similarCell
         }
     }
+    
+    @objc func showStoreViewController() {
+        let store = SharedObjects.shared.stores?.first{return $0.storeId == product.storeId}
+        if let _ = store {
+            self.performSegue(withIdentifier: "showStoreDetailViewController", sender: nil)
+        }
+    }
+    
     
     @objc func updateProductFavorite(sender : UIButton) {
         if !ATCUserDefaults.isUserLoggedIn() {
@@ -191,13 +262,13 @@ extension ProductDetailViewController: UITableViewDelegate {
         let cellType = cellArray[indexPath.row]
         switch cellType {
         case .Header:
-            return 226
+            return CGFloat(headerCellHeight)
         case .About:
             let maxLabelWidth: CGFloat = self.view.frame.size.width - 16
             let aboutCell = self.tableView.dequeueReusableCell(withIdentifier: kPRODUCT_DETAIL_ABOUT_CELL) as! ProductDetailAboutCell
             aboutCell.descriptionLabel.text = self.product.description
             let neededSize = aboutCell.descriptionLabel.sizeThatFits(CGSize(width: maxLabelWidth, height: CGFloat.greatestFiniteMagnitude))
-            return 60 + neededSize.height
+            return 60 + neededSize.height + 35
         case .Similar:
             return 176 + 60
         }
@@ -265,4 +336,29 @@ extension ProductDetailViewController: UICollectionViewDelegate {
 
 extension ProductDetailViewController: UICollectionViewDelegateFlowLayout {
     
+}
+
+extension ProductDetailViewController {
+    // MARK: - HUD
+    func showHUD(){
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.HUD.show(animated: true)
+        })
+    }
+    
+    func hideHUD(){
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.HUD.hide(animated: true)
+        })
+    }
+    
+    func addHUDToView() {
+        HUD = MBProgressHUD(view: self.view)
+        self.view.addSubview(HUD)
+        HUD.frame.origin = CGPoint(x: self.view.frame.origin.x/2, y: self.view.frame.origin.y/2)
+        HUD.frame.size  = CGSize(width: 50, height: 50)
+        
+        HUD.mode = MBProgressHUDMode.indeterminate
+        HUD.isUserInteractionEnabled = true
+    }
 }

@@ -9,8 +9,11 @@
 import Foundation
 import UIKit
 import SafariServices
+import CoreLocation
 
 class SettingViewController: UIViewController {
+    
+    @IBOutlet weak var locationServiceButton: UIButton!
     
     @IBAction func myAccountAction() {
         if ATCUserDefaults.isUserLoggedIn() {
@@ -21,6 +24,11 @@ class SettingViewController: UIViewController {
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        requestLocation()
+    }
+    
     func postShowRegistration() {
         slideMenuController()?.toggleRight()
         NotificationCenter.default.post(name: NotificationConstant.showRegistration, object: nil)
@@ -29,6 +37,23 @@ class SettingViewController: UIViewController {
     func postShowMyAccount() {
         slideMenuController()?.toggleRight()
         NotificationCenter.default.post(name: NotificationConstant.showMyAccount, object: nil)
+    }
+    
+    func requestLocation() {
+        if CLLocationManager.locationServicesEnabled() {
+            locationServiceButton.isUserInteractionEnabled = true
+            let status = CLLocationManager.authorizationStatus()
+            switch status {
+            case .restricted, .denied, .notDetermined:
+                locationServiceButton.setTitle("  Enable Location Service", for: .normal)
+            case .authorizedWhenInUse, .authorizedAlways:
+                locationServiceButton.setTitle("  Disable Location Service", for: .normal)
+                break
+            }
+        } else {
+            locationServiceButton.setTitle("  Location Service", for: .normal)
+            locationServiceButton.isUserInteractionEnabled = false
+        }
     }
     
     
@@ -50,6 +75,12 @@ class SettingViewController: UIViewController {
     @IBAction func aboutUsButtonAction() {
         let aboutUsString = "https://app.aroundthecorner.store/aboutus"
         openLinkInSafariViewController(urlString: aboutUsString)
+    }
+    
+    @IBAction func openAppSettingsUrl() {
+        if let url = URL.init(string: UIApplication.openSettingsURLString),  UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
     }
     
     func openLinkInSafariViewController(urlString: String) {

@@ -2,7 +2,7 @@
 //  MockStoreDetailViewController.swift
 //  ATC
 //
-//  Created by Rathinavel, Dhandapani(AWF) on 08/04/19.
+//  Created by Rathinavel, Dhandapani on 08/04/19.
 //  Copyright © 2019 Rathinavel, Dhandapani. All rights reserved.
 //
 
@@ -36,7 +36,7 @@ class MockStoreDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        registerCellForTableView()
+        //registerCellForTableView()
         
         self.tableView.backgroundColor = grayColor
         self.view.backgroundColor = grayColor
@@ -247,7 +247,8 @@ extension MockStoreDetailViewController {
                     
                 }
                 DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                    self.registerCellForTableView()
+//                    self.tableView.reloadData()
                 }
             }
             

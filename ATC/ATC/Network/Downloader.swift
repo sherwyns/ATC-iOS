@@ -63,7 +63,7 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
         request.setValue(uniqueDeviceIdentifier(), forHTTPHeaderField: UUID_HEADER)
         let taskDelegate = TaskDelegate()
         
-        let session = URLSession.init(configuration: URLSessionConfiguration.default, delegate: taskDelegate, delegateQueue: nil)
+        let session = URLSession.init(configuration: URLSessionConfiguration.default, delegate: nil, delegateQueue: nil)
         session.dataTask(with: request) { (data, response, error) in
             
             if let data = data {
@@ -98,7 +98,7 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
         request.setValue(uniqueDeviceIdentifier(), forHTTPHeaderField: UUID_HEADER)
         let taskDelegate = TaskDelegate()
         
-        let session = URLSession.init(configuration: URLSessionConfiguration.default, delegate: taskDelegate, delegateQueue: nil)
+        let session = URLSession.init(configuration: URLSessionConfiguration.default, delegate: nil, delegateQueue: nil)
         session.dataTask(with: request) { (data, response, error) in
             
             if let data = data {
@@ -164,13 +164,6 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
                         let category = Category.init(dictionary: categoryDictionary)
                         categories.append(category)
                     }
-                    
-                    var allDictionary = Dictionary<String, Any>()
-                    allDictionary["id"] = "-1"
-                    allDictionary["name"] = "All"
-                    
-                    let allCategory = Category.init(dictionary: allDictionary)
-                    categories.insert(allCategory, at: 0)
                     SharedObjects.shared.categories = categories
                 }
             }

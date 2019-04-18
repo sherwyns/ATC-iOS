@@ -69,6 +69,10 @@ class AccountViewController: UIViewController {
         updateImageForExpandButton()
     }
     
+    @IBAction func requestLocation() {
+//        LocationMa
+    }
+    
     @IBAction func signoutAction() {
         ATCUserDefaults.logoutApp()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate

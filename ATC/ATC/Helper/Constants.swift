@@ -43,4 +43,6 @@ class ApiServiceURL {
 public class NotificationConstant {
     static let showRegistration = NSNotification.Name(rawValue: "ShowRegistration")
     static let showMyAccount = NSNotification.Name(rawValue: "showMyAccount")
+    static let showLocationError = NSNotification.Name(rawValue: "showLocationError")
+    static let showLocationServiceStatus = NSNotification.Name(rawValue: "showLocationServiceStatus")
 }

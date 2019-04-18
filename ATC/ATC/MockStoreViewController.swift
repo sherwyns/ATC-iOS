@@ -2,7 +2,7 @@
 //  MockStoreViewController.swift
 //  ATC
 //
-//  Created by Rathinavel, Dhandapani(AWF) on 05/04/19.
+//  Created by Rathinavel, Dhandapani on 05/04/19.
 //  Copyright © 2019 Rathinavel, Dhandapani. All rights reserved.
 //
 
@@ -57,7 +57,7 @@ class MockStoreViewController: UIViewController {
         self.hideOrShowCategory()
         
         if let imageUrl = URL.init(string: store.storeCategoryImageUrlString()) {
-            categoryImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "placeholder"))
+            //categoryImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "placeholder"))
         }
         
         var analyticsStoreDictionary = Dictionary<String, Any>()

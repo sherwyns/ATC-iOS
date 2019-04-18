@@ -169,6 +169,7 @@ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerCell = self.tableView.dequeueReusableHeaderFooterView(withIdentifier: "TableHeader") as! TableHeader
         headerCell.button.imageEdgeInsets = UIEdgeInsets.init(top: 10, left: 10, bottom: 10, right: 10)
+        
         headerCell.button.tag = entityTypes[section] == EntityType.Store ? 1 : 0
         headerCell.button.addTarget(self, action: #selector(SearchViewController.showAllEntity(sender:)), for: .touchUpInside)
         
@@ -401,19 +402,22 @@ extension SearchViewController {
     @objc func textFieldEditingDidChange(sender: UITextField) {
         if let text = sender.text {
             if text.count >= 1 {
-                searchStoreAndProduct(text: text)
+                DispatchQueue.main.async {
+                    self.searchStoreAndProduct(text: text)
+                }
             }
             if text.count == 0 {
+                
+                
+                
                 self.entityTypes = [EntityType]()
                 self.products = [Product]()
                 self.stores = [Store]()
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
+                self.tableView.reloadData()
             }
+            
+            
         }
-        
     }
     
     func searchStoreAndProduct(text: String) {
@@ -443,50 +447,46 @@ extension SearchViewController {
                 do {
                     if let json = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves) as? Dictionary<String,Array<Dictionary<String,Any>>> {
                         print(json)
-                        self.entityTypes = [EntityType]()
-                        var stores = [Store]()
-                        var products = [Product]()
-                        self.products = [Product]()
-                        self.stores = [Store]()
-                        if let array = json["data"] {
-                            for dictionary in array {
-                                if let storeArray = dictionary["stores"] as? Array<Dictionary<String, Any>>{
-                                    for storeDictionary in storeArray {
-                                        let store = Store.init(dictionary: storeDictionary)
-                                        stores.append(store)
+                            DispatchQueue.main.async {
+                                self.entityTypes = [EntityType]()
+                                var stores = [Store]()
+                                var products = [Product]()
+                                self.products = [Product]()
+                                self.stores = [Store]()
+                                if let array = json["data"] {
+                                    for dictionary in array {
+                                        if let storeArray = dictionary["stores"] as? Array<Dictionary<String, Any>>{
+                                            for storeDictionary in storeArray {
+                                                let store = Store.init(dictionary: storeDictionary)
+                                                stores.append(store)
+                                            }
+                                        }
+                                        if let productArray = dictionary["products"] as? Array<Dictionary<String, Any>>{
+                                            for productDictionary in productArray {
+                                                let product = Product.init(dictionary: productDictionary)
+                                                products.append(product)
+                                            }
+                                        }
                                     }
                                 }
-                                if let productArray = dictionary["products"] as? Array<Dictionary<String, Any>>{
-                                    for productDictionary in productArray {
-                                        let product = Product.init(dictionary: productDictionary)
-                                        products.append(product)
-                                    }
+                                //print("\(stores.count) \(products.count)")
+                                
+                                
+                                self.stores = stores
+                                self.stores = SharedObjects.shared.updateIncomingStoresWithFavorite(stores: &stores)
+                                self.products = products
+                                //self.addTempProducts()
+                                if self.products.count > 0 {
+                                    self.entityTypes.append(EntityType.Product)
                                 }
+                                if self.stores.count > 0 {
+                                    self.entityTypes.append(EntityType.Store)
+                                }
+                                self.tableView.reloadData()
                             }
-                        }
-                        //print("\(stores.count) \(products.count)")
-                        self.stores = stores
-                        self.stores = SharedObjects.shared.updateIncomingStoresWithFavorite(stores: &stores)
-                        self.products = products
-                        //self.addTempProducts()
-                        if self.products.count > 0 {
-                            self.entityTypes.append(EntityType.Product)
-                        }
-                        if self.stores.count > 0 {
-                            self.entityTypes.append(EntityType.Store)
-                        }
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                        }
-                        
-                        if self.products.count == 0 && self.stores.count == 0 {
-                            //                    DispatchQueue.main.async {
-                            //                        KSToastView.ks_showToast("No results found", duration: 3.0)
-                            //                    }
-                        }
-                        DispatchQueue.main.async {
-                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                        }
+                            DispatchQueue.main.async {
+                                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                            }
                     }
                     else {
                         DispatchQueue.main.async {

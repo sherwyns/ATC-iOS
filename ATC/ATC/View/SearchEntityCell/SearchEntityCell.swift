@@ -28,4 +28,11 @@ class SearchEntityCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    override func prepareForReuse() {
+        
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
+    
 }

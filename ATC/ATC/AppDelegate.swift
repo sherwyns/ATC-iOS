@@ -12,6 +12,7 @@ import FBSDKCoreKit
 import SlideMenuControllerSwift
 import ESTabBarController_swift
 import pop
+import CoreLocation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

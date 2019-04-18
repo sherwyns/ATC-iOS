@@ -82,6 +82,7 @@
 		32FC6024225154D800BB0D51 /* AppIntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FC6023225154D800BB0D51 /* AppIntroViewController.swift */; };
 		32FC60272251603C00BB0D51 /* AppIntroCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FC60262251603C00BB0D51 /* AppIntroCell.swift */; };
 		DE22EC462207E10A00CD7883 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE22EC452207E10900CD7883 /* Roboto-Regular.ttf */; };
+		DE7EF83A2261135A0095CC06 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7EF8392261135A0095CC06 /* LocationManager.swift */; };
 		DEC0770D21ECCD55007F5A54 /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC0770C21ECCD55007F5A54 /* StoreViewController.swift */; };
 		DEC0771A21ECD6C9007F5A54 /* Roboto-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DEC0770E21ECD6C1007F5A54 /* Roboto-ThinItalic.ttf */; };
 		DEC0771B21ECD6C9007F5A54 /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DEC0770F21ECD6C2007F5A54 /* Roboto-Black.ttf */; };
@@ -200,6 +201,7 @@
 		32FC60262251603C00BB0D51 /* AppIntroCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntroCell.swift; sourceTree = "<group>"; };
 		C922EB9BDB09E54E4AEC3E02 /* Pods-ATC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ATC.release.xcconfig"; path = "Target Support Files/Pods-ATC/Pods-ATC.release.xcconfig"; sourceTree = "<group>"; };
 		DE22EC452207E10900CD7883 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Regular.ttf"; path = "ATC/Resources/Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		DE7EF8392261135A0095CC06 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		DEC0770C21ECCD55007F5A54 /* StoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StoreViewController.swift; path = ../../StoreViewController.swift; sourceTree = "<group>"; };
 		DEC0770E21ECD6C1007F5A54 /* Roboto-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-ThinItalic.ttf"; sourceTree = "<group>"; };
 		DEC0770F21ECD6C2007F5A54 /* Roboto-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Black.ttf"; sourceTree = "<group>"; };
@@ -424,6 +426,7 @@
 				32371E33217D7D900020AD13 /* ATC-Bridging-Header.h */,
 				3212FC3221B316EB000E8F45 /* ATC.entitlements */,
 				3215678922578A90007DD3CD /* MockStoreViewController.swift */,
+				DE7EF8392261135A0095CC06 /* LocationManager.swift */,
 			);
 			path = ATC;
 			sourceTree = "<group>";
@@ -868,6 +871,7 @@
 				3277312F22568750007A3ACF /* ATCPageViewController.swift in Sources */,
 				32824A5B218C8B060016CD3F /* ATCSlideMenu.swift in Sources */,
 				32F707BB21A21ED400A6D592 /* SegButton.swift in Sources */,
+				DE7EF83A2261135A0095CC06 /* LocationManager.swift in Sources */,
 				32FB543421863C5600D437EC /* LoginManager.swift in Sources */,
 				323204CA21908B8600F03500 /* AccountViewController.swift in Sources */,
 				32DAFD55225B93D4004C592C /* MockFavoriteViewController.swift in Sources */,

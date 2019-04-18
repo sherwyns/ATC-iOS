@@ -15,6 +15,7 @@ class HomeViewController: UIViewController, EntityProtocol {
     @IBOutlet var HUD:MBProgressHUD!
     @IBOutlet weak var entityContainer: UIView!
     @IBOutlet weak var filterButton: UIButton!
+    @IBOutlet weak var badgeViewLabel: UILabel!
     
     var entityViewController: EntityViewController?
     var stores: [Store]?
@@ -28,6 +29,12 @@ class HomeViewController: UIViewController, EntityProtocol {
         self.view.backgroundColor = grayColor
         
         Downloader.retrieveCategories()
+        
+        badgeViewLabel.layer.cornerRadius = badgeViewLabel.frame.size.width / 2
+        badgeViewLabel.layer.masksToBounds = true
+        badgeViewLabel.backgroundColor = .orange
+        badgeViewLabel.textColor = .white
+        badgeViewLabel.isHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -44,14 +51,17 @@ class HomeViewController: UIViewController, EntityProtocol {
         else {
             self.entityViewController?.collectionView.reloadData()
         }
-//        SharedObjects.shared.favStores
-//        SharedObjects.shared.getStoresWithFavorite { (completionStores) in
-//            self.stores = completionStores
-//            self.entityViewController?.stores = self.stores
-//            DispatchQueue.main.async {
-//                self.entityViewController?.collectionView.reloadData()
-//            }
-//        }
+        
+        if appliedFilterCount() > 0 {
+            self.badgeViewLabel.text = String(appliedFilterCount())
+            self.badgeViewLabel.isHidden = false
+        } else {
+            self.badgeViewLabel.isHidden = true
+        }
+    }
+    
+    func appliedFilterCount() -> Int {
+       return SharedObjects.shared.categoryIds.count + SharedObjects.shared.neighbourhoods.count
     }
     
     // MARK: - Navigation
@@ -111,13 +121,74 @@ extension HomeViewController {
 }
 
 extension HomeViewController {
+    
+    func createGetStoreURLWithComponents() -> URL? {
+        
+        var queryItems = [URLQueryItem]()
+        
+        let urlComponents = NSURLComponents()
+        urlComponents.scheme = "https"
+        urlComponents.host = "api.aroundthecorner.store"
+        urlComponents.path = "/api/store/getstores"
+        
+        let tempNeighbourhoods = SharedObjects.shared.neighbourhoods.filter { $0 != "All"}
+        let neighbourhood = concatenateString(array: tempNeighbourhoods)
+        
+        
+        let tempCategoryIds = SharedObjects.shared.categoryIds.filter { $0 != "-1"}
+        let categoryIds =  concatenateString(array: tempCategoryIds)
+        
+        let neighbourhoodQuery = URLQueryItem(name: "neighbourhood", value: neighbourhood)
+        queryItems.append(neighbourhoodQuery)
+        
+        let categoryIdQuery    = URLQueryItem(name: "category", value: categoryIds)
+        queryItems.append(categoryIdQuery)
+        
+        
+        if let latitude = SharedObjects.shared.location?.coordinate.latitude {
+            let latitudeQuery      = URLQueryItem(name: "latitude", value: String(latitude))
+            queryItems.append(latitudeQuery)
+        }
+        
+        if let longitude = SharedObjects.shared.location?.coordinate.longitude {
+            let longitudeQuery  = URLQueryItem(name: "longitude", value: String(longitude))
+            queryItems.append(longitudeQuery)
+        }
+        
+        urlComponents.queryItems = queryItems
+        print("filter url \(urlComponents.url)")
+        return urlComponents.url
+    }
+    
+    func concatenateString(array : [String]) -> String {
+        if array.count == 1 {
+            return array[0]
+        } else {
+            var appendedString = String()
+            
+            for (index, element) in array.enumerated() {
+                let total = array.count - 1
+                
+                if  total == index {
+                    appendedString = appendedString + element
+                } else {
+                    appendedString = appendedString + element + ","
+                }
+            }
+            return appendedString
+        }
+        
+    }
+    
     func getStores() {
-        let urlString = ApiServiceURL.apiInterface(.getStores)
+        guard let url = createGetStoreURLWithComponents() else {
+            return
+        }
         
         DispatchQueue.main.async {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
         }
-        Downloader.getStoreJSONUsingURLSession(url: urlString) { (result, errorString) in
+        Downloader.getStoreJSONUsingURLSession(serviceUrl: url) { (result, errorString) in
             if let error = errorString {
                 KSToastView.ks_showToast(error)
             }

@@ -30,7 +30,6 @@ class EntityViewController: UIViewController {
         else {
            return CGFloat((insettedWidth - 1) / 2)
         }
-        
     }
     
     var entityType = EntityType.Store
@@ -144,7 +143,6 @@ extension EntityViewController: UICollectionViewDataSource {
             }
             
             if let imageUrlString = store.categoryImageUrl, let imageUrl = URL.init(string: imageUrlString) {
-                //cell?.categoryImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "placeholder"))
                 cell?.categoryImageView.sd_setImage(with: imageUrl, placeholderImage: UIImage.init(named: "placeholder"), options: [SDWebImageOptions.retryFailed, .handleCookies, .scaleDownLargeImages, .transformAnimatedImage], completed:nil)
             } else {
                 cell?.categoryImageView.image = UIImage.init(named: "placeholder")
@@ -193,12 +191,6 @@ extension EntityViewController: UICollectionViewDataSource {
                     self.products = SharedObjects.shared.updateIncomingProductWithFavorite(products: &self.products!)
                 }
             }
-//            if isFiltered {
-//                self.stores = SharedObjects.shared.storesWithFavorite
-//            }
-//            else {
-//                self.stores = SharedObjects.shared.stores
-//            }
         }
         
         self.collectionView.reloadData()

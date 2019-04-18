@@ -14,6 +14,10 @@ class ProductDetailAboutCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var callButton: UIButton!
+    @IBOutlet weak var shopCAtegoryImageView: UIImageView!
+    @IBOutlet weak var shopLabel: UILabel!
+    @IBOutlet weak var shopButton: UIButton!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()

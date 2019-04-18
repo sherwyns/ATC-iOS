@@ -30,8 +30,9 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VeI-L7-dVk">
                         <rect key="frame" x="8" y="0.0" width="304" height="199.5"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="Y7L-2F-Qty">
-                                <rect key="frame" x="0.0" y="0.0" width="304" height="199.5"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Y7L-2F-Qty">
+                                <rect key="frame" x="0.0" y="0.0" width="304" height="119.5"/>
+                                <color key="backgroundColor" red="0.65490196079999996" green="0.65490196079999996" blue="0.65490196079999996" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lhm-Pg-Iep">
                                 <rect key="frame" x="0.0" y="119.5" width="304" height="80"/>
@@ -86,9 +87,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Y7L-2F-Qty" firstAttribute="leading" secondItem="VeI-L7-dVk" secondAttribute="leading" id="VEx-PY-YdY"/>
+                            <constraint firstItem="Lhm-Pg-Iep" firstAttribute="top" secondItem="Y7L-2F-Qty" secondAttribute="bottom" id="VGU-gi-0qi"/>
                             <constraint firstAttribute="bottom" secondItem="Lhm-Pg-Iep" secondAttribute="bottom" id="Zyg-bn-Rwo"/>
                             <constraint firstAttribute="trailing" secondItem="Y7L-2F-Qty" secondAttribute="trailing" id="a9u-5f-Scs"/>
-                            <constraint firstAttribute="bottom" secondItem="Y7L-2F-Qty" secondAttribute="bottom" id="n2O-Ei-ItH"/>
                             <constraint firstItem="Lhm-Pg-Iep" firstAttribute="leading" secondItem="VeI-L7-dVk" secondAttribute="leading" id="p1s-4C-SDl"/>
                             <constraint firstItem="Y7L-2F-Qty" firstAttribute="top" secondItem="VeI-L7-dVk" secondAttribute="top" id="s3F-I8-vnu"/>
                             <constraint firstAttribute="trailing" secondItem="Lhm-Pg-Iep" secondAttribute="trailing" id="w7O-mR-ViA"/>

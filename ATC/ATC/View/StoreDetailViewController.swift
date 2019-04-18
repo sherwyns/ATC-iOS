@@ -9,6 +9,8 @@
 import UIKit
 import SafariServices
 import MapKit
+import AFNetworking
+import MBProgressHUD
 
 enum StoreDetailCell {
     case Header
@@ -19,7 +21,8 @@ enum StoreDetailCell {
 class StoreDetailViewController: UIViewController {
     
     @IBOutlet weak var productButton: SegButton!
-    
+    @IBOutlet var HUD:MBProgressHUD!
+
     let cellArray: [StoreDetailCell] = [.Header, .Detail, .Map]
     let kStoreDetailHeaderCell = "StoreDetailHeaderCell"
     let kStoreDetailAboutCell = "StoreDetailAboutCell"
@@ -30,19 +33,53 @@ class StoreDetailViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var store:Store!
+    var headerCellHeight = 263
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        registerCellForTableView()
-        
+
+//        registerCellForTableView()
+        productButton.isHidden = true
         self.tableView.backgroundColor = grayColor
         self.view.backgroundColor = grayColor
         store.isFavorite = SharedObjects.shared.isStoreFavorited(store: self.store)
         productButton.makeRoundedCorner()
         productButton.backgroundColor = UIColor.orange
-        getStoreDetails()
+
+        
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        downloadImage()
+    }
+    
+    func downloadImage() {
+        if let imageUrl = URL.init(string: store.imageUrl) {
+            
+            let urlRequest = URLRequest.init(url: imageUrl)
+            showHUD()
+            AFImageDownloader.defaultInstance().downloadImage(for: urlRequest, success: { (urlRequest, urlResponse, image) in
+                if let cgImage = image.cgImage {
+                    let width = cgImage.width
+                    let height = cgImage.height
+                    let screenWidth = UIScreen.main.bounds.size.width
+                    
+                    let tempheight = screenWidth * (CGFloat(height) / CGFloat(width))
+                    
+                    self.headerCellHeight = Int(tempheight) + 80
+                    
+                    self.getStoreDetails()
+                    
+                }
+            }) { (urlRequest, urlResponse, error) in
+                print("failure")
+                self.hideHUD()
+            }
+        } else {
+            getStoreDetails()
+        }
+    }
     func registerCellForTableView() {
         self.tableView.register(UINib.init(nibName: kStoreDetailHeaderCell, bundle: nil), forCellReuseIdentifier: kStoreDetailHeaderCell)
         self.tableView.register(UINib.init(nibName: kStoreDetailAboutCell, bundle: nil), forCellReuseIdentifier: kStoreDetailAboutCell)
@@ -104,7 +141,7 @@ extension StoreDetailViewController: UITableViewDataSource {
         case .Header:
             let headerCell = self.tableView.dequeueReusableCell(withIdentifier: kStoreDetailHeaderCell) as! StoreDetailHeaderCell
             if let imageUrl = URL.init(string: store.imageUrl) {
-                headerCell.shopImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "placeholder"))
+                headerCell.shopImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: ""))
             }
             
             if self.store.isFavorite {
@@ -113,7 +150,6 @@ extension StoreDetailViewController: UITableViewDataSource {
                 headerCell.favoriteButton.setImage(UIImage.init(named: "unfavorite"), for: .normal)
             }
             headerCell.shopSubLabel.text = self.store.fullAddress()
-            self.store.workingHours()
             headerCell.favoriteButton.addTarget(self, action: #selector(StoreDetailViewController.updateFavorite(sender:)), for: .touchUpInside)
             headerCell.shopLabel.text = store.name
             
@@ -181,7 +217,7 @@ extension StoreDetailViewController: UITableViewDelegate {
         
         switch cellType {
         case .Header:
-            return 263
+            return CGFloat(headerCellHeight)
         case .Detail:
             let maxLabelWidth: CGFloat = self.view.frame.size.width - 16
             let aboutCell = self.tableView.dequeueReusableCell(withIdentifier: kStoreDetailAboutCell) as! StoreDetailAboutCell
@@ -240,13 +276,18 @@ extension StoreDetailViewController {
                     
                 }
                 DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                    self.registerCellForTableView()
+                    self.productButton.isHidden = false
+//                    self.tableView.reloadData()
                 }
             }
             
             DispatchQueue.main.async {
+                self.productButton.isHidden = false
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }
+            
+            self.hideHUD()
         }
         
         
@@ -305,3 +346,27 @@ extension StoreDetailViewController {
     }
 }
 
+extension StoreDetailViewController {
+    // MARK: - HUD
+    func showHUD(){
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.HUD.show(animated: true)
+        })
+    }
+    
+    func hideHUD(){
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.HUD.hide(animated: true)
+        })
+    }
+    
+    func addHUDToView() {
+        HUD = MBProgressHUD(view: self.view)
+        self.view.addSubview(HUD)
+        HUD.frame.origin = CGPoint(x: self.view.frame.origin.x/2, y: self.view.frame.origin.y/2)
+        HUD.frame.size  = CGSize(width: 50, height: 50)
+        
+        HUD.mode = MBProgressHUDMode.indeterminate
+        HUD.isUserInteractionEnabled = true
+    }
+}

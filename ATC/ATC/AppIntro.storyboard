@@ -256,13 +256,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Although you can't buy yet, visit the stores to find the items you love." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="rIM-qh-DJl">
-                                        <rect key="frame" x="78" y="600" width="266" height="74"/>
+                                        <rect key="frame" x="78" y="600" width="266" height="73.666666666666629"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="21"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="More features coming soon!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="VuR-OF-iyI">
-                                        <rect key="frame" x="78" y="689" width="256" height="20"/>
+                                        <rect key="frame" x="78" y="688.66666666666663" width="256" height="20"/>
                                         <fontDescription key="fontDescription" name="Roboto-Italic" family="Roboto" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
