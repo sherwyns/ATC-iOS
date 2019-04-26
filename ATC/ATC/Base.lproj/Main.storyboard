@@ -199,11 +199,11 @@
             <objects>
                 <viewController id="she-q6-FNb" customClass="EntityViewController" customModule="ATC" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="W0M-qV-sKF">
-                        <rect key="frame" x="0.0" y="0.0" width="359" height="364"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="510"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="jOe-h0-GV9">
-                                <rect key="frame" x="0.0" y="0.0" width="359" height="364"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="510"/>
                                 <color key="backgroundColor" red="0.79607843137254897" green="0.79607843137254897" blue="0.79607843137254897" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="qdj-8L-1j3">
                                     <size key="itemSize" width="50" height="50"/>
@@ -661,11 +661,11 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Yzv-6Y-xfb">
-                                <rect key="frame" x="0.0" y="88" width="375" height="530"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="579"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gBg-bj-s8e" customClass="SegButton" customModule="ATC" customModuleProvider="target">
-                                <rect key="frame" x="47" y="546" width="281" height="60"/>
+                                <rect key="frame" x="47" y="595" width="281" height="60"/>
                                 <color key="backgroundColor" red="1" green="0.25882352939999997" blue="0.25882352939999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="bcQ-bj-bnZ"/>
@@ -1349,8 +1349,66 @@
                                     <constraint firstItem="qI3-Yr-Ybn" firstAttribute="leading" secondItem="1dv-oZ-sUS" secondAttribute="trailing" constant="5" id="z6u-Wa-JYU"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R9Q-11-3ox" userLabel="Segment">
+                                <rect key="frame" x="0.0" y="88" width="375" height="69"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rfH-4G-PYJ" userLabel="left" customClass="SegButton" customModule="ATC" customModuleProvider="target">
+                                        <rect key="frame" x="58.5" y="19" width="125" height="27"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="27" id="zVe-W2-W03"/>
+                                        </constraints>
+                                        <directionalEdgeInsets key="directionalLayoutMargins" top="0.0" leading="15" bottom="0.0" trailing="15"/>
+                                        <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="16"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Product">
+                                            <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="productButtonAction" destination="h7q-nk-Tpk" eventType="touchUpInside" id="kPj-N8-Cz2"/>
+                                        </connections>
+                                    </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lii-a4-bOR" userLabel="dummyView">
+                                        <rect key="frame" x="183.5" y="30.5" width="8" height="8"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="8" id="rfl-Gy-326"/>
+                                            <constraint firstAttribute="width" constant="8" id="xQG-ba-I6P"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y13-5o-H5e" userLabel="right" customClass="SegButton" customModule="ATC" customModuleProvider="target">
+                                        <rect key="frame" x="191.5" y="19" width="125" height="27"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="125" id="B1r-vC-bD7"/>
+                                            <constraint firstAttribute="height" constant="27" id="IeH-VD-j4y"/>
+                                        </constraints>
+                                        <directionalEdgeInsets key="directionalLayoutMargins" top="0.0" leading="30" bottom="0.0" trailing="30"/>
+                                        <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="15"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Store">
+                                            <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="storeButtonAction" destination="h7q-nk-Tpk" eventType="touchUpInside" id="WF8-Oo-E7t"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="y13-5o-H5e" firstAttribute="leading" secondItem="lii-a4-bOR" secondAttribute="trailing" id="1Lp-Lc-QZy"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="69" id="9cR-cA-rOM"/>
+                                    <constraint firstItem="rfH-4G-PYJ" firstAttribute="top" secondItem="R9Q-11-3ox" secondAttribute="top" constant="19" id="9ha-Xo-q1d"/>
+                                    <constraint firstItem="rfH-4G-PYJ" firstAttribute="width" secondItem="y13-5o-H5e" secondAttribute="width" id="A8A-es-JP1"/>
+                                    <constraint firstAttribute="height" constant="69" id="B3S-W2-j5b"/>
+                                    <constraint firstItem="lii-a4-bOR" firstAttribute="centerX" secondItem="R9Q-11-3ox" secondAttribute="centerX" id="BqB-c0-rJd"/>
+                                    <constraint firstItem="lii-a4-bOR" firstAttribute="leading" secondItem="rfH-4G-PYJ" secondAttribute="trailing" id="WYo-Yc-gSs"/>
+                                    <constraint firstItem="y13-5o-H5e" firstAttribute="top" secondItem="R9Q-11-3ox" secondAttribute="top" constant="19" id="c4b-hd-bZD"/>
+                                    <constraint firstItem="lii-a4-bOR" firstAttribute="centerY" secondItem="R9Q-11-3ox" secondAttribute="centerY" id="dyW-W6-FXf"/>
+                                </constraints>
+                            </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RFz-C0-pCf">
-                                <rect key="frame" x="0.0" y="88" width="375" height="579"/>
+                                <rect key="frame" x="0.0" y="157" width="375" height="510"/>
                                 <color key="backgroundColor" red="0.79607843137254897" green="0.79607843137254897" blue="0.79607843137254897" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <connections>
                                     <segue destination="she-q6-FNb" kind="embed" identifier="HomeEntityViewController" id="HSK-OZ-sLT"/>
@@ -1367,12 +1425,15 @@
                         </subviews>
                         <color key="backgroundColor" red="0.79607843140000001" green="0.79607843140000001" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="R9Q-11-3ox" firstAttribute="top" secondItem="Nhh-Yd-ags" secondAttribute="bottom" id="CWU-Oh-JqQ"/>
                             <constraint firstItem="ciM-dA-2pY" firstAttribute="centerX" secondItem="9R4-Q4-SVZ" secondAttribute="centerX" id="JLU-cW-G4O"/>
                             <constraint firstItem="RFz-C0-pCf" firstAttribute="bottom" secondItem="NeX-GY-sAc" secondAttribute="bottom" id="QAU-dm-2he"/>
                             <constraint firstItem="Nhh-Yd-ags" firstAttribute="top" secondItem="9R4-Q4-SVZ" secondAttribute="top" id="RPG-VX-lZN"/>
-                            <constraint firstItem="RFz-C0-pCf" firstAttribute="top" secondItem="Nhh-Yd-ags" secondAttribute="bottom" id="TkK-Vt-YRZ"/>
                             <constraint firstItem="ciM-dA-2pY" firstAttribute="centerY" secondItem="9R4-Q4-SVZ" secondAttribute="centerY" id="U1d-6U-QjJ"/>
+                            <constraint firstItem="R9Q-11-3ox" firstAttribute="trailing" secondItem="NeX-GY-sAc" secondAttribute="trailing" id="Vfr-st-hEw"/>
+                            <constraint firstItem="RFz-C0-pCf" firstAttribute="top" secondItem="R9Q-11-3ox" secondAttribute="bottom" id="cvC-xt-ZRa"/>
                             <constraint firstItem="RFz-C0-pCf" firstAttribute="leading" secondItem="9R4-Q4-SVZ" secondAttribute="leading" id="gVA-SO-qMs"/>
+                            <constraint firstItem="R9Q-11-3ox" firstAttribute="leading" secondItem="9R4-Q4-SVZ" secondAttribute="leading" id="nay-OI-9q5"/>
                             <constraint firstAttribute="trailing" secondItem="RFz-C0-pCf" secondAttribute="trailing" id="qhL-Pf-7K9"/>
                             <constraint firstItem="NeX-GY-sAc" firstAttribute="trailing" secondItem="Nhh-Yd-ags" secondAttribute="trailing" id="t9z-Zo-bWj"/>
                             <constraint firstItem="Nhh-Yd-ags" firstAttribute="leading" secondItem="NeX-GY-sAc" secondAttribute="leading" id="wmX-vB-ihr"/>
@@ -1385,6 +1446,8 @@
                         <outlet property="badgeViewLabel" destination="1dv-oZ-sUS" id="rvR-hM-drd"/>
                         <outlet property="entityContainer" destination="RFz-C0-pCf" id="maB-U3-1d3"/>
                         <outlet property="filterButton" destination="L5A-3r-LLQ" id="7pt-1L-DbE"/>
+                        <outlet property="productButton" destination="rfH-4G-PYJ" id="siR-2p-DYA"/>
+                        <outlet property="storeButton" destination="y13-5o-H5e" id="jdl-lP-Tc7"/>
                         <segue destination="3sJ-Qf-5a4" kind="show" identifier="showStore" id="6Fd-vg-Eee"/>
                         <segue destination="3Xm-Bq-J4x" kind="presentation" identifier="AppIntro" animates="NO" id="Wid-WO-XyO"/>
                     </connections>
@@ -1737,7 +1800,7 @@
                                         <directionalEdgeInsets key="directionalLayoutMargins" top="0.0" leading="30" bottom="0.0" trailing="30"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="15"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Neighbourhood">
+                                        <state key="normal" title="Neighborhood">
                                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -1863,8 +1926,8 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="NRJ-8o-jwJ"/>
-        <segue reference="RSK-zc-4xS"/>
+        <segue reference="6Fd-vg-Eee"/>
         <segue reference="CRK-3C-kGa"/>
-        <segue reference="FWx-Q2-quc"/>
+        <segue reference="HSK-OZ-sLT"/>
     </inferredMetricsTieBreakers>
 </document>

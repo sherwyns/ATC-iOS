@@ -12,6 +12,8 @@ class SegButton: UIButton {
     
     var view:UIView?
     
+    var normalGradientColor: UIColor = UIColor.init(red: 255, green: 255, blue: 255, alpha: 1)
+    
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
@@ -42,7 +44,7 @@ class SegButton: UIButton {
     
     func normalStateColor() {
         let color = UIColor.init(red: 120.0/255.0, green: 120.0/255.0, blue: 120.0/255.0, alpha: 1)
-        self.applyGradient(withColours: [ .white, .white], gradientOrientation: .horizontal)
+        self.applyGradient(withColours: [ normalGradientColor, normalGradientColor], gradientOrientation: .horizontal)
         self.setTitleColor(color, for: .normal)
 //        if let sublayers = self.layer.sublayers, sublayers.count >= 1 {
 //            sublayers[0].removeFromSuperlayer()

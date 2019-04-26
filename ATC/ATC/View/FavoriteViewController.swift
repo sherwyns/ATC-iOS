@@ -195,9 +195,9 @@ extension FavoriteViewController {
                     
                     self.entityViewController?.stores = stores
                     
-                    DispatchQueue.main.async {
-                        self.entityViewController?.collectionView.reloadData()
-                    }
+//                    DispatchQueue.main.async {
+//                        self.entityViewController?.collectionView.reloadData()
+//                    }
                 }
             }
             

@@ -22,6 +22,7 @@ class EntityViewController: UIViewController {
     var isFiltered = false
     var isFromSearch = false
     var isMock = false
+    var isPaginatable = false
     var kWIDTH_CELL: CGFloat {
         let insettedWidth = Int((self.view.frame.size.width - 24))
         if (insettedWidth%2) == 0 {
@@ -33,6 +34,7 @@ class EntityViewController: UIViewController {
     }
     
     var entityType = EntityType.Store
+    weak var paginationPaybackable: PaginationPaybackable?
     
     @IBOutlet var collectionView: UICollectionView!
     
@@ -43,15 +45,19 @@ class EntityViewController: UIViewController {
     
     var stores: [Store]? {
         didSet {
-            DispatchQueue.main.async { self.collectionView.reloadData()}
+//            DispatchQueue.main.async {
+//                self.collectionView.reloadData()
+//                self.collectionView.setContentOffset(CGPoint.init(x: 0, y: 0), animated: false)
+//            }
         }
     }
     
     var products: [Product]? {
         didSet {
-            DispatchQueue.main.async { self.collectionView.reloadData()
-                self.collectionView.setContentOffset(CGPoint.init(x: 0, y: 0), animated: false)
-            }
+//            DispatchQueue.main.async {
+//                self.collectionView.reloadData()
+//                self.collectionView.setContentOffset(CGPoint.init(x: 0, y: 0), animated: false)
+//            }
         }
     }
     
@@ -64,6 +70,8 @@ class EntityViewController: UIViewController {
         self.collectionView.register(UINib.init(nibName: "FilterCell", bundle: nil), forCellWithReuseIdentifier: "FilterCell")
         self.view.backgroundColor = grayColor
         self.collectionView.backgroundColor = grayColor
+        
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -76,7 +84,14 @@ class EntityViewController: UIViewController {
                 self.stores = SharedObjects.shared.stores
             }
         }
+        self.paginationPaybackable = self.parent as? PaginationPaybackable
         self.collectionView.reloadData()
+    }
+    
+    func resetScrollPosition() {
+        DispatchQueue.main.async {
+            self.collectionView.setContentOffset(CGPoint.init(x: 0, y: 0), animated: false)
+        }
     }
 }
 
@@ -91,8 +106,6 @@ extension EntityViewController: UICollectionViewDataSource {
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    
-    
     switch entityType {
     case .Product:
         let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: ProductEntityCell.kPRODUCT_ENTITY_CELL, for: indexPath) as? ProductEntityCell
@@ -157,6 +170,22 @@ extension EntityViewController: UICollectionViewDataSource {
         return cell ?? UICollectionViewCell()
     }
   }
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if isPaginatable {
+            switch entityType {
+            case .Product:
+                if let products = self.products {
+                    let paginableCount = CGFloat(products.count) * CGFloat(3.0/4.0)
+                    if indexPath.item == Int(paginableCount) {
+                        self.paginationPaybackable?.getEntity(withType: .Product, withLimit: "30", withOffset: String(products.count))
+                    }
+                }
+                
+            case .Store:
+                break
+            }
+        }
+    }
     
     @objc @IBAction func updateFavorite(sender: UIButton) {
         switch entityType {
@@ -261,4 +290,30 @@ extension EntityViewController: UICollectionViewDelegate {
 
 extension EntityViewController: UICollectionViewDelegateFlowLayout {
   
+}
+
+extension EntityViewController: PaginationPayloadable {
+    func getProduct(withType entityType: EntityType, withOffset offset: String) {
+        if self.entityType == entityType {
+            if let count =  self.products?.count {
+                let intOffset = Int(offset)!
+                
+                let newCellItemIndexPath = IndexPath.init(item: intOffset, section: 0)
+                DispatchQueue.main.async {
+//                    if count == (intOffset) || (intOffset == 0) {
+                        self.collectionView.reloadData()
+//                    }
+//                    else {
+//                        self.collectionView.scrollToItem(at: newCellItemIndexPath, at: UICollectionView.ScrollPosition.bottom, animated: true)
+//                    }
+                }
+            }
+            else {
+                DispatchQueue.main.async { self.collectionView.reloadData() }
+            }
+            
+        }
+    }
+    
+    
 }

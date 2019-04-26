@@ -30,6 +30,9 @@ class ATCLocation: NSObject, CLLocationManagerDelegate {
         if let location = locations.first {
             print("Found user's location: \(location)")
             delegate?.latestCoordinate(location)
+            locationManager.stopUpdatingLocation()
+            delegate = nil
+            NotificationCenter.default.post(name: NotificationConstant.reloadHome, object: nil)
         }
     }
     

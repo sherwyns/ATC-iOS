@@ -214,6 +214,7 @@
 		DEC0771721ECD6C7007F5A54 /* Roboto-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-MediumItalic.ttf"; sourceTree = "<group>"; };
 		DEC0771821ECD6C8007F5A54 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
 		DEC0771921ECD6C8007F5A54 /* Roboto-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-BlackItalic.ttf"; sourceTree = "<group>"; };
+		DEFB5DE82272426800C6778E /* Location.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Location.gpx; sourceTree = "<group>"; };
 		EDAD712C5C0E7CAB189AB27B /* Pods-ATC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ATC.debug.xcconfig"; path = "Target Support Files/Pods-ATC/Pods-ATC.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -387,6 +388,7 @@
 		3242F0AD217BA8BA009E1A63 = {
 			isa = PBXGroup;
 			children = (
+				DEFB5DE82272426800C6778E /* Location.gpx */,
 				DE22EC452207E10900CD7883 /* Roboto-Regular.ttf */,
 				3242F0B8217BA8BA009E1A63 /* ATC */,
 				3242F0CD217BA8BB009E1A63 /* ATCTests */,

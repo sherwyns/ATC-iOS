@@ -54,8 +54,6 @@ class FilterViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let locationManager = ATCLocation.shared
-        locationManager.requestLocation()
     }
     
     @IBAction func filterButtonAction() {

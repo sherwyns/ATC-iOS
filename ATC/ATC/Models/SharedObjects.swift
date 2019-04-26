@@ -15,6 +15,8 @@ class SharedObjects{
     
     var stores: [Store]?
     
+    var products: [Product]?
+    
     var storesWithFavorite: [Store]?
     
     var favStores: [StoreFavorite]?
