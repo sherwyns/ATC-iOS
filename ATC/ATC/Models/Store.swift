@@ -203,6 +203,40 @@ class Category {
     }
 }
 
+class ProductCategory {
+    let productId: String
+    let name: String
+    let isSubCategory: Bool
+    var isExpanded: Bool = false
+    var subProductCategories = [ProductCategory]()
+    
+    init(dictionary: Dictionary<String, Any>) {
+        if let productId = dictionary["id"] as? String {
+            self.productId = productId
+        }
+        else if let productId = dictionary["id"] as? Int {
+            self.productId = String(productId)
+        } else {
+            assert(dictionary["id"] != nil)
+            self.productId = ""
+        }
+        
+        if let name = dictionary["name"] as? String {
+            self.name = name
+        } else {
+            assert(dictionary["name"] != nil)
+            self.name = ""
+        }
+        
+        if let isSubCategory = dictionary["isSubCategory"] as? Bool {
+            self.isSubCategory = isSubCategory
+        } else {
+            self.isSubCategory = false
+        }
+    }
+    
+}
+
 class Product {
     var productId: Int
     var storeId: Int
@@ -213,11 +247,13 @@ class Product {
     var imageUrl: String
     var isFavorite: Bool = false
     var description:String
-    
+    var shopName: String
     init(dictionary: Dictionary<String, Any>) {
+        
         
         self.productId = dictionary["id"] as? Int ?? 0
         self.storeId = dictionary["store_id"] as? Int ?? 0
+        self.shopName        = dictionary["shop_name"] as? String ?? ""
         self.categoryId = dictionary["category_id"] as? Int ?? 0
         self.name = dictionary["title"] as? String ?? ""
         self.categoryName = dictionary["category_name"] as? String ?? ""

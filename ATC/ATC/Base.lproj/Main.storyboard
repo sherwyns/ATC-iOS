@@ -709,6 +709,7 @@
                         <outlet property="HUD" destination="Ez3-FS-zRp" id="cqA-6N-9fR"/>
                         <outlet property="productButton" destination="gBg-bj-s8e" id="8HL-yS-6p8"/>
                         <outlet property="tableView" destination="Yzv-6Y-xfb" id="QDy-hI-39N"/>
+                        <segue destination="3sJ-Qf-5a4" kind="show" identifier="showProductsFromStoreDetail" id="QvA-Vp-a6R"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kur-N4-oZs" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -956,7 +957,7 @@
                                         <state key="normal" image="ic_settings_2.0"/>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t8z-Ua-yQD">
-                                        <rect key="frame" x="55" y="43" width="63" height="40"/>
+                                        <rect key="frame" x="55" y="43" width="62.5" height="40"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -1397,7 +1398,6 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="y13-5o-H5e" firstAttribute="leading" secondItem="lii-a4-bOR" secondAttribute="trailing" id="1Lp-Lc-QZy"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="69" id="9cR-cA-rOM"/>
                                     <constraint firstItem="rfH-4G-PYJ" firstAttribute="top" secondItem="R9Q-11-3ox" secondAttribute="top" constant="19" id="9ha-Xo-q1d"/>
                                     <constraint firstItem="rfH-4G-PYJ" firstAttribute="width" secondItem="y13-5o-H5e" secondAttribute="width" id="A8A-es-JP1"/>
                                     <constraint firstAttribute="height" constant="69" id="B3S-W2-j5b"/>
@@ -1448,8 +1448,10 @@
                         <outlet property="filterButton" destination="L5A-3r-LLQ" id="7pt-1L-DbE"/>
                         <outlet property="productButton" destination="rfH-4G-PYJ" id="siR-2p-DYA"/>
                         <outlet property="storeButton" destination="y13-5o-H5e" id="jdl-lP-Tc7"/>
+                        <outlet property="titleButton" destination="qI3-Yr-Ybn" id="4Fr-VZ-LJB"/>
                         <segue destination="3sJ-Qf-5a4" kind="show" identifier="showStore" id="6Fd-vg-Eee"/>
                         <segue destination="3Xm-Bq-J4x" kind="presentation" identifier="AppIntro" animates="NO" id="Wid-WO-XyO"/>
+                        <segue destination="xvN-85-TXp" kind="show" identifier="showProductDetail" id="toA-k5-woc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pQV-KO-jSp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1828,9 +1830,9 @@
                                     <constraint firstAttribute="width" constant="50" id="kcj-Od-Ee4"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YTj-HR-GFc">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" estimatedRowHeight="44" sectionHeaderHeight="28" estimatedSectionHeaderHeight="44" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YTj-HR-GFc">
                                 <rect key="frame" x="0.0" y="157" width="375" height="440"/>
-                                <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="0.93999999999999995" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="0.93999999999999995" colorSpace="custom" customColorSpace="sRGB"/>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ea9-q0-kpa" userLabel="BottonActionView">
                                 <rect key="frame" x="0.0" y="597" width="375" height="70"/>
@@ -1927,7 +1929,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="NRJ-8o-jwJ"/>
         <segue reference="6Fd-vg-Eee"/>
-        <segue reference="CRK-3C-kGa"/>
+        <segue reference="toA-k5-woc"/>
         <segue reference="HSK-OZ-sLT"/>
     </inferredMetricsTieBreakers>
 </document>

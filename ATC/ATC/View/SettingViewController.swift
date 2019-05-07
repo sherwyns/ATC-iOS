@@ -24,6 +24,12 @@ class SettingViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(SettingViewController.requestLocation), name: NotificationConstant.locationAuthorizationUpdate, object: nil)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         requestLocation()
@@ -39,7 +45,7 @@ class SettingViewController: UIViewController {
         NotificationCenter.default.post(name: NotificationConstant.showMyAccount, object: nil)
     }
     
-    func requestLocation() {
+    @objc func requestLocation() {
         if CLLocationManager.locationServicesEnabled() {
             locationServiceButton.isUserInteractionEnabled = true
             let status = CLLocationManager.authorizationStatus()

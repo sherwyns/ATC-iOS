@@ -96,7 +96,6 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
         var request = URLRequest(url: serviceUrl)
         request.httpMethod = "GET"
         request.setValue(uniqueDeviceIdentifier(), forHTTPHeaderField: UUID_HEADER)
-        let taskDelegate = TaskDelegate()
         
         let session = URLSession.init(configuration: URLSessionConfiguration.default, delegate: nil, delegateQueue: nil)
         session.dataTask(with: request) { (data, response, error) in
@@ -150,8 +149,8 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
             }.resume()
     }
     
-    static func retrieveCategories() {
-        let urlString = ApiServiceURL.apiInterface(APIMethod.getCategoriesList)
+    static func retrieveStoreCategories() {
+        let urlString = ApiServiceURL.apiInterface(APIMethod.storeCategories)
         
         Downloader.getStoreJSONUsingURLSession(url: urlString) { (result, errorString) in
             if let _ = errorString {
@@ -165,6 +164,62 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
                         categories.append(category)
                     }
                     SharedObjects.shared.categories = categories
+                }
+            }
+        }
+    }
+    
+    static func retrieveProductCategories() {
+        let urlString = ApiServiceURL.apiInterface(APIMethod.productCategories) + "?id=0"
+        
+        Downloader.getStoreJSONUsingURLSession(url: urlString) { (result, errorString) in
+            if let _ = errorString {
+                
+            }
+            else {
+                if let result = result, let categoryDictionaryArray = result["data"] as? Array<Dictionary<String, Any>> {
+                    var productCategories = [ProductCategory]()
+                    for categoryDictionary in categoryDictionaryArray {
+                        let category = ProductCategory.init(dictionary: categoryDictionary)
+                        productCategories.append(category)
+                    }
+                    SharedObjects.shared.productCategories = productCategories
+                    
+                    for category in productCategories {
+                        Downloader.retrieveProductSubCategories(id: category.productId)
+                    }
+                }
+            }
+        }
+    }
+    
+    static func retrieveProductSubCategories(id:String) {
+        let urlString = ApiServiceURL.apiInterface(APIMethod.productCategories) + "?id=\(id)"
+        print(urlString)
+        Downloader.getStoreJSONUsingURLSession(url: urlString) { (result, errorString) in
+            if let _ = errorString {
+                
+            }
+            else {
+                if let result = result, let categoryDictionaryArray = result["data"] as? Array<Dictionary<String, Any>> {
+                    print("sub product \(result)")
+                    var productCategories = [ProductCategory]()
+                    for categoryDictionary in categoryDictionaryArray {
+                        var tempCategoryDictionary = categoryDictionary
+                        tempCategoryDictionary["isSubCategory"] = true
+                        let category = ProductCategory.init(dictionary: categoryDictionary)
+                        productCategories.append(category)
+                    }
+                    
+                    let productCategory = SharedObjects.shared.productCategories.first{ return $0.productId == id}
+                    
+                    if let productCategory = productCategory {
+                        productCategory.subProductCategories = productCategories
+                    }
+                    
+                    for productCategory in SharedObjects.shared.productCategories {
+                        print("ID -> \(productCategory.productId), COUNT -> \(productCategory.subProductCategories.count)")
+                    }
                 }
             }
         }

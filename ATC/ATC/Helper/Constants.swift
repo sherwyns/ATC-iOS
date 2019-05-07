@@ -16,7 +16,8 @@ enum APIMethod: String {
     case changePassword     = "Users/change-password"
     case getStores          = "Store/getstores/"
     case getProductByStore  = "products/getproductbystore/"
-    case getCategoriesList  = "categories/list"
+    case storeCategories    = "categories/list"
+    case productCategories  = "productcategories/getsubcategory"
     case search             = "search/by/"
     case products           = "products"
     case storeDetail        = "store/getstore/"
@@ -46,4 +47,5 @@ public class NotificationConstant {
     static let showLocationError = NSNotification.Name(rawValue: "showLocationError")
     static let showLocationServiceStatus = NSNotification.Name(rawValue: "showLocationServiceStatus")
     static let reloadHome = NSNotification.Name(rawValue: "reloadHome")
+    static let locationAuthorizationUpdate = NSNotification.Name(rawValue: "locationAuthorizationUpdate")
 }

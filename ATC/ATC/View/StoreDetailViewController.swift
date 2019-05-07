@@ -54,6 +54,12 @@ class StoreDetailViewController: UIViewController {
         downloadImage()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showProductsFromStoreDetail", let storeViewController = segue.destination as? StoreViewController {
+            storeViewController.store = self.store
+        }
+    }
+    
     func downloadImage() {
         if let imageUrl = URL.init(string: store.imageUrl) {
             
@@ -92,7 +98,8 @@ class StoreDetailViewController: UIViewController {
     }
     
     @IBAction func showProducts()  {
-        self.backAction()
+        //self.backAction()
+        self.performSegue(withIdentifier: "showProductsFromStoreDetail", sender: nil)
     }
     
     @objc func updateFavorite(sender : UIButton) {

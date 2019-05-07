@@ -43,7 +43,7 @@ class MockStoreDetailViewController: UIViewController {
         store.isFavorite = SharedObjects.shared.isStoreFavorited(store: self.store)
         productButton.makeRoundedCorner()
         productButton.backgroundColor = UIColor.orange
-       // getStoreDetails()
+        getStoreDetails()
         
         let height = (self.view.frame.size.width * 0.35) * 0.40
         let rightConstriant = (self.view.frame.size.width * 0.35) * 0.25

@@ -9,6 +9,7 @@
 import UIKit
 import MBProgressHUD
 import KSToastView
+import CoreLocation
 
 class HomeViewController: UIViewController, EntityProtocol {
     
@@ -16,6 +17,7 @@ class HomeViewController: UIViewController, EntityProtocol {
     @IBOutlet weak var entityContainer: UIView!
     @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var badgeViewLabel: UILabel!
+    @IBOutlet weak var titleButton: UIButton!
     @IBOutlet weak var productButton: SegButton!
     @IBOutlet weak var storeButton: SegButton!
     
@@ -24,7 +26,7 @@ class HomeViewController: UIViewController, EntityProtocol {
     
     var stores: [Store]?
     var isFirst:Bool = true
-    var entityType: EntityType = .Product
+    var entityType: EntityType = .Store
     
     let grayColor = UIColor.init(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1)
     
@@ -36,15 +38,36 @@ class HomeViewController: UIViewController, EntityProtocol {
         productButton.highlightedStateColor()
         storeButton.normalStateColor()
         productButtonAction()
+        locationAuthorizationUpdate()
         
-        Downloader.retrieveCategories()
+        Downloader.retrieveStoreCategories()
+        Downloader.retrieveProductCategories()
+        
         
         self.paginationPayloadable = self.entityViewController as? PaginationPayloadable
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.getStores), name: NotificationConstant.reloadHome, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.getStoresByLocation), name: NotificationConstant.reloadHome, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.locationAuthorizationUpdate), name: NotificationConstant.locationAuthorizationUpdate, object: nil)
+    }
+    
+    @objc func locationAuthorizationUpdate() {
+        if CLLocationManager.locationServicesEnabled() {
+            
+            let status = CLLocationManager.authorizationStatus()
+            switch status {
+            case .restricted, .denied, .notDetermined:
+                titleButton.setTitle(entityType == .Product ? "Products" : "Stores", for: .normal)
+            case .authorizedWhenInUse, .authorizedAlways:
+                titleButton.setTitle(entityType == .Product ? "Products near you" : "Stores near you", for: .normal)
+                break
+            }
+        } else {
+            titleButton.setTitle(entityType == .Product ? "Products" : "Stores", for: .normal)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -60,7 +83,8 @@ class HomeViewController: UIViewController, EntityProtocol {
         
         if SharedObjects.shared.canReloadStore {
             getStores()
-            getProduct(url: nil)
+            SharedObjects.shared.products?.removeAll()
+            self.getEntity(withType: .Product, withLimit: "30", withOffset: String(0))
             SharedObjects.shared.canReloadStore = false
         }
         else {
@@ -72,6 +96,8 @@ class HomeViewController: UIViewController, EntityProtocol {
     
     @IBAction func productButtonAction() {
         entityType = .Product
+        updateBadgeView()
+        locationAuthorizationUpdate()
         self.entityViewController?.isPaginatable = true
         productButton.highlightedStateColor()
         storeButton.normalStateColor()
@@ -81,11 +107,14 @@ class HomeViewController: UIViewController, EntityProtocol {
     
     @IBAction func storeButtonAction() {
         entityType = .Store
+        updateBadgeView()
+        locationAuthorizationUpdate()
         self.entityViewController?.isPaginatable = false
         storeButton.highlightedStateColor()
         productButton.normalStateColor()
         refreshEntityViewController()
         self.entityViewController?.resetScrollPosition()
+        
     }
     
     func refreshEntityViewController() {
@@ -94,7 +123,12 @@ class HomeViewController: UIViewController, EntityProtocol {
     }
     
     func appliedFilterCount() -> Int {
-       return SharedObjects.shared.categoryIds.count + SharedObjects.shared.neighbourhoods.count
+        if entityType == .Store {
+            return SharedObjects.shared.categoryIds.count + SharedObjects.shared.neighbourhoods.count
+        } else {
+            return SharedObjects.shared.productCategoryIds.count + SharedObjects.shared.productNeighbourhoods.count
+        }
+       
     }
     
     fileprivate func setupBadgeView() {
@@ -132,8 +166,23 @@ class HomeViewController: UIViewController, EntityProtocol {
             }
         }
         
+        if segue.identifier == "showProductDetail" {
+            if let productDetailViewController = segue.destination as? ProductDetailViewController {
+                if let products = sender as? [Product] {
+                    productDetailViewController.product = products.first
+                    var tempProduct = products
+                    tempProduct.removeFirst()
+                    productDetailViewController.similarProducts = tempProduct
+                }
+                
+            }
+        }
         if segue.identifier == "showStore", let store = sender as? Store, let storeViewController = segue.destination as? StoreViewController  {
             storeViewController.store = store
+        }
+        
+        if segue.identifier == "showFilter", let filterViewController = segue.destination as? FilterViewController {
+            filterViewController.entityType = entityType
         }
     }
     
@@ -219,6 +268,11 @@ extension HomeViewController {
             return appendedString
         }
         
+    }
+    
+    @objc func getStoresByLocation() {
+        locationAuthorizationUpdate()
+        getStores()
     }
     
     @objc func getStores() {
@@ -332,7 +386,7 @@ protocol PaginationPaybackable: class {
 protocol PaginationPayloadable: class {
     func getProduct(withType entityType: EntityType, withOffset offset: String)
 }
-//https://api.aroundthecorner.store/api/products/getproductlist?neighbourhood=Capitol%20Hill&category=3040&limit=2&offset=0
+
 class ProductUrlBuilder {
     static func url(neighbourhood: String = String(), category: String = String(), limit: String = "20", offset: String = "0") -> URL? {
         var queryItems = [URLQueryItem]()
@@ -342,11 +396,25 @@ class ProductUrlBuilder {
         urlComponents.host = "api.aroundthecorner.store"
         urlComponents.path = "/api/products/getproductlist"
         
-        let tempNeighbourhoods = SharedObjects.shared.neighbourhoods.filter { $0 != "All"}
+        let tempNeighbourhoods = SharedObjects.shared.productNeighbourhoods.filter { $0 != "All"}
         let neighbourhood = concatenateString(array: tempNeighbourhoods)
         
         
-        let tempCategoryIds = SharedObjects.shared.categoryIds.filter { $0 != "-1"}
+        var tempCategoryIds = SharedObjects.shared.productCategoryIds.filter { $0 != "-1"}
+        
+        for productCategory in SharedObjects.shared.productCategories {
+            if productCategory.subProductCategories.count > 0 {
+                let subCategoryIds = productCategory.subProductCategories.map{return $0.productId}
+                let setOfSubCategoryIds = Set.init(subCategoryIds)
+                
+                let intersectedSet = setOfSubCategoryIds.intersection(SharedObjects.shared.productCategoryIds)
+                
+                if (intersectedSet.count == subCategoryIds.count) {
+                    tempCategoryIds.append(productCategory.productId)
+                }
+            }
+        }
+        
         let categoryIds =  concatenateString(array: tempCategoryIds)
         
         let neighbourhoodQuery = URLQueryItem(name: "neighbourhood", value: neighbourhood)
@@ -372,7 +440,7 @@ class ProductUrlBuilder {
         queryItems.append(limitQuery)
         
         urlComponents.queryItems = queryItems
-        print("filter url \(urlComponents.url)")
+        print("filter product url \(urlComponents.url)")
         return urlComponents.url
     }
     

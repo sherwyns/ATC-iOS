@@ -77,7 +77,7 @@ class MockHomeViewController: UIViewController {
        
         self.view.backgroundColor = grayColor
         
-        //Downloader.retrieveCategories()
+        //Downloader.retrieveStoreCategories()
         
         if let path = Bundle.main.path(forResource: "stores", ofType: "json") {
             do {

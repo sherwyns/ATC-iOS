@@ -232,12 +232,25 @@ extension SearchViewController: UITableViewDelegate {
     }
     
     @objc func updateProductFavorite(sender: UIButton) {
-        let isFavorite = SharedObjects.shared.isProductFavorited(product: self.products[sender.tag])
-        if isFavorite {
-            sender.setImage(UIImage.init(named: "favorite"), for: .normal)
+        
+        
+        let selectedProduct = products[sender.tag]
+        if !ATCUserDefaults.isUserLoggedIn() {
+            let operationPayload = OperationPayload.init(payloadType: .Favorite, payloadData: selectedProduct)
+            performLogIn(favoriteOperation: operationPayload)
+            return
         }
         else {
-            sender.setImage(UIImage.init(named: "unfavorite"), for: .normal)
+            SharedObjects.shared.updateWithNewOrExistingProductId(selectedProduct: selectedProduct)
+            self.products = SharedObjects.shared.updateIncomingProductWithFavorite(products: &self.products)
+            
+            let isFavorite = SharedObjects.shared.isProductFavorited(product: self.products[sender.tag])
+            if isFavorite {
+                sender.setImage(UIImage.init(named: "favorite"), for: .normal)
+            }
+            else {
+                sender.setImage(UIImage.init(named: "unfavorite"), for: .normal)
+            }
         }
     }
     

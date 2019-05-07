@@ -32,7 +32,6 @@ class ATCLocation: NSObject, CLLocationManagerDelegate {
             delegate?.latestCoordinate(location)
             locationManager.stopUpdatingLocation()
             delegate = nil
-            NotificationCenter.default.post(name: NotificationConstant.reloadHome, object: nil)
         }
     }
     
@@ -42,6 +41,8 @@ class ATCLocation: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        
+        delegate?.notifyDidChangeLocationAuthorization()
         let status = CLLocationManager.authorizationStatus()
         switch status {
         case .restricted, .denied, .notDetermined:
@@ -73,4 +74,5 @@ class ATCLocation: NSObject, CLLocationManagerDelegate {
 protocol LocationUpdate {
     func latestCoordinate(_ location: CLLocation)
     func message(_ string: String)
+    func notifyDidChangeLocationAuthorization()
 }

@@ -25,11 +25,17 @@ class SharedObjects{
  
     var categories: [Category] = [Category]()
     
+    var productCategories: [ProductCategory] = [ProductCategory]()
+    
     var categoryId: String?
     
     var categoryIds = [String]()
     
     var neighbourhoods = [String]()
+    
+    var productCategoryIds = [String]()
+    
+    var productNeighbourhoods = [String]()
     
     var canReloadStore: Bool = true
     
@@ -369,10 +375,16 @@ class SharedObjects{
 extension SharedObjects: LocationUpdate {
     func latestCoordinate(_ location: CLLocation) {
         self.location = location
+        
+        NotificationCenter.default.post(name: NotificationConstant.reloadHome, object: nil)
     }
     
     func message(_ string: String) {
-        //NotificationCenter.default.post(name: NSNotification., object: <#T##Any?#>)
+        
     }
     
+    func notifyDidChangeLocationAuthorization() {
+        NotificationCenter.default.post(name: NotificationConstant.locationAuthorizationUpdate, object: nil)
+    }
 }
+

@@ -214,9 +214,9 @@ extension StoreViewController: UICollectionViewDelegate {
                 var tempProducts = category.products
                 self.entityViewController?.products = SharedObjects.shared.updateIncomingProductWithFavorite(products: &tempProducts)
                 
-//                DispatchQueue.main.async {
-//                    self.entityViewController?.collectionView.reloadData()
-//                }
+                DispatchQueue.main.async {
+                    self.entityViewController?.collectionView.reloadData()
+                }
                 selectedIndex = item
                 reloadCategory()
             }
