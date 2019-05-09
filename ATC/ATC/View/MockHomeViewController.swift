@@ -176,6 +176,10 @@ extension MockHomeViewController: UICollectionViewDataSource {
                     cell?.categoryImageView.image = UIImage.init(named: "clothing")
                 }
                 
+                if store.name == "Blumenkinder" {
+                    cell?.categoryImageView.image = UIImage.init(named: "furniture")
+                }
+                
             }
             else {
                 cell?.name.text = "Product"

@@ -20,13 +20,13 @@
         },
         {
             "id":21,
-            "shop_name":"Rove",
+            "shop_name":"Gibran",
             "store_url":"http://www.revivalshopseattle.com",
-            "image":"rove",
+            "image":"gibran",
             "business_type":"2",
             "latitude":47.6209036,
             "longitude":-122.3210807,
-            "neighbourhood":"Capitol Hill",
+            "neighbourhood":"Phinney Ridge",
             "category":[
                 {
                     "id":"2",
@@ -56,9 +56,9 @@
         },
         {
             "id":23,
-            "shop_name":"Moorea Seak",
+            "shop_name":"Sandylew",
             "store_url":"www.turntablestrails.com",
-            "image":"moorea",
+            "image":"sandylew",
             "business_type":"2",
             "latitude":47.6895226,
             "longitude":-122.3658132,
