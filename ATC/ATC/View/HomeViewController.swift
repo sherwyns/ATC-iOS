@@ -42,6 +42,7 @@ class HomeViewController: UIViewController, EntityProtocol {
         
         Downloader.retrieveStoreCategories()
         Downloader.retrieveProductCategories()
+        Downloader.retrieveStoreNeighborhood()
         
         
         self.paginationPayloadable = self.entityViewController as? PaginationPayloadable
@@ -84,7 +85,16 @@ class HomeViewController: UIViewController, EntityProtocol {
         if SharedObjects.shared.canReloadStore {
             getStores()
             SharedObjects.shared.products?.removeAll()
+            
+            self.entityViewController?.collectionView.dataSource = nil
+            self.entityViewController?.collectionView.delegate = nil
+            self.entityViewController?.collectionView.setContentOffset(CGPoint.init(x: 0, y: 0), animated: false)
+  
             self.getEntity(withType: .Product, withLimit: "30", withOffset: String(0))
+            
+            self.entityViewController?.collectionView.dataSource = self.entityViewController
+            self.entityViewController?.collectionView.delegate = self.entityViewController
+            
             SharedObjects.shared.canReloadStore = false
         }
         else {
@@ -170,9 +180,8 @@ class HomeViewController: UIViewController, EntityProtocol {
             if let productDetailViewController = segue.destination as? ProductDetailViewController {
                 if let products = sender as? [Product] {
                     productDetailViewController.product = products.first
-                    var tempProduct = products
-                    tempProduct.removeFirst()
-                    productDetailViewController.similarProducts = tempProduct
+                    productDetailViewController.isFromHome = true
+                    productDetailViewController.similarProducts = [Product]()
                 }
                 
             }
@@ -300,13 +309,13 @@ extension HomeViewController {
                     
                     if let _ = SharedObjects.shared.categoryId {
                         if SharedObjects.shared.storesWithFilter().count == 0 {
-                            KSToastView.ks_showToast("No shops found", duration: 3.0)
+                            //KSToastView.ks_showToast("No shops found", duration: 3.0)
                         }
                         self.entityViewController?.stores = SharedObjects.shared.storesWithFilter()
                     }
                     else {
                         if let stores = SharedObjects.shared.stores, stores.count == 0 {
-                            KSToastView.ks_showToast("No shops found", duration: 3.0)
+                            //KSToastView.ks_showToast("No shops found", duration: 3.0)
                         }
                         self.entityViewController?.stores = SharedObjects.shared.stores
                     }
@@ -324,7 +333,8 @@ extension HomeViewController {
     
     @objc func getProduct(url: URL?, offset: String = "0") {
         let storeUrl = url ?? URL.init(string: "https://api.aroundthecorner.store/api/products/getproductlist?neighbourhood=&category=&limit=30&offset=0")!
-        
+        print("storeUrl")
+        print(storeUrl)
         DispatchQueue.main.async {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
         }
@@ -333,28 +343,27 @@ extension HomeViewController {
                 KSToastView.ks_showToast(error)
             }
             else {
+                print("product json \(result)")
                 if let result = result, let productDictionaryArray = result["data"] as? Array<Dictionary<String, Any>> {
-                    var productArray = [Product]()
-                    for productDictionary in productDictionaryArray {
-                        let product = Product.init(dictionary: productDictionary)
-                        productArray.append(product)
-                    }
-                    
-                    if var products:[Product] = SharedObjects.shared.products {
-                        products = products + productArray
+                    DispatchQueue.main.async {
+                        var productArray = [Product]()
+                        for productDictionary in productDictionaryArray {
+                            let product = Product.init(dictionary: productDictionary)
+                            print("no shop \(product.productId) \(product.name) \(product.storeId) \(product.shopName)")
+                            
+                            productArray.append(product)
+                        }
                         
-                        SharedObjects.shared.products = Array(NSOrderedSet(array: products)) as! [Product]
-                    }
-                    else {
-                        SharedObjects.shared.products = productArray
+                        if var products:[Product] = SharedObjects.shared.products {
+                            products = products + productArray
+                            SharedObjects.shared.products = (Array(NSOrderedSet(array: products)) as! [Product])
+                        } else {
+                            SharedObjects.shared.products = productArray
+                        }
+                        self.entityViewController?.products = SharedObjects.shared.products
+                        self.paginationPayloadable?.getProduct(withType: .Product, withOffset: offset)
                     }
                     
-                    
-                    self.entityViewController?.products = SharedObjects.shared.products
-                    if let stores = SharedObjects.shared.stores, stores.count == 0 {
-                        KSToastView.ks_showToast("No stores found", duration: 3.0)
-                    }
-                    self.paginationPayloadable?.getProduct(withType: .Product, withOffset: offset)
                 }
             }
             

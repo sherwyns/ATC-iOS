@@ -22,6 +22,7 @@ enum APIMethod: String {
     case products           = "products"
     case storeDetail        = "store/getstore/"
     case getFavoriteList    = "favorite/list"
+    case neighborhoud       = "store/getneighbourhood"
     case saveFavorite       = "favorite/save"
     case forgotPassword     = "service/email"
     case productimpression  = "service/productimpression"

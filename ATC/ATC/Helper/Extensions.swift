@@ -136,6 +136,13 @@ extension String {
         return result
     }
     
+    var removeFirst: String {
+        if isEmpty { return "" }
+        var result = self
+        result.replaceSubrange(startIndex...startIndex, with: "")
+        return result
+    }
+    
 }
 
 //UITextFieldExtensions

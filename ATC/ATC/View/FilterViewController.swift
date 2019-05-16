@@ -162,7 +162,7 @@ class StoreFilterDataSourceDelegate: NSObject, UITableViewDataSource {
     var selectedCategoryIds = [String]()
     var selectedNeighbourhoods = [String]()
     
-    var neighbourhoods = ["Ballard", "Belltown", "Capitol Hill", "Downtown", "Fremont", "Greenwood", "Magnolia", "Phinney Ridge", "Pioneer Square",  "Queen Anne",  "South Lake Union", "Wallingford", "West Seattle" ]
+    var neighbourhoods = SharedObjects.shared.sourceNeighbourhoods
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -254,7 +254,7 @@ class ProductFilterDataSourceDelegate: NSObject, UITableViewDataSource {
     var selectedCategoryIds = [String]()
     var selectedNeighbourhoods = [String]()
     weak var reloadDelegate: ReloadDelegate?
-    var neighbourhoods = ["Ballard", "Belltown", "Capitol Hill", "Downtown", "Fremont", "Greenwood", "Magnolia", "Phinney Ridge", "Pioneer Square",  "Queen Anne",  "South Lake Union", "Wallingford", "West Seattle" ]
+    var neighbourhoods = SharedObjects.shared.sourceNeighbourhoods
     
     @objc func didSelectHeader(sender: UIButton) {
         let category = SharedObjects.shared.productCategories[sender.tag]

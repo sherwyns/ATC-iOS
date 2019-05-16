@@ -17,6 +17,7 @@ class ProductDetailAboutCell: UITableViewCell {
     @IBOutlet weak var shopCAtegoryImageView: UIImageView!
     @IBOutlet weak var shopLabel: UILabel!
     @IBOutlet weak var shopButton: UIButton!
+    @IBOutlet weak var shopNameContainer: UIView!
     
     
     override func awakeFromNib() {

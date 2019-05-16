@@ -33,6 +33,8 @@ class SharedObjects{
     
     var neighbourhoods = [String]()
     
+    var sourceNeighbourhoods = [String]()
+    
     var productCategoryIds = [String]()
     
     var productNeighbourhoods = [String]()

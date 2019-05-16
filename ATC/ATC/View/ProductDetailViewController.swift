@@ -31,7 +31,7 @@ class ProductDetailViewController: UIViewController {
     
     let grayColor = UIColor.init(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1)
     
-    var cellArray = [ProductDetailCell.Header, ProductDetailCell.About, ProductDetailCell.Similar]
+    var cellArray = [ProductDetailCell.Header, ProductDetailCell.About]
     
     var kWIDTH_CELL: CGFloat {
         let insettedWidth = Int((self.view.frame.size.width - 24))
@@ -44,7 +44,9 @@ class ProductDetailViewController: UIViewController {
         
     }
     
-     var productDescription = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et doloreincididunt ut labore et dolore Lorem ipsum dolor sit amet, consectetur "
+    var isFromHome : Bool = false
+    
+    var productDescription = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et doloreincididunt ut labore et dolore Lorem ipsum dolor sit amet, consectetur "
 
     var entityType = EntityType.Product
     
@@ -62,6 +64,8 @@ class ProductDetailViewController: UIViewController {
                 if let lastCell = cellArray.last, lastCell == ProductDetailCell.Similar {
                     cellArray.removeLast()
                 }
+            } else {
+                cellArray.append(ProductDetailCell.Similar)
             }
         }
     }
@@ -82,14 +86,20 @@ class ProductDetailViewController: UIViewController {
         Downloader.updateJSONUsingURLSessionPOSTRequestForAnalytics(url: analyticsUrl, parameters: analyticsProductDictionary) { (result, errorString) in
             
         }
+        downloadImage { [weak self] result in
+            if let weakSelf = self, weakSelf.isFromHome {
+                weakSelf.getProductByStore()
+            }
+        }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        downloadImage()
+        
     }
     
-    func downloadImage() {
+    func downloadImage(completion: @escaping (_ result: String) -> Void) {
         if let imageUrl = URL.init(string: product.imageUrl) {
             
             let urlRequest = URLRequest.init(url: imageUrl)
@@ -104,13 +114,16 @@ class ProductDetailViewController: UIViewController {
                     
                     self.headerCellHeight = Int(tempheight) + 80
                     self.reloadTableView()
+                    completion("success")
                 }
             }) { (urlRequest, urlResponse, error) in
                 print("failure")
                 self.reloadTableView()
+                completion("failure")
             }
         } else {
             self.reloadTableView()
+            completion("failure")
         }
     }
     
@@ -134,11 +147,13 @@ class ProductDetailViewController: UIViewController {
         
         if segue.identifier == "showStoreDetailViewController" {
             if let storeDetailViewController = segue.destination as? StoreDetailViewController {
-                //stor\\\eDetailViewController.store = self.store
-              let store = SharedObjects.shared.stores?.first{return $0.storeId == product.storeId}
-              if let store = store {
-                storeDetailViewController.store = store
-              }
+                let store = SharedObjects.shared.stores?.first{return $0.storeId == product.storeId}
+                if let store = store {
+                    storeDetailViewController.store = store
+                } else {
+                    let store = Store.init(dictionary: ["store_id": product.storeId, "shop_name": product.shopName])
+                    storeDetailViewController.store = store
+                }
             }
         }
     }
@@ -166,7 +181,7 @@ extension ProductDetailViewController: UITableViewDataSource {
         switch cellType {
         case .Header:
             let headerCell = self.tableView.dequeueReusableCell(withIdentifier: kPRODUCT_DETAIL_HEADER_CELL) as! ProductDetailHeaderCell
-            if let url = URL.init(string: product.imageUrl) {
+            if let url = URL.init(string: product.imageMediumUrl) {
                 headerCell.productImageView.setImageWith(url, placeholderImage: UIImage.init(named: "placeholder"))
             }
             if product.isFavorite {
@@ -186,20 +201,21 @@ extension ProductDetailViewController: UITableViewDataSource {
             aboutCell.descriptionLabel.text = product.description
             
             let shopCategoryImageUrl = SharedObjects.shared.stores?.first {return $0.storeId == product.storeId}?.categoryImageUrl
-            let shopName = SharedObjects.shared.stores?.first {return $0.storeId == product.storeId}?.name
             
             if let shopCategoryImageUrl = shopCategoryImageUrl, let url = URL.init(string: shopCategoryImageUrl) {
                 aboutCell.shopCAtegoryImageView.setImageWith(url, placeholderImage: UIImage.init(named: "placeholder"))
-            }else {
+            } else {
                 aboutCell.shopCAtegoryImageView.image = UIImage.init(named: "placeholder")
             }
             
-            if let shopName = shopName {
-                aboutCell.shopLabel.text = shopName
+            if product.shopName != "" {
+                aboutCell.shopLabel.text = product.shopName
             } else {
-                aboutCell.shopLabel.text = ""
+                aboutCell.shopLabel.text = SharedObjects.shared.stores?.first {return $0.storeId == product.storeId}?.name
             }
             
+            aboutCell.shopNameContainer.isHidden = false
+        
             aboutCell.shopButton.addTarget(self, action: #selector(ProductDetailViewController.showStoreViewController), for: .touchUpInside)
             return aboutCell
         case .Similar:
@@ -214,10 +230,7 @@ extension ProductDetailViewController: UITableViewDataSource {
     }
     
     @objc func showStoreViewController() {
-        let store = SharedObjects.shared.stores?.first{return $0.storeId == product.storeId}
-        if let _ = store {
-            self.performSegue(withIdentifier: "showStoreDetailViewController", sender: nil)
-        }
+        self.performSegue(withIdentifier: "showStoreDetailViewController", sender: nil)
     }
     
     
@@ -289,7 +302,7 @@ extension ProductDetailViewController: UICollectionViewDataSource {
         if let product = similarProducts?[indexPath.item] {
             cell?.priceLabel.text = "$\(String(format: "%.2f", product.price))"
             cell?.showPriceOrCallbutton(price: product.price)
-            if let url = URL.init(string: product.imageUrl) {
+            if let url = URL.init(string: product.imageSmallUrl) {
                 cell?.bannerImageView.setImageWith(url, placeholderImage: UIImage.init(named: "placeholder"))
             }
         }
@@ -360,5 +373,42 @@ extension ProductDetailViewController {
         
         HUD.mode = MBProgressHUDMode.indeterminate
         HUD.isUserInteractionEnabled = true
+    }
+}
+
+
+extension ProductDetailViewController {
+    func getProductByStore() {
+        let urlString = "\(ApiServiceURL.apiInterface(.getProductByStore))\(product.storeId)"
+        
+        DispatchQueue.main.async {
+            self.showHUD()
+        }
+        Downloader.getStoreJSONUsingURLSession(url: urlString) { (result, errorString) in
+            if let error = errorString {
+                
+            }
+            else {
+                if let result = result, let productDictionaryArray = result["data"] as? Array<Dictionary<String, Any>> {
+                    var uncategorisedProduct = [Product]()
+
+                    for productDictionary in productDictionaryArray {
+                        let product = Product.init(dictionary: productDictionary)
+                        uncategorisedProduct.append(product)
+                    }
+                    uncategorisedProduct.removeAll(where: { $0.productId == self.product.productId
+                    })
+                    self.similarProducts = uncategorisedProduct
+                }
+                else {
+                    print("Parsing failed")
+                }
+            }
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.hideHUD()
+            }
+        }
     }
 }

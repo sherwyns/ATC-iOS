@@ -154,7 +154,12 @@ extension Store {
                     //print(workingHourDictionary) // use the json here
                     
                     if let dayWorkingHourDictionary = workingHourDictionary[Date.dayOfWeek()] as? Dictionary<String,String>, let endTime = dayWorkingHourDictionary["endTime"] {
-                        return "Open until " + endTime
+                        if endTime.hasPrefix("0") {
+                            return "Open until " + endTime.removeFirst
+                        } else {
+                            return "Open until " + endTime
+                        }
+                        
                     }
                     else {
                         return String()
@@ -248,6 +253,8 @@ class Product {
     var isFavorite: Bool = false
     var description:String
     var shopName: String
+    var imageMediumUrl: String
+    var imageSmallUrl: String
     init(dictionary: Dictionary<String, Any>) {
         
         
@@ -257,13 +264,12 @@ class Product {
         self.categoryId = dictionary["category_id"] as? Int ?? 0
         self.name = dictionary["title"] as? String ?? ""
         self.categoryName = dictionary["category_name"] as? String ?? ""
-        //self.price = dictionary["price"] as? Float ?? 0.0
         
         if let price = dictionary["price"] as? Float {
             self.price = price
         }
         else if let price = dictionary["price"] as? String {
-            self.price = 0.0
+            self.price = Float(price)!
         }
         else if let price = dictionary["price"] as? Double {
             self.price = Float(price)
@@ -278,6 +284,24 @@ class Product {
             self.imageUrl = imageUrl
         } else {
             self.imageUrl = ""
+        }
+        
+        if let imageUrl = dictionary["image"] as? String {
+            self.imageMediumUrl = imageUrl
+        } else if let imageUrl = dictionary["image"] as? String {
+            self.imageMediumUrl = imageUrl
+        } else {
+            self.imageMediumUrl = ""
+        }
+        
+        if let imageUrl = dictionary["image_medium"] as? String {
+            self.imageSmallUrl = imageUrl
+        } else if let imageUrl = dictionary["image_medium"] as? String {
+            self.imageSmallUrl = imageUrl
+        } else if let imageUrl = dictionary["image"] as? String {
+            self.imageSmallUrl = imageUrl
+        } else {
+            self.imageSmallUrl = ""
         }
         self.description = dictionary["description"] as? String ?? ""
     }

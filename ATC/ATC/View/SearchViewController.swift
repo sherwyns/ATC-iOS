@@ -320,7 +320,7 @@ extension SearchViewController: UICollectionViewDataSource {
             productCell.favoritebutton.tag = indexPath.item
             productCell.favoritebutton.addTarget(self, action: #selector(SearchViewController.updateProductFavorite(sender:)), for: .touchUpInside)
             
-            if let url = URL.init(string: product.imageUrl) {
+            if let url = URL.init(string: product.imageSmallUrl) {
                 productCell.bannerImageView.setImageWith(url, placeholderImage: UIImage.init(named: "placeholder"))
             } else {
                 productCell.bannerImageView.image = UIImage.init(named: "placeholder")

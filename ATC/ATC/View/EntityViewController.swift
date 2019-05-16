@@ -114,7 +114,7 @@ extension EntityViewController: UICollectionViewDataSource {
             cell?.priceLabel.text = "$\(String(format: "%.2f", product.price))"
             cell?.showPriceOrCallbutton(price: product.price)
             
-            if let url = URL.init(string: product.imageUrl) {
+            if let url = URL.init(string: product.imageSmallUrl) {
                 
                 if isMock {
                     cell?.bannerImageView.image = UIImage.init(named: product.imageUrl)
@@ -123,6 +123,10 @@ extension EntityViewController: UICollectionViewDataSource {
                 }
             } else {
                 cell?.bannerImageView.image = UIImage.init(named: "placeholder")
+            }
+            
+            if isMock {
+                cell?.bannerImageView.image = UIImage.init(named: product.imageUrl)
             }
             
             cell?.favoritebutton.tag = indexPath.item
@@ -274,11 +278,10 @@ extension EntityViewController: UICollectionViewDelegate {
             
         case .Product:
             var newProduct = products
-            if let  selectedProduct = newProduct?.remove(at: indexPath.item) {
+            if let selectedProduct = newProduct?.remove(at: indexPath.item) {
                 if (newProduct?.count)! > 0  {
                     newProduct?.insert(selectedProduct, at: 0)
-                }
-                else {
+                } else {
                     newProduct = [Product]()
                     newProduct?.append(selectedProduct)
                 }
@@ -295,17 +298,12 @@ extension EntityViewController: UICollectionViewDelegateFlowLayout {
 extension EntityViewController: PaginationPayloadable {
     func getProduct(withType entityType: EntityType, withOffset offset: String) {
         if self.entityType == entityType {
-            if let count =  self.products?.count {
+            if let _ =  self.products?.count {
                 let intOffset = Int(offset)!
                 
                 let newCellItemIndexPath = IndexPath.init(item: intOffset, section: 0)
                 DispatchQueue.main.async {
-//                    if count == (intOffset) || (intOffset == 0) {
-                        self.collectionView.reloadData()
-//                    }
-//                    else {
-//                        self.collectionView.scrollToItem(at: newCellItemIndexPath, at: UICollectionView.ScrollPosition.bottom, animated: true)
-//                    }
+                    self.collectionView.reloadData()
                 }
             }
             else {

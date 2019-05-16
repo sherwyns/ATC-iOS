@@ -57,7 +57,7 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
     static func getStoreJSONUsingURLSession(url : String, completionHandler: @escaping (_ result : Dictionary<String, AnyObject?>?, _ error: String?) -> Void) {
         
         guard let serviceUrl = URL(string: url) else { return }
-        
+        print("URL \(url)")
         var request = URLRequest(url: serviceUrl)
         request.httpMethod = "GET"
         request.setValue(uniqueDeviceIdentifier(), forHTTPHeaderField: UUID_HEADER)
@@ -164,6 +164,27 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
                         categories.append(category)
                     }
                     SharedObjects.shared.categories = categories
+                }
+            }
+        }
+    }
+    
+    static func retrieveStoreNeighborhood() {
+        let urlString = ApiServiceURL.apiInterface(APIMethod.neighborhoud)
+        
+        Downloader.getStoreJSONUsingURLSession(url: urlString) { (result, errorString) in
+            if let _ = errorString {
+                
+            }
+            else {
+                if let result = result, let neighborhoodDictionaryArray = result["data"] as? Array<Dictionary<String, String>> {
+                    
+                    if neighborhoodDictionaryArray.count > 0 {
+                        let neighbourhood = neighborhoodDictionaryArray.compactMap{$0["neighbourhood"]}.sorted()
+                        SharedObjects.shared.sourceNeighbourhoods = neighbourhood
+                    } else {
+                        SharedObjects.shared.sourceNeighbourhoods = [String]()
+                    }
                 }
             }
         }
