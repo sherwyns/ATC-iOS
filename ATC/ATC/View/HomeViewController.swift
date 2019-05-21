@@ -61,13 +61,13 @@ class HomeViewController: UIViewController, EntityProtocol {
             let status = CLLocationManager.authorizationStatus()
             switch status {
             case .restricted, .denied, .notDetermined:
-                titleButton.setTitle(entityType == .Product ? "Products" : "Stores", for: .normal)
+                titleButton.setTitle(entityType == .Product ? "All Products" : "Stores", for: .normal)
             case .authorizedWhenInUse, .authorizedAlways:
-                titleButton.setTitle(entityType == .Product ? "Products near you" : "Stores near you", for: .normal)
+                titleButton.setTitle(entityType == .Product ? "All Products" : "Stores near you", for: .normal)
                 break
             }
         } else {
-            titleButton.setTitle(entityType == .Product ? "Products" : "Stores", for: .normal)
+            titleButton.setTitle(entityType == .Product ? "All Products" : "Stores", for: .normal)
         }
     }
     
@@ -180,7 +180,6 @@ class HomeViewController: UIViewController, EntityProtocol {
             if let productDetailViewController = segue.destination as? ProductDetailViewController {
                 if let products = sender as? [Product] {
                     productDetailViewController.product = products.first
-                    productDetailViewController.isFromHome = true
                     productDetailViewController.similarProducts = [Product]()
                 }
                 

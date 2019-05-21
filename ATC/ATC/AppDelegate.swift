@@ -150,12 +150,9 @@ class IrregularityContentView: ESTabBarItemContentView {
   
   override init(frame: CGRect) {
     super.init(frame: frame)
-    self.imageView.backgroundColor = .white
-    if #available(iOS 11.0, *) {
-        self.imageView.directionalLayoutMargins = NSDirectionalEdgeInsets.init(top: -30, leading: 5, bottom: 5, trailing: 5)
-    } else {
-        // Fallback on earlier versions
-    }
+    print(self.imageView.frame)
+    self.imageView.backgroundColor = .clear
+    
     self.insets = UIEdgeInsets.init(top: -22, left: 0, bottom: 0, right: 0)
     self.superview?.bringSubviewToFront(self)
     
@@ -180,11 +177,15 @@ class IrregularityContentView: ESTabBarItemContentView {
     super.updateLayout()
     let height = (1.25 / 1) * frame.size.height
     self.imageView.frame.size = CGSize.init(width: height, height: height)
-    self.imageView.contentMode = .center
-    self.imageView.backgroundColor = UIColor.white
+    self.imageView.contentMode = .top
+    self.imageView.backgroundColor = UIColor.init(red: 246.0/255.0, green: 246.0/255.0, blue: 246.0/255.0, alpha: 1)
     self.imageView.layer.cornerRadius = height / 2 
-    self.imageView.center = CGPoint.init(x: self.bounds.size.width / 2.0, y: (self.bounds.size.height / 2.0)
-      + 10)
+    self.imageView.center = CGPoint.init(x: self.bounds.size.width / 2.0, y: (self.bounds.size.height / 2.0) + 6)
+    self.imageView.layer.masksToBounds = false
+    print(self.imageView.layer.contentsRect)
+    self.imageView.clipsToBounds = false
+    self.imageView.layer.contentsRect = CGRect.init(x: 0, y:-0.5, width: 1, height: 1.5)
+    
     let color = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.21)
     self.imageView.layer.applySketchShadow(color: color, alpha: 1, x: 0.0, y: -2.0, blur: 0, spread: 0)
     

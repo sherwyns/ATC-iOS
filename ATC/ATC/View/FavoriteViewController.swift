@@ -62,9 +62,6 @@ class FavoriteViewController: UIViewController, EntityProtocol {
             if let productDetailViewController = segue.destination as? ProductDetailViewController {
                 if let products = sender as? [Product] {
                     productDetailViewController.product = products.first
-                    var tempProduct = products
-                    tempProduct.removeFirst()
-                    productDetailViewController.similarProducts = tempProduct
                 }
                 
             }

@@ -44,8 +44,6 @@ class ProductDetailViewController: UIViewController {
         
     }
     
-    var isFromHome : Bool = false
-    
     var productDescription = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et doloreincididunt ut labore et dolore Lorem ipsum dolor sit amet, consectetur "
 
     var entityType = EntityType.Product
@@ -66,7 +64,11 @@ class ProductDetailViewController: UIViewController {
                 }
             } else {
                 cellArray.append(ProductDetailCell.Similar)
+                DispatchQueue.main.async {
+                    if self.tableView != nil { self.tableView.reloadData() }
+                }   
             }
+            
         }
     }
     
@@ -87,9 +89,7 @@ class ProductDetailViewController: UIViewController {
             
         }
         downloadImage { [weak self] result in
-            if let weakSelf = self, weakSelf.isFromHome {
-                weakSelf.getProductByStore()
-            }
+            self?.getProductByStore()
         }
         
     }
@@ -380,10 +380,7 @@ extension ProductDetailViewController {
 extension ProductDetailViewController {
     func getProductByStore() {
         let urlString = "\(ApiServiceURL.apiInterface(.getProductByStore))\(product.storeId)"
-        
-        DispatchQueue.main.async {
-            self.showHUD()
-        }
+    
         Downloader.getStoreJSONUsingURLSession(url: urlString) { (result, errorString) in
             if let error = errorString {
                 
@@ -403,11 +400,6 @@ extension ProductDetailViewController {
                 else {
                     print("Parsing failed")
                 }
-            }
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-                self.hideHUD()
             }
         }
     }
