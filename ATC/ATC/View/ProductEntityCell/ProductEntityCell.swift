@@ -33,7 +33,7 @@ class ProductEntityCell: UICollectionViewCell {
         
         callButton.layer.cornerRadius = 4.0
         callButton.layer.borderWidth = 0.75
-        callButton.layer.borderColor = UIColor.darkGray.cgColor
+        callButton.layer.borderColor = UIColor.clear.cgColor
     }
     
     func showPriceOrCallbutton(price: Float) {

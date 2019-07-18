@@ -323,9 +323,3 @@ extension UIViewController {
         }
     }
 }
-
-//{
-//    "email": "testme@enqos.com",
-//    "externalid": "test@123",
-//    "provider":"facebook"
-//}

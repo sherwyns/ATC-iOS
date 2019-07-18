@@ -36,7 +36,6 @@ class MockStoreDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //registerCellForTableView()
         
         self.tableView.backgroundColor = grayColor
         self.view.backgroundColor = grayColor

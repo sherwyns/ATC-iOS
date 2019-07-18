@@ -25,8 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     GIDSignIn.sharedInstance().clientID = "274395748043-r3sagataa6qui95vsuirn74eruvtur9i.apps.googleusercontent.com"
     FBSDKApplicationDelegate.sharedInstance()?.application(application, didFinishLaunchingWithOptions: launchOptions)
     self.window?.rootViewController = entryRootViewController()
-    //print("USERID \(ATCUserDefaults.userId())")
-    //print("Mail \(ATCUserDefaults.userInfo())")
     
     Downloader.retrieveStoreFavorites()
     Downloader.retrieveProductFavorites()
@@ -92,6 +90,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func applicationDidBecomeActive(_ application: UIApplication) {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     NotificationCenter.default.post(name: NotificationConstant.locationAuthorizationUpdate, object: nil)
+    NotificationCenter.default.post(name: NotificationConstant.reloadHome, object: nil)
   }
 
   func applicationWillTerminate(_ application: UIApplication) {
@@ -123,34 +122,14 @@ extension AppDelegate: GIDSignInDelegate {
             let _ = user.userID                  // For client-side use only!
             let idToken = user.authentication.idToken // Safe to send to the server
             let email = user.profile.email
-            //print("mail \(user.profile.email) \(user.authentication.idToken)")
         }
     }
 }
-//
-//class ESTabBarBasicContentView: ESTabBarItemContentView {
-//
-//  override init(frame: CGRect) {
-//    super.init(frame: frame)
-//    textColor = UIColor.init(white: 175.0 / 255.0, alpha: 1.0)
-//    highlightTextColor = UIColor.init(red: 254/255.0, green: 73/255.0, blue: 42/255.0, alpha: 1.0)
-//    iconColor = UIColor.init(white: 175.0 / 255.0, alpha: 1.0)
-//    highlightIconColor = UIColor.init(red: 254/255.0, green: 73/255.0, blue: 42/255.0, alpha: 1.0)
-//  }
-//
-//  public required init?(coder aDecoder: NSCoder) {
-//    fatalError("init(coder:) has not been implemented")
-//  }
-//
-//
-//}
-//
 
 class IrregularityContentView: ESTabBarItemContentView {
   
   override init(frame: CGRect) {
     super.init(frame: frame)
-    print(self.imageView.frame)
     self.imageView.backgroundColor = .clear
     
     self.insets = UIEdgeInsets.init(top: -22, left: 0, bottom: 0, right: 0)

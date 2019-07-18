@@ -305,40 +305,8 @@ class Product {
         }
         self.description = dictionary["description"] as? String ?? ""
     }
-//
-//    id: 23,
-//    store_id: 7,
-//    title: "Territory Running Gorge Cap",
-//    price: 32,
-//    product_image: "http://sevenhillsrunningshop.com/aroundthecorner/img/territory-gorgecap.png",
-//    category_id: 1,
-//    category_name: "Accessories",
-//    category_image: null
 }
 
-
-//["sunday": {
-//    endTime = "05:00PM";
-//    startTime = "09:00AM";
-//    }, "friday": {
-//        endTime = "05:00PM";
-//        startTime = "09:00AM";
-//    }, "tuesday": {
-//        endTime = "05:00PM";
-//        startTime = "09:00AM";
-//    }, "saturday": {
-//        endTime = "05:00PM";
-//        startTime = "09:00AM";
-//    }, "monday": {
-//        endTime = "05:00PM";
-//        startTime = "09:00AM";
-//    }, "wednesday": {
-//        endTime = "05:00PM";
-//        startTime = "09:00AM";
-//    }, "thursday": {
-//        endTime = "05:00PM";
-//        startTime = "09:00AM";
-//    }]
 enum weekday: String {
     case sunday    = "sunday"
     case monday    = "monday"

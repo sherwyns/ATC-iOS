@@ -19,14 +19,7 @@ class ATCTabBarViewController: ESTabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         customizeViews()
-        
-//        self.tabBar(self.tabBar, didSelect: self.tabBar.items[1])
-//        if let tabbar = self.tabBar as? ESTabBar {
-//            tabBar.select(itemAtIndex: 1, animated: false)
-//        }
-        
     }
-    //showMyAccountScreen
   
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(ATCTabBarViewController.showRegistration(sender:)), name: NotificationConstant.showRegistration, object: nil)
@@ -42,7 +35,6 @@ class ATCTabBarViewController: ESTabBarController {
         }
         if ATCUserDefaults.isFirstTime() {
             showRegistration(sender: nil)
-            //ATCUserDefaults.userOpenedApp()
         }
     }
     
@@ -82,5 +74,16 @@ extension ATCTabBarViewController {
 
 extension ATCTabBarViewController : SlideMenuControllerDelegate {
   
+}
+
+extension ATCTabBarViewController {
+    open override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        guard let index = tabBar.items?.index(of: item) else { return }
+        
+        if index == 1 {
+            NotificationCenter.default.post(name: NotificationConstant.reloadHome, object: nil)
+        }
+        super.tabBar(tabBar, didSelect: item)
+    }
 }
 

@@ -223,11 +223,6 @@ enum GradientOrientation {
 extension UIView {
   
   func applyGradient(withColours colours: [UIColor], locations: [NSNumber]? = nil) {
-//    let gradient: CAGradientLayer = CAGradientLayer()
-//    gradient.frame = self.bounds
-//    gradient.colors = colours.map { $0.cgColor }
-//    gradient.locations = locations
-//    self.layer.insertSublayer(gradient, at: 0)
     
     if let gradientLayer = self.layer as? CAGradientLayer {
         gradientLayer.colors = colours.map { $0.cgColor }
@@ -236,12 +231,6 @@ extension UIView {
   }
   
   func applyGradient(withColours colours: [UIColor], gradientOrientation orientation: GradientOrientation) {
-//    let gradient: CAGradientLayer = CAGradientLayer()
-//    gradient.frame = self.bounds
-//    gradient.colors = colours.map { $0.cgColor }
-//    gradient.startPoint = orientation.startPoint
-//    gradient.endPoint = orientation.endPoint
-//    self.layer.insertSublayer(gradient, at: 0)
     
     if let gradientLayer = self.layer as? CAGradientLayer {
         gradientLayer.colors = colours.map { $0.cgColor }

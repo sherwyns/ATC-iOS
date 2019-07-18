@@ -77,8 +77,6 @@ class MockHomeViewController: UIViewController {
        
         self.view.backgroundColor = grayColor
         
-        //Downloader.retrieveStoreCategories()
-        
         if let path = Bundle.main.path(forResource: "stores", ofType: "json") {
             do {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
@@ -137,7 +135,6 @@ extension MockHomeViewController: UICollectionViewDataSource {
                 cell?.showPriceOrCallbutton(price: product.price)
                 
                 if let url = URL.init(string: product.imageUrl) {
-                    //cell?.bannerImageView.setImageWith(url, placeholderImage: UIImage.init(named: "placeholder"))
                     cell?.bannerImageView.sd_setImage(with: url, placeholderImage: UIImage.init(named: "placeholder"), options: [SDWebImageOptions.retryFailed, .handleCookies, .scaleDownLargeImages, .transformAnimatedImage], completed:nil)
                 }
                 
@@ -157,10 +154,6 @@ extension MockHomeViewController: UICollectionViewDataSource {
                 cell?.name.text = store.name.capitalizeFirst
                 cell?.subName.text = store.neighbourhood
                 cell?.bannerImageView.image = UIImage.init(named: store.imageUrl)
-//                if let imageUrl = URL.init(string: store.imageUrl) {
-//                    //cell?.bannerImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "placeholder"))
-//                    cell?.bannerImageView.sd_setImage(with: imageUrl, placeholderImage: UIImage.init(named: "placeholder"), options: [SDWebImageOptions.retryFailed, .handleCookies, .scaleDownLargeImages, .transformAnimatedImage], completed:nil)
-//                }
                 
                 cell?.favoritebutton.tag = indexPath.item
                 cell?.favoritebutton.addTarget(self, action: #selector(EntityViewController.updateFavorite(sender:)), for: .touchUpInside)
@@ -172,7 +165,6 @@ extension MockHomeViewController: UICollectionViewDataSource {
                 }
                 
                 if let imageUrlString = store.categoryImageUrl, let imageUrl = URL.init(string: imageUrlString) {
-                    //cell?.categoryImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "placeholder"))
                     cell?.categoryImageView.image = UIImage.init(named: "clothing")
                 }
                 
@@ -222,12 +214,6 @@ extension MockHomeViewController: UICollectionViewDataSource {
                     self.products = SharedObjects.shared.updateIncomingProductWithFavorite(products: &self.products!)
                 }
             }
-            //            if isFiltered {
-            //                self.stores = SharedObjects.shared.storesWithFavorite
-            //            }
-            //            else {
-            //                self.stores = SharedObjects.shared.stores
-            //            }
         }
         
         self.collectionView.reloadData()

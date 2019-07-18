@@ -77,6 +77,7 @@ class FavoriteViewController: UIViewController, EntityProtocol {
         self.entityViewController?.collectionView.reloadData()
         self.storeButton.highlightedStateColor()
         self.productButton.normalStateColor()
+        self.entityViewController?.showNoContentIfNecessary(entityType: EntityType.Store)
     }
     
     @IBAction func productButtonAction() {
@@ -84,20 +85,12 @@ class FavoriteViewController: UIViewController, EntityProtocol {
         self.entityViewController?.collectionView.reloadData()
         self.productButton.highlightedStateColor()
         self.storeButton.normalStateColor()
+        self.entityViewController?.showNoContentIfNecessary(entityType: EntityType.Product)
     }
 }
 
 extension FavoriteViewController {
     // MARK: - HUD
-    func addHUDToView() {
-        //        HUD = MBProgressHUD(view: self.view)
-        //
-        //        HUD.frame.origin = CGPoint(x: self.view.frame.origin.x/2, y: self.view.frame.origin.y/2)
-        //        HUD.frame.size  = CGSize(width: 50, height: 50)
-        //        self.view.addSubview(HUD)
-        //        HUD.mode = MBProgressHUDMode.indeterminate
-        //        HUD.isUserInteractionEnabled = true
-    }
     func showHUD(){
         DispatchQueue.main.async(execute: { () -> Void in
             self.HUD.show(animated: true)
@@ -180,7 +173,6 @@ extension FavoriteViewController {
                         productArray.append(product)
                     }
                     
-                    //SharedObjects.shared.stores = productArray
                     var products = SharedObjects.shared.updateProductWithFavorite(productsWithoutFavorite: productArray)
                     
                     products = products?.filter{$0.isFavorite == true}

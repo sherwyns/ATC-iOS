@@ -13,7 +13,7 @@ class RightRectangle: UIView {
     var view: UIView!
     
     override func draw(_ rect: CGRect) {
-        //        let path = UIBezierPath.init(ovalIn: rect)
+        
         let path = UIBezierPath()
         
         let screenHeight: Double = Double(rect.size.height)
@@ -38,9 +38,8 @@ class RightRectangle: UIView {
         path.addLine(to: thirdPoint)
         path.addLine(to: initialPoint)
 
-//        42 73 84
         UIColor.init(red: 60.0/255.0, green: 102.0/255.0, blue: 246.0/255.0, alpha: 0.99).setFill()
-//        UIColor.blue.setFill()
+
         path.fill()
     }
 }

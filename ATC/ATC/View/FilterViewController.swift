@@ -276,14 +276,8 @@ class ProductFilterDataSourceDelegate: NSObject, UITableViewDataSource {
     }
     
     @objc func expandOrShrinkRow(sender: UIButton) {
-        print(sender.tag)
         let category = SharedObjects.shared.productCategories[sender.tag]
-        
         category.isExpanded = !category.isExpanded
-        
-        for category in SharedObjects.shared.productCategories {
-            print(category.isExpanded)
-        }
         
         self.reloadDelegate?.reload(section: sender.tag)
     }

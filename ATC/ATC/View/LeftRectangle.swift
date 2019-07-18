@@ -14,7 +14,6 @@ class LeftRectangle: UIView {
     var view: UIView!
     
     override func draw(_ rect: CGRect) {
-//        let path = UIBezierPath.init(ovalIn: rect)
         let path = UIBezierPath()
         
         let screenHeight: Double = Double(rect.size.height)
@@ -42,7 +41,7 @@ class LeftRectangle: UIView {
         path.addLine(to: fourthPoint)
         path.addLine(to: fifthPoint)
         path.addLine(to: initialPoint)
-        //84 136 242
+        
         UIColor.init(red: 84.0/255.0, green: 136.0/255.0, blue: 246.0/255.0, alpha: 0.97).setFill()
         path.fill()
     }

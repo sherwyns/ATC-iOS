@@ -216,14 +216,14 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
     
     static func retrieveProductSubCategories(id:String) {
         let urlString = ApiServiceURL.apiInterface(APIMethod.productCategories) + "?id=\(id)"
-        print(urlString)
+
         Downloader.getStoreJSONUsingURLSession(url: urlString) { (result, errorString) in
             if let _ = errorString {
                 
             }
             else {
                 if let result = result, let categoryDictionaryArray = result["data"] as? Array<Dictionary<String, Any>> {
-                    print("sub product \(result)")
+                    //print("sub product \(result)")
                     var productCategories = [ProductCategory]()
                     for categoryDictionary in categoryDictionaryArray {
                         var tempCategoryDictionary = categoryDictionary
@@ -236,10 +236,6 @@ static func getJSONUsingURLSessionPOSTRequest(url : String, parameters : Diction
                     
                     if let productCategory = productCategory {
                         productCategory.subProductCategories = productCategories
-                    }
-                    
-                    for productCategory in SharedObjects.shared.productCategories {
-                        print("ID -> \(productCategory.productId), COUNT -> \(productCategory.subProductCategories.count)")
                     }
                 }
             }

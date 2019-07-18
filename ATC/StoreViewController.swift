@@ -24,6 +24,7 @@ class StoreViewController: UIViewController, EntityProtocol {
     @IBOutlet weak var productCategoryLabel: UILabel!
     @IBOutlet weak var categoryImageView: UIImageView!
     @IBOutlet weak var HUD:MBProgressHUD!
+    @IBOutlet weak var arrowButton: UIButton!
     
     var entityViewController: EntityViewController?
     var store:Store!
@@ -39,7 +40,6 @@ class StoreViewController: UIViewController, EntityProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         customizeViews()
-        //self.store.categories = [Category]()
         registerCollectionViewCells()
         self.categoryCollectionView.dataSource = self
         self.categoryCollectionView.delegate = self
@@ -132,6 +132,12 @@ class StoreViewController: UIViewController, EntityProtocol {
         favoriteButton.imageEdgeInsets = UIEdgeInsets(top: 8, left:8, bottom: 8, right: 8)
         favoriteButton.layer.borderColor = UIColor.lightGray.cgColor
         favoriteButton.layer.applySketchShadow(color: color, alpha: 1, x: 0.0, y: 3.0, blur: 14.9, spread: 1.1)
+        
+        arrowButton.layer.cornerRadius = 35.0 / 2
+        arrowButton.layer.backgroundColor = UIColor.white.cgColor
+        arrowButton.imageEdgeInsets = UIEdgeInsets(top: 8, left:8, bottom: 8, right: 8)
+        arrowButton.layer.borderColor = UIColor.lightGray.cgColor
+        arrowButton.layer.applySketchShadow(color: color, alpha: 1, x: 0.0, y: 3.0, blur: 14.9, spread: 1.1)
         
         if self.store.isFavorite {
             favoriteButton.setImage(UIImage.init(named: "favorite"), for: .normal)
@@ -333,7 +339,7 @@ extension StoreViewController {
                     
                 }
                 else {
-                    print("Parsing failed")
+                    //print("Parsing failed")
                 }
             }
             

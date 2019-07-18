@@ -37,8 +37,6 @@ class StoreDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-//        registerCellForTableView()
         productButton.isHidden = true
         self.tableView.backgroundColor = grayColor
         self.view.backgroundColor = grayColor
@@ -79,7 +77,6 @@ class StoreDetailViewController: UIViewController {
                     
                 }
             }) { (urlRequest, urlResponse, error) in
-                print("failure")
                 self.hideHUD()
             }
         } else {
@@ -285,7 +282,6 @@ extension StoreDetailViewController {
                 DispatchQueue.main.async {
                     self.registerCellForTableView()
                     self.productButton.isHidden = false
-//                    self.tableView.reloadData()
                 }
             }
             
@@ -324,8 +320,6 @@ extension StoreDetailViewController: SFSafariViewControllerDelegate {
 extension StoreDetailViewController {
     @objc func openMaps() {
         // Open and show coordinate
-//        let url = "http://maps.apple.com/maps?saddr=\(self.store.latitude),\(self.store.longitude)"
-//        UIApplication.shared.openURL(URL(string:url)!)
         
         var latitude: CLLocationDegrees = CLLocationDegrees(self.store.latitude)
         var longitude: CLLocationDegrees = CLLocationDegrees(self.store.longitude)

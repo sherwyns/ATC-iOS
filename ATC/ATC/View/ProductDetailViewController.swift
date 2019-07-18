@@ -52,8 +52,6 @@ class ProductDetailViewController: UIViewController {
     
     var headerCellHeight = 226
     
-    //fileprivate let sectionInsets = UIEdgeInsets(top: 0.0, left: 8.0, bottom: 50.0, right: 8.0)
-    
     var product: Product!
     
     var similarProducts: [Product]? {
@@ -63,7 +61,10 @@ class ProductDetailViewController: UIViewController {
                     cellArray.removeLast()
                 }
             } else {
-                cellArray.append(ProductDetailCell.Similar)
+                if cellArray[cellArray.count - 1] != .Similar {
+                    cellArray.append(ProductDetailCell.Similar)
+                }
+                
                 DispatchQueue.main.async {
                     if self.tableView != nil { self.tableView.reloadData() }
                 }   
@@ -117,7 +118,6 @@ class ProductDetailViewController: UIViewController {
                     completion("success")
                 }
             }) { (urlRequest, urlResponse, error) in
-                print("failure")
                 self.reloadTableView()
                 completion("failure")
             }
@@ -236,7 +236,6 @@ extension ProductDetailViewController: UITableViewDataSource {
     
     @objc func updateProductFavorite(sender : UIButton) {
         if !ATCUserDefaults.isUserLoggedIn() {
-            //entityContainer.isHidden = true
             showLogInAlert()
             return
         }
@@ -247,14 +246,13 @@ extension ProductDetailViewController: UITableViewDataSource {
     
     @objc func updateSimilarProductFavorite(sender : UIButton) {
         if !ATCUserDefaults.isUserLoggedIn() {
-            //entityContainer.isHidden = true
             showLogInAlert()
             return
         }
         SharedObjects.shared.updateWithNewOrExistingProductId(selectedProduct: similarProducts![sender.tag])
         
-        
         self.similarProducts = SharedObjects.shared.updateIncomingProductWithFavorite(products: &similarProducts!)
+        
         updateProductFavoriteButton(sender: sender)
     }
     

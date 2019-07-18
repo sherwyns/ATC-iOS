@@ -84,23 +84,6 @@ class ListAllEntityViewController: UIViewController, EntityProtocol {
 
 extension ListAllEntityViewController {
     // MARK: - HUD
-    func addHUDToView() {
-        //        HUD = MBProgressHUD(view: self.view)
-        //
-        //        HUD.frame.origin = CGPoint(x: self.view.frame.origin.x/2, y: self.view.frame.origin.y/2)
-        //        HUD.frame.size  = CGSize(width: 50, height: 50)
-        //        self.view.addSubview(HUD)
-        //        HUD.mode = MBProgressHUDMode.indeterminate
-        //        HUD.isUserInteractionEnabled = true
-        
-        HUD = MBProgressHUD(view: self.view)
-        self.view.addSubview(HUD)
-        HUD.frame.origin = CGPoint(x: self.view.frame.origin.x/2, y: self.view.frame.origin.y/2)
-        HUD.frame.size  = CGSize(width: 50, height: 50)
-        
-        HUD.mode = MBProgressHUDMode.indeterminate
-        HUD.isUserInteractionEnabled = true
-    }
     func showHUD(){
         DispatchQueue.main.async(execute: { () -> Void in
             self.HUD.show(animated: true)

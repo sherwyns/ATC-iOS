@@ -15,6 +15,9 @@ enum EntityType {
 }
 
 class EntityViewController: UIViewController {
+    @IBOutlet weak var alertContainerView: UIView!
+    
+    @IBOutlet weak var alertMesaage: UILabel!
     
     let kLEFT_INSET = 8.0
     let kRIGHT_INSET = 8.0
@@ -45,19 +48,33 @@ class EntityViewController: UIViewController {
     
     var stores: [Store]? {
         didSet {
-//            DispatchQueue.main.async {
-//                self.collectionView.reloadData()
-//                self.collectionView.setContentOffset(CGPoint.init(x: 0, y: 0), animated: false)
-//            }
+            showNoContentIfNecessary(entityType: .Store)
+        }
+    }
+    
+    func showNoContentIfNecessary(entityType: EntityType) {
+        DispatchQueue.main.async {
+            if EntityType.Store == entityType {
+                if let stores = self.stores, stores.count == 0 {
+                    if !self.isMock {self.alertContainerView.isHidden = false}
+                    self.alertMesaage.text = "No stores found"
+                } else {
+                    if !self.isMock {self.alertContainerView.isHidden = true }
+                }
+            } else {
+                if let products = self.products, products.count == 0 {
+                    if !self.isMock {self.alertContainerView.isHidden = false}
+                    self.alertMesaage.text = "No products found"
+                } else {
+                    if !self.isMock {self.alertContainerView.isHidden = true }
+                }
+            }
         }
     }
     
     var products: [Product]? {
         didSet {
-//            DispatchQueue.main.async {
-//                self.collectionView.reloadData()
-//                self.collectionView.setContentOffset(CGPoint.init(x: 0, y: 0), animated: false)
-//            }
+            showNoContentIfNecessary(entityType: .Product)
         }
     }
     
@@ -70,7 +87,7 @@ class EntityViewController: UIViewController {
         self.collectionView.register(UINib.init(nibName: "FilterCell", bundle: nil), forCellWithReuseIdentifier: "FilterCell")
         self.view.backgroundColor = grayColor
         self.collectionView.backgroundColor = grayColor
-        
+        if !isMock { self.alertContainerView.isHidden = true }
         
     }
     
@@ -142,11 +159,9 @@ extension EntityViewController: UICollectionViewDataSource {
     case .Store:
         let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: kENTITY_VIEW, for: indexPath) as? EntityViewCell
         if let store = storeForIndexPath(indexPath.item) {
-            //print("category image url \(indexPath.row) \(store.name) \(store.storeCategoryImageUrlString())")
             cell?.name.text = store.name.capitalizeFirst
             cell?.subName.text = store.neighbourhood
             if let imageUrl = URL.init(string: store.imageUrl) {
-                //cell?.bannerImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "placeholder"))
                 cell?.bannerImageView.sd_setImage(with: imageUrl, placeholderImage: UIImage.init(named: "placeholder"), options: [SDWebImageOptions.retryFailed, .handleCookies, .scaleDownLargeImages, .transformAnimatedImage], completed:nil)
             }
             

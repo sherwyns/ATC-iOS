@@ -50,7 +50,7 @@ class HomeViewController: UIViewController, EntityProtocol {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.getStoresByLocation), name: NotificationConstant.reloadHome, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.refreshFeeds), name: NotificationConstant.reloadHome, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.locationAuthorizationUpdate), name: NotificationConstant.locationAuthorizationUpdate, object: nil)
     }
@@ -77,9 +77,12 @@ class HomeViewController: UIViewController, EntityProtocol {
         if !ATCUserDefaults.isAppWalkthroughDone() {
             self.performSegue(withIdentifier: "AppIntro", sender: nil)
         } else {
-            let locationManager = ATCLocation.shared
-            locationManager.requestLocation()
-            locationManager.delegate = SharedObjects.shared
+            if SharedObjects.shared.location == nil {
+                let locationManager = ATCLocation.shared
+                locationManager.requestLocation()
+                locationManager.delegate = SharedObjects.shared
+            }
+            
         }
         
         if SharedObjects.shared.canReloadStore {
@@ -89,7 +92,7 @@ class HomeViewController: UIViewController, EntityProtocol {
             self.entityViewController?.collectionView.dataSource = nil
             self.entityViewController?.collectionView.delegate = nil
             self.entityViewController?.collectionView.setContentOffset(CGPoint.init(x: 0, y: 0), animated: false)
-  
+            
             self.getEntity(withType: .Product, withLimit: "30", withOffset: String(0))
             
             self.entityViewController?.collectionView.dataSource = self.entityViewController
@@ -104,6 +107,22 @@ class HomeViewController: UIViewController, EntityProtocol {
         updateBadgeView()
     }
     
+    private func refreshStoresAndProducts() {
+        getStores()
+        SharedObjects.shared.products?.removeAll()
+        
+        self.entityViewController?.collectionView.dataSource = nil
+        self.entityViewController?.collectionView.delegate = nil
+        self.entityViewController?.collectionView.setContentOffset(CGPoint.init(x: 0, y: 0), animated: false)
+        
+        self.getEntity(withType: .Product, withLimit: "30", withOffset: String(0))
+        
+        self.entityViewController?.collectionView.dataSource = self.entityViewController
+        self.entityViewController?.collectionView.delegate = self.entityViewController
+        
+        SharedObjects.shared.canReloadStore = false
+    }
+    
     @IBAction func productButtonAction() {
         entityType = .Product
         updateBadgeView()
@@ -113,6 +132,7 @@ class HomeViewController: UIViewController, EntityProtocol {
         storeButton.normalStateColor()
         refreshEntityViewController()
         self.entityViewController?.resetScrollPosition()
+        self.entityViewController?.showNoContentIfNecessary(entityType: EntityType.Product)
     }
     
     @IBAction func storeButtonAction() {
@@ -124,6 +144,7 @@ class HomeViewController: UIViewController, EntityProtocol {
         productButton.normalStateColor()
         refreshEntityViewController()
         self.entityViewController?.resetScrollPosition()
+        self.entityViewController?.showNoContentIfNecessary(entityType: EntityType.Store)
         
     }
     
@@ -187,6 +208,7 @@ class HomeViewController: UIViewController, EntityProtocol {
         }
         if segue.identifier == "showStore", let store = sender as? Store, let storeViewController = segue.destination as? StoreViewController  {
             storeViewController.store = store
+            
         }
         
         if segue.identifier == "showFilter", let filterViewController = segue.destination as? FilterViewController {
@@ -254,7 +276,6 @@ extension HomeViewController {
         }
         
         urlComponents.queryItems = queryItems
-        print("filter url \(urlComponents.url)")
         return urlComponents.url
     }
     
@@ -278,9 +299,10 @@ extension HomeViewController {
         
     }
     
-    @objc func getStoresByLocation() {
+    @objc func refreshFeeds() {
+        SharedObjects.shared.canReloadStore = true
         locationAuthorizationUpdate()
-        getStores()
+        refreshStoresAndProducts()
     }
     
     @objc func getStores() {
@@ -307,15 +329,9 @@ extension HomeViewController {
                     SharedObjects.shared.stores = SharedObjects.shared.updateStoresWithFavorite()
                     
                     if let _ = SharedObjects.shared.categoryId {
-                        if SharedObjects.shared.storesWithFilter().count == 0 {
-                            //KSToastView.ks_showToast("No shops found", duration: 3.0)
-                        }
                         self.entityViewController?.stores = SharedObjects.shared.storesWithFilter()
                     }
                     else {
-                        if let stores = SharedObjects.shared.stores, stores.count == 0 {
-                            //KSToastView.ks_showToast("No shops found", duration: 3.0)
-                        }
                         self.entityViewController?.stores = SharedObjects.shared.stores
                     }
                     DispatchQueue.main.async {
@@ -332,8 +348,6 @@ extension HomeViewController {
     
     @objc func getProduct(url: URL?, offset: String = "0") {
         let storeUrl = url ?? URL.init(string: "https://api.aroundthecorner.store/api/products/getproductlist?neighbourhood=&category=&limit=30&offset=0")!
-        print("storeUrl")
-        print(storeUrl)
         DispatchQueue.main.async {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
         }
@@ -342,14 +356,12 @@ extension HomeViewController {
                 KSToastView.ks_showToast(error)
             }
             else {
-                print("product json \(result)")
+                //print("product json \(result)")
                 if let result = result, let productDictionaryArray = result["data"] as? Array<Dictionary<String, Any>> {
                     DispatchQueue.main.async {
                         var productArray = [Product]()
                         for productDictionary in productDictionaryArray {
                             let product = Product.init(dictionary: productDictionary)
-                            print("no shop \(product.productId) \(product.name) \(product.storeId) \(product.shopName)")
-                            
                             productArray.append(product)
                         }
                         
@@ -448,7 +460,6 @@ class ProductUrlBuilder {
         queryItems.append(limitQuery)
         
         urlComponents.queryItems = queryItems
-        print("filter product url \(urlComponents.url)")
         return urlComponents.url
     }
     
@@ -472,4 +483,6 @@ class ProductUrlBuilder {
         
     }
 }
+
+
 

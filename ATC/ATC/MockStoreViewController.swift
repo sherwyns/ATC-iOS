@@ -45,7 +45,6 @@ class MockStoreViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         customizeViews()
-        //self.store.categories = [Category]()
         registerCollectionViewCells()
         self.categoryCollectionView.dataSource = self
         self.categoryCollectionView.delegate = self
@@ -55,10 +54,6 @@ class MockStoreViewController: UIViewController {
         self.storeNeighbourhood.text = store.neighbourhood
         
         self.hideOrShowCategory()
-        
-        if let imageUrl = URL.init(string: store.storeCategoryImageUrlString()) {
-            //categoryImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "placeholder"))
-        }
         
         var analyticsStoreDictionary = Dictionary<String, Any>()
         analyticsStoreDictionary["store_id"] = store.storeId
@@ -321,7 +316,7 @@ extension MockStoreViewController {
                     
                 }
                 else {
-                    print("Parsing failed")
+                    //print("Parsing failed")
                 }
             } catch {
                 // handle error

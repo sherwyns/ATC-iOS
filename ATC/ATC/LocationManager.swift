@@ -28,7 +28,7 @@ class ATCLocation: NSObject, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
-            print("Found user's location: \(location)")
+            //print("Found user's location: \(location)")
             delegate?.latestCoordinate(location)
             locationManager.stopUpdatingLocation()
             delegate = nil
@@ -36,7 +36,7 @@ class ATCLocation: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Failed to find user's location: \(error.localizedDescription)")
+        //print("Failed to find user's location: \(error.localizedDescription)")
         delegate?.message(error.localizedDescription)
     }
     

@@ -8,6 +8,8 @@
 
 import UIKit
 import KSToastView
+import SDWebImage
+
 enum SearchType {
     case Store
     case Product
@@ -155,10 +157,8 @@ extension SearchViewController: UITableViewDataSource {
         searchCell.backgroundColor = grayColor
         searchCell.collectionView.backgroundColor = grayColor
         searchCell.collectionView.tag = entityTypes[indexPath.section] == EntityType.Store ? 1 : 0
-        DispatchQueue.main.async {
-            searchCell.collectionView.reloadData()
-        }
         searchCell.collectionView.isScrollEnabled = false
+        searchCell.collectionView.reloadData()
         return searchCell
     }
     
@@ -172,7 +172,7 @@ extension SearchViewController: UITableViewDelegate {
         
         headerCell.button.tag = entityTypes[section] == EntityType.Store ? 1 : 0
         headerCell.button.addTarget(self, action: #selector(SearchViewController.showAllEntity(sender:)), for: .touchUpInside)
-        
+        headerCell.button.isHidden = true
         let entityType = self.entityTypes[section]
         switch entityType {
         case .Product:
@@ -188,12 +188,17 @@ extension SearchViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let entityType = self.entityTypes[indexPath.row]
+        let entityType = self.entityTypes[indexPath.section]
         switch entityType {
         case .Product:
             let count = self.products.count
             if count > 2 {
-                return (kWIDTH_CELL * 2) + 10
+                var noOfRows = count / 2
+                if count % 2 != 0 {
+                    noOfRows = noOfRows + 1
+                }
+                let rowHeight = (kWIDTH_CELL * CGFloat(noOfRows)) + (CGFloat(noOfRows - 1) * 10 )
+                return rowHeight
             }
             else {
                 return (kWIDTH_CELL) + 10
@@ -201,7 +206,12 @@ extension SearchViewController: UITableViewDelegate {
         case .Store:
             let count = self.stores.count
             if count > 2 {
-                 return (kWIDTH_CELL * 2) //+ 16
+                var noOfRows = count / 2
+                if count % 2 != 0 {
+                    noOfRows = noOfRows + 1
+                }
+                let rowHeight = (kWIDTH_CELL * CGFloat(noOfRows))
+                return rowHeight
             }
             else {
                 return (kWIDTH_CELL) //+ 16
@@ -303,7 +313,8 @@ extension SearchViewController: UICollectionViewDataSource {
             }
             
             if let imageUrl = URL.init(string: store.storeCategoryImageUrlString()) {
-                entityCell.categoryImageView.setImageWith(imageUrl, placeholderImage: UIImage.init(named: "placeholder"))
+                
+                entityCell.categoryImageView.sd_setImage(with: imageUrl, placeholderImage: UIImage.init(named: "placeholder"), options: [SDWebImageOptions.retryFailed, .handleCookies, .scaleDownLargeImages, .transformAnimatedImage], completed:nil)
             } else {
                 entityCell.categoryImageView.image = UIImage.init(named: "placeholder")
             }
@@ -321,7 +332,8 @@ extension SearchViewController: UICollectionViewDataSource {
             productCell.favoritebutton.addTarget(self, action: #selector(SearchViewController.updateProductFavorite(sender:)), for: .touchUpInside)
             
             if let url = URL.init(string: product.imageSmallUrl) {
-                productCell.bannerImageView.setImageWith(url, placeholderImage: UIImage.init(named: "placeholder"))
+                productCell.bannerImageView.sd_setImage(with: url, placeholderImage: UIImage.init(named: "placeholder"), options: [SDWebImageOptions.retryFailed, .handleCookies, .scaleDownLargeImages, .transformAnimatedImage], completed:nil)
+                
             } else {
                 productCell.bannerImageView.image = UIImage.init(named: "placeholder")
             }
@@ -397,9 +409,9 @@ extension SearchViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         textField.resignFirstResponder()
         textField.textAlignment = .center
-        if let text = textField.text, text.count > 0 {
-            self.searchStoreAndProduct(text: text)
-        }
+//        if let text = textField.text, text.count > 0 {
+//            self.searchStoreAndProduct(text: text)
+//        }
         
     }
 }
@@ -415,21 +427,16 @@ extension SearchViewController {
     @objc func textFieldEditingDidChange(sender: UITextField) {
         if let text = sender.text {
             if text.count >= 1 {
-                DispatchQueue.main.async {
+                DispatchQueue.global().async {
                     self.searchStoreAndProduct(text: text)
                 }
             }
             if text.count == 0 {
-                
-                
-                
                 self.entityTypes = [EntityType]()
                 self.products = [Product]()
                 self.stores = [Store]()
                 self.tableView.reloadData()
             }
-            
-            
         }
     }
     
@@ -440,26 +447,32 @@ extension SearchViewController {
         guard let finalString = urlString.addingPercentEncoding( withAllowedCharacters: CharacterSet.urlQueryAllowed), let url = URL.init(string: finalString) else  {
             return
         }
-        let taskDelegate = TaskDelegate()
         
-        DispatchQueue.main.async {
-            UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        }
-        
-        let session = URLSession.init(configuration: URLSessionConfiguration.default, delegate: taskDelegate, delegateQueue: nil)
-        
-        let dataTask = session.dataTask(with: url) { (data, urlResponse, error) in
-            if let error = error {
-                print(error.localizedDescription)
-                DispatchQueue.main.async {
-                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                }
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+            
+            guard let searchText = self.searchTextField.text, text.count > 0, searchText == text  else  {
                 return
             }
-            if let data = data {
-                do {
-                    if let json = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves) as? Dictionary<String,Array<Dictionary<String,Any>>> {
-                        print(json)
+            let taskDelegate = TaskDelegate()
+            
+            DispatchQueue.main.async {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = true
+            }
+            
+            let session = URLSession.init(configuration: URLSessionConfiguration.default, delegate: taskDelegate, delegateQueue: nil)
+            
+            let dataTask = session.dataTask(with: url) { (data, urlResponse, error) in
+                if let error = error {
+                    //print(error.localizedDescription)
+                    DispatchQueue.main.async {
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                    }
+                    return
+                }
+                if let data = data {
+                    do {
+                        if let json = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves) as? Dictionary<String,Array<Dictionary<String,Any>>> {
+                            //print(json)
                             DispatchQueue.main.async {
                                 self.entityTypes = [EntityType]()
                                 var stores = [Store]()
@@ -489,36 +502,44 @@ extension SearchViewController {
                                 self.stores = SharedObjects.shared.updateIncomingStoresWithFavorite(stores: &stores)
                                 self.products = products
                                 //self.addTempProducts()
-                                if self.products.count > 0 {
-                                    self.entityTypes.append(EntityType.Product)
-                                }
                                 if self.stores.count > 0 {
                                     self.entityTypes.append(EntityType.Store)
                                 }
-                                self.tableView.reloadData()
+                                
+                                if self.products.count > 0 {
+                                    self.entityTypes.append(EntityType.Product)
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    self.tableView.reloadData()
+                                }
                             }
                             DispatchQueue.main.async {
                                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
                             }
+                        }
+                        else {
+                            DispatchQueue.main.async {
+                                self.tableView.reloadData()
+                            }
+                        }
                     }
-                    else {
+                    catch {
+                        //print("Please try again")
                         DispatchQueue.main.async {
                             self.tableView.reloadData()
                         }
-                    }
-                }
-                catch {
-                    //print("Please try again")
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                    }
-                    DispatchQueue.main.async {
-                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                        DispatchQueue.main.async {
+                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                        }
                     }
                 }
             }
+            
+            dataTask.resume()
         }
         
-        dataTask.resume()
+        
+        
     }
 }
